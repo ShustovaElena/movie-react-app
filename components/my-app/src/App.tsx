@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import './App.css';
-import Home from './pages/home-page';
-import AboutUs from './pages/about';
-import PageNotFound from './pages/page-not-found';
+import Home from './components/home-page';
+import AboutUs from './components/about';
+import PageNotFound from './components/page-not-found';
 
 class App extends React.Component {
   render() {
