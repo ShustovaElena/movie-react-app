@@ -1,4 +1,4 @@
-interface ICard {
+export default interface ICard {
   key: number;
   src: string;
   name: string;
@@ -7,5 +7,3 @@ interface ICard {
   rating: string;
   likesCount: number;
 }
-
-export default ICard;
