@@ -7,8 +7,11 @@ test('renders search placeholder', () => {
   expect(element).toBeInTheDocument();
 });
 
+// jest.mock('localStorage');
+
 test('should fake data in storage', () => {
   const fakeData = 'fake-value';
   render(<Search userInput={fakeData} />);
-  expect(window.localStorage.getItem('userInput')).toEqual(fakeData);
+  // expect(window.localStorage.getItem('userInput')).toEqual(fakeData);
+  expect(localStorage.__STORE__['userInput']).toEqual(fakeData);
 });
