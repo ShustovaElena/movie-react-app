@@ -1,6 +1,7 @@
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import Cards from './cards';
+import { screen } from '@testing-library/react';
 
 const fakedata = [
   {
@@ -75,7 +76,7 @@ it('renders cards with testing data', () => {
     render(<Cards data={fakedata} />, container);
   });
 
-  const cardsConteiner = document.querySelectorAll('.Card');
+  const cardsConteiner = screen.queryAllByText('Название');
 
-  expect(cardsConteiner.length).toBe(6);
+  expect(cardsConteiner).toHaveLength(6);
 });

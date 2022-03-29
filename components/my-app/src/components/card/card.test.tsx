@@ -1,6 +1,7 @@
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import Card from './card';
+import { screen } from '@testing-library/react';
 
 let container: HTMLDivElement;
 beforeEach(() => {
@@ -28,10 +29,11 @@ it('renders card with testing data', () => {
       container
     );
   });
-  expect(document.querySelector('.Card-img')).toHaveAttribute('src', 'img/1.jpg');
-  expect(document.querySelector('.Card-name')?.textContent).toBe('Название');
-  expect(document.querySelector('.Card-year')?.textContent).toBe('Год выпуска: 2002');
-  expect(document.querySelector('.Card-genre')?.textContent).toBe('Жанр: Жанр');
-  expect(document.querySelector('.rate')?.textContent).toBe('8.8');
-  expect(document.querySelector('.like')?.textContent).toBe('123');
+
+  expect(screen.getByAltText(/Image cartoon/i)).toHaveAttribute('src', 'img/1.jpg');
+  expect(screen.getByText('Название')).toBeInTheDocument();
+  expect(screen.getByText('Год выпуска: 2002')).toBeInTheDocument();
+  expect(screen.getByText('Жанр: Жанр')).toBeInTheDocument();
+  expect(screen.getByText('8.8')).toBeInTheDocument();
+  expect(screen.getByText('123')).toBeInTheDocument();
 });
