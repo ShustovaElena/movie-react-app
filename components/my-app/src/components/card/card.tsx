@@ -6,18 +6,19 @@ class Card extends React.Component<ICard> {
     super(props);
   }
   render() {
+    const { src, name, year, genre, rating, likesCount } = this.props;
     return (
       <div className="Card">
-        <img className="Card-img" src={this.props.src} alt="Image cartoon"></img>
-        <h2 className="Card-name">{this.props.name}</h2>
-        <p className="Card-year">Год выпуска: {this.props.year}</p>
-        <p className="Card-genre">Жанр: {this.props.genre}</p>
+        <img className="Card-img" src={src} alt="Image cartoon"></img>
+        <h2 className="Card-name">{name}</h2>
+        <p className="Card-year">Год выпуска: {year}</p>
+        <p className="Card-genre">Жанр: {genre}</p>
         <p className="Card-rating">
-          Рейтинг: <span className="rate">{this.props.rating}</span>
+          Рейтинг: <span className="rate">{rating}</span>
         </p>
         <p className="Card-likesCount">
           <img className="like-img" src="img/like.png" alt="like"></img>
-          <span className="like">{this.props.likesCount}</span>
+          <span className="like">{likesCount}</span>
         </p>
       </div>
     );

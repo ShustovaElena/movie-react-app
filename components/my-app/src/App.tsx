@@ -10,9 +10,9 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-          <a className="App-logo" href="#">
+          <Link className="App-logo" to="/">
             LOGO
-          </a>
+          </Link>
           <Link className="App-link" to="/">
             Home
           </Link>

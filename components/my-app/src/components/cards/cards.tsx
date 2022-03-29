@@ -15,15 +15,7 @@ class Cards extends React.Component<ICards> {
     return (
       <div className="Cards">
         {this.props.data.map((item: ICard) => (
-          <Card
-            key={item.key}
-            src={item.src}
-            name={item.name}
-            year={item.year}
-            genre={item.genre}
-            rating={item.rating}
-            likesCount={item.likesCount}
-          />
+          <Card {...item} key={item.key} />
         ))}
       </div>
     );
