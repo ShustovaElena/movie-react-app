@@ -7,7 +7,7 @@ class Home extends React.Component {
   render() {
     return (
       <main>
-        <h2>Сделай свой выбор!</h2>
+        <h2 className="header-part">Сделай свой выбор!</h2>
         <Search userInput={''} />
         <Cards data={data} />
       </main>

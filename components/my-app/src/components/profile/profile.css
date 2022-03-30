@@ -1,0 +1,49 @@
+.profile {
+    margin: 0;
+    padding: 126px 372px 73px 0px;
+    width: 100%;
+    min-height: calc(100vh - 61px);
+    background: url('./../../../public/img/profile-bg.jpg');
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.Form {
+    width: 40%;
+    height: 520px;
+    margin: 0px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.header-part {
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 1.5rem;
+    color: #8642be;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.form-item {
+    display: inline-block;
+    width: 100%;
+    margin: 10px;
+    text-align: left;
+}
+
+.submit {
+    margin: 15px 0;
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: none;
+    font: inherit;
+    color: #fff;
+    background-color: #8642be;
+    cursor: pointer;
+    transition: background-color .4s;
+}
+
+.submit:hover {
+    background-color: #4eb0ce;
+}

@@ -4,6 +4,7 @@ import './App.css';
 import Home from './components/home/home-page';
 import AboutUs from './components/about/about';
 import PageNotFound from './components/pageNotFound/page-not-found';
+import Profile from './components/profile/profile';
 
 class App extends React.Component {
   render() {
@@ -19,10 +20,14 @@ class App extends React.Component {
           <Link className="App-link" to="/about">
             About Us
           </Link>
+          <Link className="App-link" to="/profile">
+            My profile
+          </Link>
         </header>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="about" element={<AboutUs />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>
