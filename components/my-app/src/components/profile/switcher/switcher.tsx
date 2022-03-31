@@ -2,36 +2,23 @@ import React from 'react';
 import './switcher.css';
 
 class Switcher extends React.Component {
-  isOn: boolean;
-  inputSwitch: React.RefObject<HTMLInputElement>;
+  inputRadio: React.RefObject<HTMLInputElement>;
 
   constructor(props: object) {
     super(props);
-    this.isOn = false;
-    this.inputSwitch = React.createRef();
-  }
-
-  checkedTextInput() {
-    this.inputSwitch.current?.checked;
+    this.inputRadio = React.createRef();
   }
 
   render() {
     return (
       <>
-        <div className="switcher">
-          <span className="switch-text">Хочу/ не хочу получать уведомления об акциях</span>
-          <label className="react-switch-label" htmlFor={`react-switch-new`}>
-            <span className={`react-switch-button`} />
-          </label>
-          <input
-            checked={this.isOn}
-            className="react-switch-checkbox form-item"
-            id={`react-switch-new`}
-            ref={this.inputSwitch}
-            type="checkbox"
-            onChange={this.checkedTextInput}
-          />
-        </div>
+        <span className="form-item switcher-text">
+          Я хочу получать уведомления об акциях/ не хочу
+        </span>
+        <label className="switch">
+          <input type="checkbox" />
+          <span className="slider round"></span>
+        </label>
         <br />
       </>
     );

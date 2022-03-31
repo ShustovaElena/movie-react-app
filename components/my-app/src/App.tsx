@@ -7,6 +7,9 @@ import PageNotFound from './components/pageNotFound/page-not-found';
 import Profile from './components/profile/profile';
 
 class App extends React.Component {
+  constructor(props: object) {
+    super(props);
+  }
   render() {
     return (
       <div className="App">

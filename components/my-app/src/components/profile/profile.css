@@ -1,9 +1,9 @@
 .profile {
     margin: 0;
-    padding: 126px 372px 73px 0px;
+    padding: 50px 372px 73px 0px;
     width: 100%;
     min-height: calc(100vh - 61px);
-    background: url('./../../../public/img/profile-bg.jpg');
+    background: url('./../../../public/img/profile-bg.jpg') 0 -100px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
@@ -46,4 +46,25 @@
 
 .submit:hover {
     background-color: #4eb0ce;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+    padding: 10px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 0 15px 4px rgba(8, 8, 8, 0.06);
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+select:focus {
+    background-color: #e5d6f1;
+}
+
+.error {
+    font-size: 0.5rem;
+    color: red;
 }
