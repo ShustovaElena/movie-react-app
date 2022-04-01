@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ICard from '../../types';
-import Card from './../card/card';
+import Card from '../Card/Card';
 
 interface ICards {
   data: ICard[];

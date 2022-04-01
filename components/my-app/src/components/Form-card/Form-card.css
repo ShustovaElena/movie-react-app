@@ -1,0 +1,41 @@
+.form-card {
+    padding: 20px;
+    margin: 30px;
+    width: 30%;
+    height: 400px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 30px;
+    border: 4px dashed rgb(176, 240, 187);
+    box-shadow: 0 0 15px 4px rgba(8, 8, 8, 0.06);
+}
+
+.form-card p {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.2rem;
+    text-align: justify;
+}
+
+.load-img {
+    width: 200px;
+    height: 150px;
+}
+
+.card-header {
+    padding-left: 50px;
+    padding-bottom: 30px;
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 5rem;
+    color: #8642be;
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    border-bottom: 2px dashed #8642be;
+}
+
+.form-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}

@@ -1,6 +1,6 @@
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
-import Card from './card';
+import Card from './Card';
 import { screen } from '@testing-library/react';
 
 let container: HTMLDivElement;

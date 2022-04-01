@@ -68,3 +68,9 @@ select:focus {
     font-size: 0.5rem;
     color: red;
 }
+
+input:disabled {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+}

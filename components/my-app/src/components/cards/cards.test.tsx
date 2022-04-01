@@ -1,6 +1,6 @@
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
-import Cards from './cards';
+import Cards from './Cards';
 import { screen } from '@testing-library/react';
 
 const fakedata = [

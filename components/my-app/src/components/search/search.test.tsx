@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Search from '../search/search';
+import Search from './Search';
 
 test('renders search placeholder', () => {
   render(<Search userInput={''} />);

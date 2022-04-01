@@ -1,26 +1,32 @@
 import * as React from 'react';
 
-export default class Name extends React.Component {
-  // inputName: React.RefObject<HTMLInputElement>;
+interface IName {
+  value: string;
+  onValidChange: () => void;
+}
 
-  constructor(props) {
+interface IStateName {
+  value: string;
+  valid: boolean;
+}
+
+export default class Name extends React.Component<IName, IStateName> {
+  constructor(props: IName) {
     super(props);
     const isValid = this.validate(props.value);
     this.state = { value: props.value, valid: isValid };
     this.onChange = this.onChange.bind(this);
   }
 
-  validate(val) {
-    if (val === '') {
-      return true;
-    }
-    return val.length > 6;
+  validate(val: string) {
+    return val.length > 5;
   }
 
-  onChange(e) {
-    var val = e.target.value;
-    var isValid = this.validate(val);
+  onChange(e: React.ChangeEvent) {
+    const val = (e.target as HTMLInputElement).value;
+    const isValid = this.validate(val);
     this.setState({ value: val, valid: isValid });
+    this.props.onValidChange();
   }
 
   render() {
