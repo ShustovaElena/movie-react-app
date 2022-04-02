@@ -1,28 +1,18 @@
 import React from 'react';
 
-interface IStateFile {
-  image: string;
+interface IFile {
+  refFile: React.RefObject<HTMLInputElement>;
 }
 
-class FileLoader extends React.Component<Record<string, unknown>, IStateFile> {
-  constructor(props: Record<string, unknown>) {
+class FileLoader extends React.Component<IFile> {
+  constructor(props: IFile) {
     super(props);
-    this.state = { image: '' };
-    this.onChange = this.onChange.bind(this);
-  }
-
-  onChange(e: React.ChangeEvent) {
-    if ((e.target as HTMLInputElement).files && (e.target as HTMLInputElement).files![0]) {
-      this.setState({
-        image: URL.createObjectURL((e.target as HTMLInputElement).files![0]),
-      });
-    }
   }
 
   render() {
     return (
       <>
-        <input type="file" onChange={this.onChange} />
+        <input type="file" ref={this.props.refFile} />
         <br />
       </>
     );

@@ -1,57 +1,60 @@
 import * as React from 'react';
 
 interface IAge {
-  value: string;
-  onValidChange: () => void;
+  // value: string;
+  // onValidChange: () => void;
+  refAge: React.RefObject<HTMLInputElement>;
+  style: string;
 }
 
-interface IStateAge {
-  value: string;
-  valid: boolean;
-}
+// interface IStateAge {
+//   value: string;
+//   valid: boolean;
+// }
 
-export default class Date extends React.Component<IAge, IStateAge> {
+export default class Date extends React.Component<IAge> {
   // inputDate: React.RefObject<HTMLInputElement>;
 
   constructor(props: IAge) {
     super(props);
-    const isValid = this.validate(props.value);
-    this.state = { value: props.value, valid: isValid };
-    this.onChange = this.onChange.bind(this);
+    // const isValid = this.validate(props.value);
+    // this.state = { value: props.value, valid: isValid };
+    // this.onChange = this.onChange.bind(this);
   }
 
-  validate(val: string) {
-    if (val) {
-      const currentYear = 2022;
-      const valueYear = Number(val.split('-')[0]);
+  // validate(val: string) {
+  //   if (val) {
+  //     const currentYear = 2022;
+  //     const valueYear = Number(val.split('-')[0]);
 
-      return currentYear - valueYear >= 18;
-    } else {
-      return false;
-    }
-  }
+  //     return currentYear - valueYear >= 18;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
-  onChange(e: React.ChangeEvent) {
-    const val = (e.target as HTMLInputElement).value;
-    const isValid = this.validate(val);
-    this.setState({ value: val, valid: isValid });
-    this.props.onValidChange();
-  }
+  // onChange(e: React.ChangeEvent) {
+  //   const val = (e.target as HTMLInputElement).value;
+  //   const isValid = this.validate(val);
+  //   this.setState({ value: val, valid: isValid });
+  //   this.props.onValidChange();
+  // }
 
   render() {
-    const color = this.state.valid === true ? 'white' : 'rgba(255, 0, 0, 0.2)';
+    // const color = this.state.valid === true ? 'white' : 'rgba(255, 0, 0, 0.2)';
     return (
       <>
         <label className="form-item">
           Дата рождения:
           <input
             type="date"
-            value={this.state.value}
-            onChange={this.onChange}
-            style={{ backgroundColor: color }}
+            // value={this.state.value}
+            // onChange={this.onChange}
+            ref={this.props.refAge}
+            style={{ backgroundColor: this.props.style }}
           />
         </label>
-        {this.state.valid ? '' : <span className="error">Вам еще нет 18 лет!</span>}
+        {/* {this.state.valid ? '' : <span className="error">Вам еще нет 18 лет!</span>} */}
         <br />
       </>
     );

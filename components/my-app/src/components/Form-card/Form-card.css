@@ -35,7 +35,10 @@
 }
 
 .form-cards {
+    position: sticky;
     display: flex;
     flex-wrap: wrap;
+    height: 100vh;
     justify-content: space-around;
+    background-color: rgb(157, 250, 211);
 }

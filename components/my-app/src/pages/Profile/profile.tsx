@@ -21,17 +21,21 @@ interface IUserData {
 interface IStateForm {
   isDisabled: boolean;
   isUserData: boolean;
+  isValidName: boolean;
+  isValidAge: boolean;
+  userFormData: IUserData;
 }
 
 export default class Profile extends React.Component<Record<string, unknown>, IStateForm> {
-  private nameField: React.RefObject<Name>;
-  private ageField: React.RefObject<Date>;
-  private countryField: React.RefObject<Select>;
-  private userInfoField: React.RefObject<Checkbox>;
-  private stockField: React.RefObject<Switcher>;
-  private fileField: React.RefObject<FileLoader>;
-  private userFormData: IUserData;
+  private nameField: React.RefObject<HTMLInputElement>;
+  private ageField: React.RefObject<HTMLInputElement>;
+  private countryField: React.RefObject<HTMLSelectElement>;
+  private userInfoField: React.RefObject<HTMLInputElement>;
+  private stockField: React.RefObject<HTMLInputElement>;
+  private fileField: React.RefObject<HTMLInputElement>;
   private userCards: IUserData[];
+  private color: string;
+  // private userFormData: IUserData;
 
   constructor(props: Record<string, unknown>) {
     super(props);
@@ -42,61 +46,74 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
     this.userInfoField = React.createRef();
     this.stockField = React.createRef();
     this.fileField = React.createRef();
-    this.state = { isDisabled: true, isUserData: false };
-    this.userFormData = {
-      key: 1,
-      name: '',
-      age: '',
-      country: '',
-      userInfo: 'Нет',
-      stock: 'Нет',
-      file: '',
+    this.color = 'white';
+    this.state = {
+      isDisabled: false,
+      isUserData: false,
+      isValidName: true,
+      isValidAge: true,
+      userFormData: {
+        key: 0,
+        name: '',
+        age: '',
+        country: '',
+        userInfo: 'Нет',
+        stock: 'Нет',
+        file: '',
+      },
     };
     this.handleValidChange = this.handleValidChange.bind(this);
     this.userCards = [];
   }
 
   handleValidChange() {
-    if (
-      this.nameField.current?.state.valid &&
-      this.ageField.current?.state.valid &&
-      this.userInfoField.current?.state.isChecked
-    ) {
-      this.setState({ isDisabled: false });
-      this.userFormData.userInfo = 'Да';
-      this.userFormData.stock = 'Да';
+    if ((this.nameField.current?.value.length as number) <= 5) {
+      this.setState({ isValidName: false });
+      this.color = 'rgba(255, 0, 0, 0.2)';
     } else {
-      this.setState({ isDisabled: true });
-      this.userFormData.userInfo = 'Нет';
-      this.userFormData.stock = 'Нет';
+      this.setState({ isValidName: true });
+      this.color = 'white';
+    }
+
+    const currentDate = this.ageField.current?.value as string;
+    const currentYear = 2022;
+    const valueYear = Number(currentDate.split('-')[0]);
+    if (currentYear - valueYear >= 18) {
+      this.setState({ isValidAge: true });
+      this.color = 'white';
+    } else {
+      this.setState({ isValidAge: false });
+      this.color = 'rgba(255, 0, 0, 0.2)';
     }
   }
 
   handleSubmit(e: React.FormEvent) {
+    this.handleValidChange();
+    // добавить валидацию, если все ок, то выводить карту
+    console.log('submit');
     e.preventDefault();
-    const name = this.nameField.current?.state.value as string;
-    const age = this.ageField?.current?.state.value as string;
-    const country = this.countryField?.current?.state.value as string;
-    const file = this.fileField?.current?.state.image as string;
+    // if (this.nameField.current?.state.valid && this.ageField?.current?.state.valid) {
+    const USER_DATA: IUserData = {
+      key: 1,
+      name: this.nameField.current?.value as string,
+      age: this.ageField?.current?.value as string,
+      country: this.countryField?.current?.value as string,
+      userInfo: (this.userInfoField?.current?.checked as boolean) ? 'Да' : 'Нет',
+      stock: (this.stockField?.current?.checked as boolean) ? 'Да' : 'Нет',
+      file: URL.createObjectURL(this.fileField.current!.files![0]),
+    };
 
-    this.userFormData.name = name;
-    this.userFormData.age = age;
-    this.userFormData.country = country;
-    this.userFormData.file = file;
+    this.setState({
+      isUserData: true,
+      isDisabled: false,
+      userFormData: USER_DATA,
+    });
+    console.log(this.state);
 
-    if (
-      this.nameField.current?.state.valid &&
-      this.ageField.current?.state.valid &&
-      this.countryField.current?.state.value &&
-      this.userInfoField.current?.state.isChecked &&
-      this.stockField.current?.state.isChecked &&
-      this.fileField.current?.state.image
-    ) {
-      this.setState({ isUserData: true });
-      this.userCards.push(this.userFormData);
-    } else {
-      this.setState({ isUserData: false });
-    }
+    this.userCards.push(USER_DATA);
+    console.log(this.userCards);
+    // }
+    (document.querySelector('Form') as HTMLFormElement).reset();
   }
 
   render() {
@@ -105,18 +122,24 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
         <div className="profile">
           <form className="Form" onSubmit={this.handleSubmit}>
             <h2 className="header-part">Создайте свою учетную запись!</h2>
-            <Name value="" ref={this.nameField} onValidChange={this.handleValidChange} />
-            <Date value="" ref={this.ageField} onValidChange={this.handleValidChange} />
-            <Select value="Russia" ref={this.countryField} onValidChange={this.handleValidChange} />
-            <Checkbox ref={this.userInfoField} onValidChange={this.handleValidChange} />
-            <Switcher ref={this.stockField} onValidChange={this.handleValidChange} />
-            <FileLoader ref={this.fileField} />
+            <Name style={this.color} refName={this.nameField} />
+            {this.state.isValidName ? (
+              ''
+            ) : (
+              <span className="error">Введите ФИО длиннее 6 символов</span>
+            )}
+            <Date style={this.color} refAge={this.ageField} />
+            {this.state.isValidAge ? '' : <span className="error">Вам еще нет 18 лет!</span>}
+            <Select refCountry={this.countryField} />
+            <Checkbox refUserInfo={this.userInfoField} />
+            <Switcher refStock={this.stockField} />
+            <FileLoader refFile={this.fileField} />
 
             <input
               className="submit"
               type="submit"
               value="Отправить"
-              disabled={this.state.isDisabled ? true : false}
+              disabled={this.state.isDisabled}
             />
           </form>
         </div>
