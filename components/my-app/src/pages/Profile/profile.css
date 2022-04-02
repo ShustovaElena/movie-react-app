@@ -74,3 +74,19 @@ input:disabled {
     background-color: #cccccc;
     color: #666666;
 }
+
+.modul-window {
+    position: fixed;
+    z-index: 10;
+    top: 300px;
+    left: 300px;
+    width: 50%;
+    height: 140px;
+    padding: 10px;
+    background-color: #fcfcfc;
+    font-size: 3rem;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    letter-spacing: 4px;
+    border: 2px solid green;
+    color: #258344;
+}

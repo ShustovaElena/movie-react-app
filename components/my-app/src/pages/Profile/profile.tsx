@@ -34,8 +34,8 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
   private stockField: React.RefObject<HTMLInputElement>;
   private fileField: React.RefObject<HTMLInputElement>;
   private userCards: IUserData[];
-  private color: string;
-  // private userFormData: IUserData;
+  private colorName: string;
+  private colorDate: string;
 
   constructor(props: Record<string, unknown>) {
     super(props);
@@ -46,9 +46,10 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
     this.userInfoField = React.createRef();
     this.stockField = React.createRef();
     this.fileField = React.createRef();
-    this.color = 'white';
+    this.colorName = 'white';
+    this.colorDate = 'white';
     this.state = {
-      isDisabled: false,
+      isDisabled: true,
       isUserData: false,
       isValidName: true,
       isValidAge: true,
@@ -63,16 +64,27 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
       },
     };
     this.handleValidChange = this.handleValidChange.bind(this);
+    this.onChange = this.onChange.bind(this);
     this.userCards = [];
+  }
+
+  onChange(e: React.FormEvent) {
+    const target = e.target as HTMLFormElement;
+    if (target) {
+      this.setState({ isDisabled: false });
+    }
   }
 
   handleValidChange() {
     if ((this.nameField.current?.value.length as number) <= 5) {
       this.setState({ isValidName: false });
-      this.color = 'rgba(255, 0, 0, 0.2)';
+      this.colorName = 'rgba(255, 0, 0, 0.2)';
+      this.setState({ isDisabled: true });
+      this.nameField.current!.value = '';
     } else {
       this.setState({ isValidName: true });
-      this.color = 'white';
+      this.colorName = 'white';
+      this.setState({ isDisabled: false });
     }
 
     const currentDate = this.ageField.current?.value as string;
@@ -80,19 +92,20 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
     const valueYear = Number(currentDate.split('-')[0]);
     if (currentYear - valueYear >= 18) {
       this.setState({ isValidAge: true });
-      this.color = 'white';
+      this.colorDate = 'white';
+      this.setState({ isDisabled: false });
     } else {
       this.setState({ isValidAge: false });
-      this.color = 'rgba(255, 0, 0, 0.2)';
+      this.colorDate = 'rgba(255, 0, 0, 0.2)';
+      this.setState({ isDisabled: true });
+      this.ageField.current!.value = '';
     }
   }
 
   handleSubmit(e: React.FormEvent) {
     this.handleValidChange();
-    // добавить валидацию, если все ок, то выводить карту
     console.log('submit');
     e.preventDefault();
-    // if (this.nameField.current?.state.valid && this.ageField?.current?.state.valid) {
     const USER_DATA: IUserData = {
       key: 1,
       name: this.nameField.current?.value as string,
@@ -108,11 +121,8 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
       isDisabled: false,
       userFormData: USER_DATA,
     });
-    console.log(this.state);
 
     this.userCards.push(USER_DATA);
-    console.log(this.userCards);
-    // }
     (document.querySelector('Form') as HTMLFormElement).reset();
   }
 
@@ -120,15 +130,15 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
     return (
       <>
         <div className="profile">
-          <form className="Form" onSubmit={this.handleSubmit}>
+          <form className="Form" onSubmit={this.handleSubmit} onChange={this.onChange}>
             <h2 className="header-part">Создайте свою учетную запись!</h2>
-            <Name style={this.color} refName={this.nameField} />
+            <Name style={this.colorName} refName={this.nameField} />
             {this.state.isValidName ? (
               ''
             ) : (
               <span className="error">Введите ФИО длиннее 6 символов</span>
             )}
-            <Date style={this.color} refAge={this.ageField} />
+            <Date style={this.colorDate} refAge={this.ageField} />
             {this.state.isValidAge ? '' : <span className="error">Вам еще нет 18 лет!</span>}
             <Select refCountry={this.countryField} />
             <Checkbox refUserInfo={this.userInfoField} />
@@ -148,6 +158,14 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
             ? this.userCards.map((item: IUserData, index) => <FormCard {...item} key={index} />)
             : ''}
         </div>
+        {this.state.isUserData ? (
+          <span className="modul-window">Данные успешно сохранены!</span>
+        ) : (
+          ''
+        )}
+        {setTimeout(() => {
+          document.querySelector('.modul-window')?.remove();
+        }, 1500)}
       </>
     );
   }
