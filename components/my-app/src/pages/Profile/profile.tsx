@@ -79,27 +79,27 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
 
   handleValidChange() {
     if ((this.nameField.current?.value.length as number) <= 5) {
-      this.setState({ isValidName: false });
+      this.setState({ isValidName: false, isDisabled: true });
       this.colorName = 'rgba(255, 0, 0, 0.2)';
-      this.setState({ isDisabled: true });
+      // this.setState({ isDisabled: true });
       this.nameField.current!.value = '';
     } else {
-      this.setState({ isValidName: true });
+      this.setState({ isValidName: true, isDisabled: false });
       this.colorName = 'white';
-      this.setState({ isDisabled: false });
+      // this.setState({ isDisabled: false });
     }
 
     const currentDate = this.ageField.current?.value as string;
     const currentYear = 2022;
     const valueYear = Number(currentDate.split('-')[0]);
     if (currentYear - valueYear >= 18) {
-      this.setState({ isValidAge: true });
+      this.setState({ isValidAge: true, isDisabled: false });
       this.colorDate = 'white';
-      this.setState({ isDisabled: false });
+      // this.setState({ isDisabled: false });
     } else {
-      this.setState({ isValidAge: false });
+      this.setState({ isValidAge: false, isDisabled: true });
       this.colorDate = 'rgba(255, 0, 0, 0.2)';
-      this.setState({ isDisabled: true });
+      // this.setState({ isDisabled: true });
       this.ageField.current!.value = '';
     }
   }
