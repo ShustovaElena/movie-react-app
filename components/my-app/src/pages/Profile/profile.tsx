@@ -33,6 +33,7 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
   private userInfoField: React.RefObject<HTMLInputElement>;
   private stockField: React.RefObject<HTMLInputElement>;
   private fileField: React.RefObject<HTMLInputElement>;
+  private formField: React.RefObject<HTMLFormElement>;
   private userCards: IUserData[];
   private colorName: string;
   private colorDate: string;
@@ -46,6 +47,7 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
     this.userInfoField = React.createRef();
     this.stockField = React.createRef();
     this.fileField = React.createRef();
+    this.formField = React.createRef();
     this.colorName = 'white';
     this.colorDate = 'white';
     this.state = {
@@ -123,14 +125,19 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
     });
 
     this.userCards.push(USER_DATA);
-    (document.querySelector('Form') as HTMLFormElement).reset();
+    this.formField.current?.reset();
   }
 
   render() {
     return (
       <>
         <div className="profile">
-          <form className="Form" onSubmit={this.handleSubmit} onChange={this.onChange}>
+          <form
+            className="Form"
+            onSubmit={this.handleSubmit}
+            onChange={this.onChange}
+            ref={this.formField}
+          >
             <h2 className="header-part">Создайте свою учетную запись!</h2>
             <Name style={this.colorName} refName={this.nameField} />
             {this.state.isValidName ? (
@@ -150,6 +157,7 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
               type="submit"
               value="Отправить"
               disabled={this.state.isDisabled}
+              data-TestId="submit"
             />
           </form>
         </div>

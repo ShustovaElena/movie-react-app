@@ -25,6 +25,10 @@ test('full app rendering/navigating', () => {
   userEvent.click(screen.getByText(/about us/i), leftClick);
 
   expect(screen.getByText(/Who are we/i)).toBeInTheDocument();
+
+  userEvent.click(screen.getByText(/my profile/i), leftClick);
+
+  expect(screen.getByText(/Создайте свою учетную запись/i)).toBeInTheDocument();
 });
 
 test('landing on a bad page', () => {

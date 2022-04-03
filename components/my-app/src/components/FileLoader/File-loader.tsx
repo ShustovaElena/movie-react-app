@@ -12,7 +12,10 @@ class FileLoader extends React.Component<IFile> {
   render() {
     return (
       <>
-        <input type="file" ref={this.props.refFile} />
+        <label className="form-item file-loader">
+          Загрузите фото
+          <input type="file" ref={this.props.refFile} />
+        </label>
         <br />
       </>
     );

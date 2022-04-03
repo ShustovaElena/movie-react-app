@@ -17,7 +17,8 @@ class Switcher extends React.Component<IStock> {
           Я хочу получать уведомления об акциях/ не хочу
         </span>
         <label className="switch">
-          <input type="checkbox" ref={this.props.refStock} />
+          switch
+          <input className="input-switch" type="checkbox" ref={this.props.refStock} />
           <span className="slider round"></span>
         </label>
         <br />

@@ -9,7 +9,7 @@
 
 .Form {
     width: 40%;
-    height: 520px;
+    height: 540px;
     margin: 0px auto;
     padding: 20px;
     background-color: white;
@@ -89,4 +89,8 @@ input:disabled {
     letter-spacing: 4px;
     border: 2px solid green;
     color: #258344;
+}
+
+.file-loader {
+    margin-top: -50px;
 }

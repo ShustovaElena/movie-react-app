@@ -13,10 +13,11 @@ export default class Name extends React.Component<IName> {
   render() {
     return (
       <>
-        <label className="form-item label-name">
+        <label className="form-item label-name" htmlFor="ФИО">
           ФИО:
           <input
             type="text"
+            id="ФИО"
             style={{ backgroundColor: this.props.style }}
             ref={this.props.refName}
             placeholder="Введите ФИО"
