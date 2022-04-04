@@ -94,3 +94,7 @@ input:disabled {
 .file-loader {
     margin-top: -50px;
 }
+
+input[type='file'] {
+    margin-top: 16px;
+}
