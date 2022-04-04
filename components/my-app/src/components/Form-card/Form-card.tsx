@@ -25,7 +25,9 @@ export default class FormCard extends React.Component<IFormCard> {
         <p>Страна проживания: {country}</p>
         <p>Согласен/на на обработку персональных данных: {userInfo}</p>
         <p>Получать уведомления об акциях: {stock}</p>
-        <img className="load-img" src={file} alt="User photo" />
+        <div className="wrapper-img">
+          <img className="load-img" src={file} alt="User photo" />
+        </div>
       </div>
     );
   }
