@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Profile from './profile';
+import Profile from './Profile';
 
 test('checked form', async () => {
   render(<Profile />);

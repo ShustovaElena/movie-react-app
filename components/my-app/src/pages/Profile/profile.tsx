@@ -3,10 +3,10 @@ import Name from '../../components/Name/Name';
 import Date from '../../components/Date/Date';
 import Select from '../../components/Select/Select';
 import Checkbox from '../../components/Checkbox/Checkbox';
-import Switcher from '../../components/Switcher/switcher';
+import Switcher from '../../components/Switcher/Switcher';
 import FileLoader from '../../components/FileLoader/File-loader';
 import FormCard from '../../components/Form-card/Form-card';
-import './profile.css';
+import './Profile.css';
 
 interface IUserData {
   key: number;
@@ -23,6 +23,8 @@ interface IStateForm {
   isUserData: boolean;
   isValidName: boolean;
   isValidAge: boolean;
+  isValidFile: boolean;
+  isShow: boolean;
   userFormData: IUserData;
 }
 
@@ -37,6 +39,7 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
   private userCards: IUserData[];
   private colorName: string;
   private colorDate: string;
+  private colorFile: string;
 
   constructor(props: Record<string, unknown>) {
     super(props);
@@ -50,11 +53,14 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
     this.formField = React.createRef();
     this.colorName = 'white';
     this.colorDate = 'white';
+    this.colorFile = 'white';
     this.state = {
       isDisabled: true,
       isUserData: false,
-      isValidName: true,
-      isValidAge: true,
+      isValidName: false,
+      isValidAge: false,
+      isValidFile: false,
+      isShow: false,
       userFormData: {
         key: 0,
         name: '',
@@ -77,36 +83,51 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
     }
   }
 
-  handleValidChange() {
-    if ((this.nameField.current?.value.length as number) <= 5) {
+  async handleValidChange() {
+    if (
+      (this.nameField.current?.value.length as number) <= 5 ||
+      (this.nameField.current?.value as string) === ''
+    ) {
       this.setState({ isValidName: false, isDisabled: true });
       this.colorName = 'rgba(255, 0, 0, 0.2)';
-      // this.setState({ isDisabled: true });
       this.nameField.current!.value = '';
     } else {
       this.setState({ isValidName: true, isDisabled: false });
       this.colorName = 'white';
-      // this.setState({ isDisabled: false });
     }
+    console.log(this.nameField.current?.value);
+    console.log(this.state.isUserData);
 
     const currentDate = this.ageField.current?.value as string;
     const currentYear = 2022;
     const valueYear = Number(currentDate.split('-')[0]);
-    if (currentYear - valueYear >= 18) {
-      this.setState({ isValidAge: true, isDisabled: false });
-      this.colorDate = 'white';
-      // this.setState({ isDisabled: false });
-    } else {
+    if (currentYear - valueYear <= 18 || (this.ageField.current?.value as string) === '') {
       this.setState({ isValidAge: false, isDisabled: true });
       this.colorDate = 'rgba(255, 0, 0, 0.2)';
-      // this.setState({ isDisabled: true });
       this.ageField.current!.value = '';
+    } else {
+      this.setState({ isValidAge: true, isDisabled: false });
+      this.colorDate = 'white';
+    }
+
+    const url = this.fileField.current!.files![0];
+    const maxSize = 5242880;
+    if (
+      (url.name.split('.')[1] === 'jpg' ||
+        url.name.split('.')[1] === 'jpeg' ||
+        url.name.split('.')[1] === 'png') &&
+      url.size <= maxSize
+    ) {
+      this.setState({ isValidFile: true, isDisabled: false });
+      this.colorFile = 'white';
+    } else {
+      this.setState({ isValidFile: false, isDisabled: true });
+      this.colorFile = 'rgba(255, 0, 0, 0.2)';
     }
   }
 
-  handleSubmit(e: React.FormEvent) {
-    this.handleValidChange();
-    console.log('submit');
+  async handleSubmit(e: React.FormEvent) {
+    await this.handleValidChange();
     e.preventDefault();
     const USER_DATA: IUserData = {
       key: 1,
@@ -118,14 +139,23 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
       file: URL.createObjectURL(this.fileField.current!.files![0]),
     };
 
-    this.setState({
-      isUserData: true,
-      isDisabled: false,
-      userFormData: USER_DATA,
-    });
+    if (this.state.isValidName && this.state.isValidAge && this.state.isValidFile) {
+      this.setState({
+        isShow: true,
+        isUserData: true,
+        isDisabled: false,
+        userFormData: USER_DATA,
+      });
 
-    this.userCards.push(USER_DATA);
-    this.formField.current?.reset();
+      this.userCards.push(USER_DATA);
+      this.formField.current?.reset();
+
+      {
+        setTimeout(() => {
+          this.setState({ isShow: false });
+        }, 1500);
+      }
+    }
   }
 
   render() {
@@ -150,7 +180,12 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
             <Select refCountry={this.countryField} />
             <Checkbox refUserInfo={this.userInfoField} />
             <Switcher refStock={this.stockField} />
-            <FileLoader refFile={this.fileField} />
+            <FileLoader style={this.colorFile} refFile={this.fileField} />
+            {this.state.isValidFile ? (
+              ''
+            ) : (
+              <span className="error">Добавьте файл .jpg, .jpeg, .png и менее 5mb</span>
+            )}
 
             <input
               className="submit"
@@ -166,14 +201,7 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
             ? this.userCards.map((item: IUserData, index) => <FormCard {...item} key={index} />)
             : ''}
         </div>
-        {this.state.isUserData ? (
-          <span className="modul-window">Данные успешно сохранены!</span>
-        ) : (
-          ''
-        )}
-        {setTimeout(() => {
-          document.querySelector('.modul-window')?.remove();
-        }, 1500)}
+        {this.state.isShow ? <span className="modul-window">Данные успешно сохранены!</span> : ''}
       </>
     );
   }

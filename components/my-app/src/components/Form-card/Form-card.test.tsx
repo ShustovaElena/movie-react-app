@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Profile from '../../pages/Profile/profile';
+import Profile from '../../pages/Profile/Profile';
 
 test('checked card', () => {
   render(<Profile />);

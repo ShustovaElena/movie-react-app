@@ -1,5 +1,5 @@
 import React from 'react';
-import './Switcher.css';
+import './Style-Switcher.css';
 
 interface IStock {
   refStock: React.RefObject<HTMLInputElement>;

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import './App.css';
-import Home from './pages/Home/home-page';
-import AboutUs from './pages/About/about';
-import Profile from './pages/Profile/profile';
-import PageNotFound from './pages/NotFound/page-not-found';
+import Home from './pages/Home/Home-page';
+import AboutUs from './pages/About/About';
+import Profile from './pages/Profile/Profile';
+import PageNotFound from './pages/NotFound/Page-not-found';
 
 class App extends React.Component {
   constructor(props: object) {
