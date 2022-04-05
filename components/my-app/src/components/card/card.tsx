@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ICard from '../../types';
+import { ICard } from '../../types';
 
 class Card extends React.Component<ICard> {
   constructor(props: ICard) {

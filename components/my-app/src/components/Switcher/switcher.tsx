@@ -1,9 +1,7 @@
 import React from 'react';
-import './Style-Switcher.css';
+import { IStock } from '../../types';
 
-interface IStock {
-  refStock: React.RefObject<HTMLInputElement>;
-}
+import './Switcher.css';
 
 class Switcher extends React.Component<IStock> {
   constructor(props: IStock) {
@@ -12,17 +10,15 @@ class Switcher extends React.Component<IStock> {
 
   render() {
     return (
-      <>
+      <div>
         <span className="form-item switcher-text">
           Я хочу получать уведомления об акциях/ не хочу
         </span>
         <label className="switch">
-          switch
-          <input className="input-switch" type="checkbox" ref={this.props.refStock} />
+          <input className="input-switch" type="checkbox" ref={this.props.refStock} alt="switch" />
           <span className="slider round"></span>
         </label>
-        <br />
-      </>
+      </div>
     );
   }
 }

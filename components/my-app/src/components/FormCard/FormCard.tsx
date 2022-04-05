@@ -1,14 +1,7 @@
 import * as React from 'react';
-import './Form-card.css';
+import { IFormCard } from '../../types';
 
-interface IFormCard {
-  name: string;
-  age: string;
-  country: string;
-  userInfo: string;
-  stock: string;
-  file: string;
-}
+import './FormCard.css';
 
 export default class FormCard extends React.Component<IFormCard> {
   constructor(props: IFormCard) {

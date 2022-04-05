@@ -4,29 +4,20 @@ import Date from '../../components/Date/Date';
 import Select from '../../components/Select/Select';
 import Checkbox from '../../components/Checkbox/Checkbox';
 import Switcher from '../../components/Switcher/Switcher';
-import FileLoader from '../../components/FileLoader/File-loader';
-import FormCard from '../../components/Form-card/Form-card';
+import FileLoader from '../../components/FileLoader/FileLoader';
+import FormCard from '../../components/FormCard/FormCard';
+import ValidationError from '../../components/ValidationError/ValidationError';
+import { IStateForm, IUserData } from '../../types';
+import {
+  CURRENT_YEAR,
+  RIGHT_ANSWER,
+  WRONG_ANSWER,
+  VALID_AGE,
+  MAX_SIZE_FILE,
+  EXTENSIONS,
+} from '../../constants';
+
 import './Profile.css';
-
-interface IUserData {
-  key: number;
-  name: string;
-  age: string;
-  country: string;
-  userInfo: string;
-  stock: string;
-  file: string;
-}
-
-interface IStateForm {
-  isDisabled: boolean;
-  isUserData: boolean;
-  isValidName: boolean;
-  isValidAge: boolean;
-  isValidFile: boolean;
-  isShow: boolean;
-  userFormData: IUserData;
-}
 
 export default class Profile extends React.Component<Record<string, unknown>, IStateForm> {
   private nameField: React.RefObject<HTMLInputElement>;
@@ -36,7 +27,7 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
   private stockField: React.RefObject<HTMLInputElement>;
   private fileField: React.RefObject<HTMLInputElement>;
   private formField: React.RefObject<HTMLFormElement>;
-  private userCards: IUserData[];
+  // private userCards: IUserData[];
   private colorName: string;
   private colorDate: string;
   private colorFile: string;
@@ -51,18 +42,17 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
     this.stockField = React.createRef();
     this.fileField = React.createRef();
     this.formField = React.createRef();
-    this.colorName = 'white';
-    this.colorDate = 'white';
-    this.colorFile = 'white';
+    this.colorName = RIGHT_ANSWER;
+    this.colorDate = RIGHT_ANSWER;
+    this.colorFile = RIGHT_ANSWER;
     this.state = {
       isDisabled: true,
       isUserData: false,
-      isValidName: false,
-      isValidAge: false,
-      isValidFile: false,
+      isValidName: true,
+      isValidAge: true,
+      isValidFile: true,
       isShow: false,
       userFormData: {
-        key: 0,
         name: '',
         age: '',
         country: '',
@@ -70,10 +60,15 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
         stock: 'Нет',
         file: '',
       },
+      userCards: [],
+      errors: {
+        name: 'Введите ФИО длиннее 6 символов',
+        date: 'Вам еще нет 18 лет!',
+        file: 'Добавьте файл .jpg, .jpeg, .png и менее 5mb',
+      },
     };
     this.handleValidChange = this.handleValidChange.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.userCards = [];
   }
 
   onChange(e: React.FormEvent) {
@@ -89,48 +84,38 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
       (this.nameField.current?.value as string) === ''
     ) {
       this.setState({ isValidName: false, isDisabled: true });
-      this.colorName = 'rgba(255, 0, 0, 0.2)';
+      this.colorName = WRONG_ANSWER;
       this.nameField.current!.value = '';
     } else {
       this.setState({ isValidName: true, isDisabled: false });
-      this.colorName = 'white';
+      this.colorName = RIGHT_ANSWER;
     }
-    console.log(this.nameField.current?.value);
-    console.log(this.state.isUserData);
 
     const currentDate = this.ageField.current?.value as string;
-    const currentYear = 2022;
     const valueYear = Number(currentDate.split('-')[0]);
-    if (currentYear - valueYear <= 18 || (this.ageField.current?.value as string) === '') {
+    if (CURRENT_YEAR - valueYear <= VALID_AGE || (this.ageField.current?.value as string) === '') {
       this.setState({ isValidAge: false, isDisabled: true });
-      this.colorDate = 'rgba(255, 0, 0, 0.2)';
+      this.colorDate = WRONG_ANSWER;
       this.ageField.current!.value = '';
     } else {
       this.setState({ isValidAge: true, isDisabled: false });
-      this.colorDate = 'white';
+      this.colorDate = RIGHT_ANSWER;
     }
 
     const url = this.fileField.current!.files![0];
-    const maxSize = 5242880;
-    if (
-      (url.name.split('.')[1] === 'jpg' ||
-        url.name.split('.')[1] === 'jpeg' ||
-        url.name.split('.')[1] === 'png') &&
-      url.size <= maxSize
-    ) {
+    if (EXTENSIONS.some((elem: string) => url.name.endsWith(elem)) && url.size <= MAX_SIZE_FILE) {
       this.setState({ isValidFile: true, isDisabled: false });
-      this.colorFile = 'white';
+      this.colorFile = RIGHT_ANSWER;
     } else {
       this.setState({ isValidFile: false, isDisabled: true });
-      this.colorFile = 'rgba(255, 0, 0, 0.2)';
+      this.colorFile = WRONG_ANSWER;
     }
   }
 
   async handleSubmit(e: React.FormEvent) {
-    await this.handleValidChange();
     e.preventDefault();
+    await this.handleValidChange();
     const USER_DATA: IUserData = {
-      key: 1,
       name: this.nameField.current?.value as string,
       age: this.ageField?.current?.value as string,
       country: this.countryField?.current?.value as string,
@@ -147,7 +132,10 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
         userFormData: USER_DATA,
       });
 
-      this.userCards.push(USER_DATA);
+      const currentUserData = this.state.userCards;
+      currentUserData.push(USER_DATA);
+      this.setState({ userCards: currentUserData });
+
       this.formField.current?.reset();
 
       {
@@ -169,36 +157,30 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
             ref={this.formField}
           >
             <h2 className="header-part">Создайте свою учетную запись!</h2>
-            <Name style={this.colorName} refName={this.nameField} />
-            {this.state.isValidName ? (
-              ''
-            ) : (
-              <span className="error">Введите ФИО длиннее 6 символов</span>
-            )}
-            <Date style={this.colorDate} refAge={this.ageField} />
-            {this.state.isValidAge ? '' : <span className="error">Вам еще нет 18 лет!</span>}
+            <Name className={this.colorName} refName={this.nameField} />
+            <ValidationError nameError={this.state.errors.name} isValid={this.state.isValidName} />
+            <Date className={this.colorDate} refAge={this.ageField} />
+            <ValidationError nameError={this.state.errors.date} isValid={this.state.isValidAge} />
             <Select refCountry={this.countryField} />
             <Checkbox refUserInfo={this.userInfoField} />
             <Switcher refStock={this.stockField} />
-            <FileLoader style={this.colorFile} refFile={this.fileField} />
-            {this.state.isValidFile ? (
-              ''
-            ) : (
-              <span className="error">Добавьте файл .jpg, .jpeg, .png и менее 5mb</span>
-            )}
+            <FileLoader className={this.colorFile} refFile={this.fileField} />
+            <ValidationError nameError={this.state.errors.file} isValid={this.state.isValidFile} />
 
             <input
               className="submit"
               type="submit"
               value="Отправить"
               disabled={this.state.isDisabled}
-              data-TestId="submit"
+              alt="submit"
             />
           </form>
         </div>
         <div className="form-cards">
           {this.state.isUserData
-            ? this.userCards.map((item: IUserData, index) => <FormCard {...item} key={index} />)
+            ? this.state.userCards.map((item: IUserData, index) => (
+                <FormCard {...item} key={index} />
+              ))
             : ''}
         </div>
         {this.state.isShow ? <span className="modul-window">Данные успешно сохранены!</span> : ''}

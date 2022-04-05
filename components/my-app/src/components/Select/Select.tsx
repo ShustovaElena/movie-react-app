@@ -1,8 +1,6 @@
 import * as React from 'react';
-
-interface ISelect {
-  refCountry: React.RefObject<HTMLSelectElement>;
-}
+import { ISelect } from '../../types';
+import { COUNTRY } from '../../constants';
 
 export default class Select extends React.Component<ISelect> {
   constructor(props: ISelect) {
@@ -15,11 +13,11 @@ export default class Select extends React.Component<ISelect> {
         <label className="form-item">
           Ваша страна проживания:
           <select ref={this.props.refCountry}>
-            <option value="Russia">Russia</option>
-            <option value="Belarus">Belarus</option>
-            <option value="USA">USA</option>
-            <option value="India">India</option>
-            <option value="China">China</option>
+            {COUNTRY.map((item: string, i: number) => (
+              <option key={i} value={item}>
+                {item}
+              </option>
+            ))}
           </select>
         </label>
         <br />

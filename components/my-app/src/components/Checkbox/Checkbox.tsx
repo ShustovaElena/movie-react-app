@@ -11,13 +11,10 @@ export default class Checkbox extends React.Component<IUserInfo> {
 
   render() {
     return (
-      <>
-        <label className="form-item">
-          Я согласен/согласна на обработку персональных данных
-          <input type="checkbox" ref={this.props.refUserInfo} />
-        </label>
-        <br />
-      </>
+      <label className="form-item">
+        Я согласен/согласна на обработку персональных данных
+        <input type="checkbox" ref={this.props.refUserInfo} />
+      </label>
     );
   }
 }

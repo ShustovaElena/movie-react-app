@@ -99,3 +99,11 @@ input:disabled {
 input[type='file'] {
     margin-top: 16px;
 }
+
+.right-answer {
+    background-color: white;
+}
+
+.wrong-answer {
+    background-color: rgba(255, 0, 0, 0.3);
+}

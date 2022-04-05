@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ICard from '../../types';
+import { ICard } from '../../types';
 import Card from '../Card/Card';
 
 interface ICards {

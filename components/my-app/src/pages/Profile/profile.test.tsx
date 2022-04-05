@@ -26,7 +26,7 @@ test('checked form', async () => {
   fireEvent.click(checkbox);
   expect(checkbox.checked).toEqual(true);
 
-  const switcher = screen.getByLabelText('switch') as HTMLInputElement;
+  const switcher = screen.getByAltText('switch') as HTMLInputElement;
   expect(switcher.checked).toEqual(false);
   fireEvent.click(switcher);
   expect(switcher.checked).toEqual(true);

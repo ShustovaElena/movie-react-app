@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Profile from '../../pages/Profile/Profile';
 
@@ -13,7 +13,7 @@ test('checked card', () => {
   ) as HTMLInputElement;
   fireEvent.click(checkbox);
 
-  const switcher = screen.getByLabelText('switch') as HTMLInputElement;
+  const switcher = screen.getByAltText('switch') as HTMLInputElement;
   fireEvent.click(switcher);
 
   window.URL.createObjectURL = jest.fn();
@@ -24,7 +24,7 @@ test('checked card', () => {
     userEvent.upload(inputFile, fakeFile);
   });
 
-  const submit = screen.getByText('Отправить') as HTMLInputElement;
+  const submit = screen.getByAltText('submit') as HTMLInputElement;
   fireEvent.click(submit);
 
   expect(screen.getByText('Данные успешно сохранены!')).toBeInTheDocument();
