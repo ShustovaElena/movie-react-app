@@ -10,12 +10,7 @@ export default class Date extends React.Component<IAge> {
     return (
       <label className="form-item">
         Дата рождения:
-        <input
-          className={this.props.className}
-          type="date"
-          ref={this.props.refAge}
-          // style={{ backgroundColor: this.props.style}}
-        />
+        <input className={this.props.className} type="date" ref={this.props.refAge} />
       </label>
     );
   }

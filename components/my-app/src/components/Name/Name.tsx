@@ -13,7 +13,6 @@ export default class Name extends React.Component<IName> {
         <input
           className={this.props.className}
           type="text"
-          // style={{ backgroundColor: this.props.style }}
           ref={this.props.refName}
           placeholder="Введите ФИО"
         />

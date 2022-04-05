@@ -11,21 +11,19 @@ test('checked card', () => {
   const checkbox = screen.getByLabelText(
     'Я согласен/согласна на обработку персональных данных'
   ) as HTMLInputElement;
-  fireEvent.click(checkbox);
+  userEvent.click(checkbox);
 
   const switcher = screen.getByAltText('switch') as HTMLInputElement;
-  fireEvent.click(switcher);
+  userEvent.click(switcher);
 
   window.URL.createObjectURL = jest.fn();
 
   const fakeFile = new File(['hello'], 'hello.png', { type: 'image/png' });
   const inputFile = screen.getByLabelText('Загрузите фото') as HTMLInputElement;
-  act(() => {
-    userEvent.upload(inputFile, fakeFile);
-  });
+  userEvent.upload(inputFile, fakeFile);
 
   const submit = screen.getByAltText('submit') as HTMLInputElement;
-  fireEvent.click(submit);
+  userEvent.click(submit);
 
   expect(screen.getByText('Данные успешно сохранены!')).toBeInTheDocument();
 

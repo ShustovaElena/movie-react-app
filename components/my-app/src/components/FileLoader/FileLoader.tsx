@@ -15,7 +15,6 @@ class FileLoader extends React.Component<IFile> {
           type="file"
           ref={this.props.refFile}
           accept=".jpg,.jpeg,.png"
-          // style={{ backgroundColor: this.props.style }}
         />
       </label>
     );

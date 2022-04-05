@@ -27,7 +27,6 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
   private stockField: React.RefObject<HTMLInputElement>;
   private fileField: React.RefObject<HTMLInputElement>;
   private formField: React.RefObject<HTMLFormElement>;
-  // private userCards: IUserData[];
   private colorName: string;
   private colorDate: string;
   private colorFile: string;
