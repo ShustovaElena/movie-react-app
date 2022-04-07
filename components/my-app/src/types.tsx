@@ -1,3 +1,5 @@
+import React from 'react';
+
 export type ICard = {
   id: number | undefined;
   title: string | undefined;
@@ -76,6 +78,7 @@ export type IValidationError = {
 export type IStorageProps = {
   userInput: string;
   setDataFromApi: (searchData: ICard[]) => void;
+  pressSubmit: () => void;
 };
 
 export type IStorageState = {
@@ -93,5 +96,15 @@ export type IUserSelect = {
 
 export type IModulWinProps = {
   data: ICard;
-  onClick: () => void;
+  onClick: (e: React.FormEvent) => void;
+  onClickOverlay: (e: React.FormEvent) => void;
+};
+
+export type IHome = {
+  data: ICard[];
+  isPressSearch: boolean;
+};
+
+export type ILoader = {
+  removeLoader: () => void;
 };

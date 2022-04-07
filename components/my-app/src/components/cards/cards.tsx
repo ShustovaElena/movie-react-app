@@ -8,6 +8,7 @@ class Cards extends React.Component<ICards, IUserSelect> {
     super(props);
     this.onClick = this.onClick.bind(this);
     this.onClickModul = this.onClickModul.bind(this);
+    this.onClickOverlay = this.onClickOverlay.bind(this);
     this.state = {
       userSelect: {
         id: 0,
@@ -42,8 +43,14 @@ class Cards extends React.Component<ICards, IUserSelect> {
     });
   }
 
-  onClickModul() {
+  onClickModul(e: React.FormEvent) {
     this.setState({ isClosedModul: false });
+    e.stopPropagation();
+  }
+
+  onClickOverlay(e: React.FormEvent) {
+    this.setState({ isClosedModul: false });
+    e.preventDefault();
   }
 
   render() {
@@ -56,7 +63,11 @@ class Cards extends React.Component<ICards, IUserSelect> {
         </div>
         <div>
           {this.state.isClosedModul ? (
-            <ModulWindow onClick={this.onClickModul} data={this.state.userSelect} />
+            <ModulWindow
+              onClick={this.onClickModul}
+              onClickOverlay={this.onClickOverlay}
+              data={this.state.userSelect}
+            />
           ) : (
             ''
           )}

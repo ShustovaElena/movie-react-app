@@ -24,6 +24,7 @@ class Search extends React.Component<IStorageProps, IStorageState> {
     e.preventDefault();
     const data = await this.getDataFromApi();
     this.props.setDataFromApi(data.results);
+    this.props.pressSubmit();
   }
 
   componentDidUpdate() {

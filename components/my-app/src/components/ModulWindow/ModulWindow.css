@@ -26,6 +26,7 @@
 
 .item-img {
     width: 30%;
+    height: 300px;
 }
 
 .close-window {
@@ -72,4 +73,28 @@
     font-family: 'Times New Roman', Times, serif;
     font-weight: 700;
     text-transform: uppercase;
+}
+
+.item-rating {
+    display: flex;
+    justify-content: center;
+}
+
+.item-average {
+    width: 55px;
+    height: 55px;
+    padding: 12px 0 0 9px;
+    background-color: rgba(109, 6, 100, 0.4);
+    border-radius: 50%;
+    border: 5px solid rgb(109, 6, 100);
+    font-weight: 700;
+}
+
+.item-count {
+    width: 75px;
+    background: url(../../../public/img/like.png) 30% 70% / 50% 50% no-repeat;
+    font-size: 0.8rem;
+    color: rgb(165, 163, 163);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
 }
