@@ -22,7 +22,11 @@ class ModulWindow extends React.Component<IModulWinProps> {
           <p className="item-title">{title}</p>
 
           <div className="modul-content">
-            <img className="item-img" src={`${IMG_URL}${poster_path}`} alt="Image" />
+            <img
+              className="item-img"
+              src={poster_path ? `${IMG_URL}${poster_path}` : 'img/noneImg.png'}
+              alt="Image"
+            />
             <div className="modul-content-description">
               <p className="item-overview">
                 <span className="bold">Описание:</span>

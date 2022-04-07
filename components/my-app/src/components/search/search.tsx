@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IStorageProps, IStorageState } from '../../types';
-import { BASE_URL } from '../../constants';
+import { BASE_URL, POPULAR_URL } from '../../constants';
 
 class Search extends React.Component<IStorageProps, IStorageState> {
   constructor(props: IStorageProps) {
@@ -15,7 +15,10 @@ class Search extends React.Component<IStorageProps, IStorageState> {
   };
 
   async getDataFromApi() {
-    const url = `${BASE_URL}&query=${this.state.userInput}`;
+    let url = `${BASE_URL}&query=${this.state.userInput}`;
+    if (this.state.userInput === '') {
+      url = POPULAR_URL;
+    }
     const res = await fetch(url);
     return await res.json();
   }
@@ -32,14 +35,18 @@ class Search extends React.Component<IStorageProps, IStorageState> {
     window.localStorage.setItem('userInput', userInput);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     let userInput = window.localStorage.getItem('userInput');
     if (!userInput) {
+      const data = await this.getDataFromApi();
+      this.props.setDataFromApi(data.results);
       userInput = this.state.userInput;
     }
 
     window.localStorage.setItem('userInput', userInput);
-    this.setState({ userInput: userInput });
+    await this.setState({ userInput: userInput });
+    const data = await this.getDataFromApi();
+    this.props.setDataFromApi(data.results);
   }
 
   render() {
