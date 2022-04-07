@@ -1,11 +1,12 @@
 export type ICard = {
-  key: number;
-  src: string;
-  name: string;
-  year: string;
-  genre: string;
-  rating: string;
-  likesCount: number;
+  id: number | undefined;
+  title: string | undefined;
+  poster_path: string | undefined;
+  overview: string | undefined;
+  popularity: number | undefined;
+  release_date: string | undefined;
+  vote_average: number | undefined;
+  vote_count: number | undefined;
 };
 
 export type IAge = {
@@ -70,4 +71,27 @@ export type IError = {
 export type IValidationError = {
   isValid: boolean;
   nameError: string;
+};
+
+export type IStorageProps = {
+  userInput: string;
+  setDataFromApi: (searchData: ICard[]) => void;
+};
+
+export type IStorageState = {
+  userInput: string;
+};
+
+export type ICards = {
+  data: ICard[];
+};
+
+export type IUserSelect = {
+  userSelect: ICard;
+  isClosedModul: boolean;
+};
+
+export type IModulWinProps = {
+  data: ICard;
+  onClick: () => void;
 };

@@ -1,19 +1,30 @@
 import * as React from 'react';
+import { IStorageProps, IStorageState } from '../../types';
+import { BASE_URL } from '../../constants';
 
-interface IStorage {
-  userInput: string;
-}
-
-class Search extends React.Component<IStorage, IStorage> {
-  constructor(props: IStorage) {
+class Search extends React.Component<IStorageProps, IStorageState> {
+  constructor(props: IStorageProps) {
     super(props);
-    this.state = { userInput: props.userInput };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = { userInput: '' };
   }
 
   handleChange = (event: React.FormEvent) => {
     const input = event.target as HTMLInputElement;
     this.setState({ userInput: input.value });
   };
+
+  async getDataFromApi() {
+    const url = `${BASE_URL}&query=${this.state.userInput}`;
+    const res = await fetch(url);
+    return await res.json();
+  }
+
+  async handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const data = await this.getDataFromApi();
+    this.props.setDataFromApi(data.results);
+  }
 
   componentDidUpdate() {
     const userInput = this.state.userInput;
@@ -32,7 +43,7 @@ class Search extends React.Component<IStorage, IStorage> {
 
   render() {
     return (
-      <form className="Search">
+      <form className="Search" onSubmit={this.handleSubmit}>
         <input
           className="Search-input"
           type="text"

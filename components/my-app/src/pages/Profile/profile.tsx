@@ -89,7 +89,6 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
       this.setState({ isValidName: true, isDisabled: false });
       this.colorName = RIGHT_ANSWER;
     }
-
     const currentDate = this.ageField.current?.value as string;
     const valueYear = Number(currentDate.split('-')[0]);
     if (CURRENT_YEAR - valueYear <= VALID_AGE || (this.ageField.current?.value as string) === '') {
@@ -100,7 +99,6 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
       this.setState({ isValidAge: true, isDisabled: false });
       this.colorDate = RIGHT_ANSWER;
     }
-
     const url = this.fileField.current!.files![0];
     if (EXTENSIONS.some((elem: string) => url.name.endsWith(elem)) && url.size <= MAX_SIZE_FILE) {
       this.setState({ isValidFile: true, isDisabled: false });

@@ -102,13 +102,13 @@ p {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  gap: 30px;
+  gap: 10px;
   width: 100%;
   margin-top: 30px;
 }
 
 .Card {
-  width: 25%;
+  width: 15%;
 }
 
 .Card:hover {
@@ -118,14 +118,14 @@ p {
 
 .Card-img {
   width: 100%;
-  height: 200px;
+  height: 300px;
 }
 
 .Card-name {
   margin: 0;
   color: #8642be;
-  font-weight: 700;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', sans-serif;
+  font-weight: 400;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .Card-year,
