@@ -77,7 +77,7 @@ export default class Profile extends React.Component<Record<string, unknown>, IS
     }
   }
 
-  async handleValidChange() {
+  handleValidChange() {
     if (
       (this.nameField.current?.value.length as number) <= 5 ||
       (this.nameField.current?.value as string) === ''
