@@ -21,7 +21,7 @@ class Loader extends React.Component<ILoader> {
 
   render() {
     return (
-      <div className="timer-wrapper">
+      <div className="timer-wrapper" data-testid="loader">
         <div className="timer">
           <div className="timer__line"></div>
           <div className="timer__body">

@@ -3,80 +3,86 @@ import { act } from 'react-dom/test-utils';
 import Cards from './Cards';
 import { screen } from '@testing-library/react';
 
-// const fakedata = [
-//   {
-//     key: 1,
-//     src: 'img/1.jpg',
-//     name: 'Название',
-//     year: '2002',
-//     genre: 'Жанр',
-//     rating: '8.8',
-//     likesCount: 123,
-//   },
-//   {
-//     key: 1,
-//     src: 'img/1.jpg',
-//     name: 'Название',
-//     year: '2002',
-//     genre: 'Жанр',
-//     rating: '8.8',
-//     likesCount: 123,
-//   },
-//   {
-//     key: 1,
-//     src: 'img/1.jpg',
-//     name: 'Название',
-//     year: '2002',
-//     genre: 'Жанр',
-//     rating: '8.8',
-//     likesCount: 123,
-//   },
-//   {
-//     key: 1,
-//     src: 'img/1.jpg',
-//     name: 'Название',
-//     year: '2002',
-//     genre: 'Жанр',
-//     rating: '8.8',
-//     likesCount: 123,
-//   },
-//   {
-//     key: 1,
-//     src: 'img/1.jpg',
-//     name: 'Название',
-//     year: '2002',
-//     genre: 'Жанр',
-//     rating: '8.8',
-//     likesCount: 123,
-//   },
-//   {
-//     key: 1,
-//     src: 'img/1.jpg',
-//     name: 'Название',
-//     year: '2002',
-//     genre: 'Жанр',
-//     rating: '8.8',
-//     likesCount: 123,
-//   },
-// ];
+const fakedata = [
+  {
+    id: 12321,
+    poster_path: 'img/noneImg.png',
+    title: 'Название',
+    overview: 'Здесь будет описание',
+    popularity: 232.22,
+    release_date: '2002-09-31',
+    vote_average: 7.9,
+    vote_count: 5556,
+  },
+  {
+    id: 12322,
+    poster_path: 'img/noneImg.png',
+    title: 'Название',
+    overview: 'Здесь будет описание',
+    popularity: 232.22,
+    release_date: '2002-09-31',
+    vote_average: 7.9,
+    vote_count: 5556,
+  },
+  {
+    id: 12323,
+    poster_path: 'img/noneImg.png',
+    title: 'Название',
+    overview: 'Здесь будет описание',
+    popularity: 232.22,
+    release_date: '2002-09-31',
+    vote_average: 7.9,
+    vote_count: 5556,
+  },
+  {
+    id: 12324,
+    poster_path: 'img/noneImg.png',
+    title: 'Название',
+    overview: 'Здесь будет описание',
+    popularity: 232.22,
+    release_date: '2002-09-31',
+    vote_average: 7.9,
+    vote_count: 5556,
+  },
+  {
+    id: 12325,
+    poster_path: 'img/noneImg.png',
+    title: 'Название',
+    overview: 'Здесь будет описание',
+    popularity: 232.22,
+    release_date: '2002-09-31',
+    vote_average: 7.9,
+    vote_count: 5556,
+  },
+  {
+    id: 12326,
+    poster_path: 'img/noneImg.png',
+    title: 'Название',
+    overview: 'Здесь будет описание',
+    popularity: 232.22,
+    release_date: '2002-09-31',
+    vote_average: 7.9,
+    vote_count: 5556,
+  },
+];
 
-// let container: HTMLDivElement;
-// beforeEach(() => {
-//   container = document.createElement('div');
-//   document.body.appendChild(container);
-// });
+let container: HTMLDivElement;
+beforeEach(() => {
+  container = document.createElement('div');
+  document.body.appendChild(container);
+});
 
-// afterEach(() => {
-//   unmountComponentAtNode(container);
-//   container.remove();
-// });
+afterEach(() => {
+  unmountComponentAtNode(container);
+  container.remove();
+});
 
-// it('renders cards with testing data', () => {
-//   act(() => {
-//     render(<Cards data={fakedata} />, container);
-//   });
+it('renders cards with testing data', () => {
+  act(() => {
+    render(<Cards data={fakedata} />, container);
+  });
 
-//   const cardsConteiner = screen.queryAllByText('Название');
+  const cardsConteiner = screen.queryAllByText('Название');
 
-//   expect(cardsConteiner).toHaveLength(6);
-// });
+  expect(cardsConteiner).toHaveLength(6);
+});

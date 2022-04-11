@@ -14,7 +14,6 @@ class Home extends React.Component<Record<string, unknown>, IHome> {
   }
 
   setDataFromApi(searchData: ICard[]) {
-    console.log(searchData);
     this.setState({ data: searchData, isPressSearch: false });
   }
 
