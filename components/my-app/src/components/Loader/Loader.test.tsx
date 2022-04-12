@@ -1,7 +1,5 @@
 import { render, unmountComponentAtNode } from 'react-dom';
-import { act } from 'react-dom/test-utils';
 import Loader from './Loader';
-import { screen } from '@testing-library/react';
 
 let container: HTMLDivElement;
 beforeEach(() => {
