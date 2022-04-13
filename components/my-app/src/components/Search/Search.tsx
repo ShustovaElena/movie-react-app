@@ -3,7 +3,7 @@ import { IStorageProps } from '../../types';
 import { BASE_URL, POPULAR_URL } from '../../constants';
 
 function Search(props: IStorageProps) {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(window.localStorage.getItem('userInput') || '');
 
   handleChange = (event: React.FormEvent) => {
   useEffect(() => {
@@ -12,13 +12,11 @@ function Search(props: IStorageProps) {
     }
 
     innerFn();
-
-    window.localStorage.setItem('userInput', userInput);
   }, []);
 
-  // useEffect(() => {
-  //   window.localStorage.setItem('userInput', userInput);
-  // });
+  useEffect(() => {
+    window.localStorage.setItem('userInput', userInput);
+  });
 
   function handleChange(event: React.FormEvent) {
     const input = event.target as HTMLInputElement;
@@ -51,7 +49,7 @@ function Search(props: IStorageProps) {
       dataStorage = userInput;
     }
 
-    window.localStorage.setItem('userInput', dataStorage);
+    window.localStorage.setItem('userInput', dataStorage as string);
     await setUserInput(dataStorage);
     const data = await getDataFromApi();
     props.setDataFromApi(data.results);
@@ -63,7 +61,7 @@ function Search(props: IStorageProps) {
         className="Search-input"
         type="text"
         placeholder="Search"
-        value={searchQuery}
+        value={searchQuery as string}
         onChange={handleChange}
       />
       <button className="Search-btn" type="submit">
