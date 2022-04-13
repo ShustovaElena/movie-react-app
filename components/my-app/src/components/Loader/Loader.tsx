@@ -13,8 +13,8 @@ class Loader extends React.Component {
           <div className="fourth"></div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default Loader;

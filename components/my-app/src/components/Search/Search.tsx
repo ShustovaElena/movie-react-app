@@ -1,68 +1,76 @@
-import * as React from 'react';
-import { IStorageProps, IStorageState } from '../../types';
+import React, { useState, useEffect } from 'react';
+import { IStorageProps } from '../../types';
 import { BASE_URL, POPULAR_URL } from '../../constants';
 
-class Search extends React.Component<IStorageProps, IStorageState> {
-  constructor(props: IStorageProps) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = { searchQuery: '' };
-  }
+function Search(props: IStorageProps) {
+  const [searchQuery, setSearchQuery] = useState('');
 
   handleChange = (event: React.FormEvent) => {
-    const input = event.target as HTMLInputElement;
-    this.setState({ searchQuery: input.value });
-  };
+  useEffect(() => {
+    async function innerFn() {
+      await componentDidMount();
+    }
 
-  async getDataFromApi() {
-    const url = `${BASE_URL}&query=${this.state.searchQuery}`;
+    innerFn();
+
+    window.localStorage.setItem('userInput', userInput);
+  }, []);
+
+  // useEffect(() => {
+  //   window.localStorage.setItem('userInput', userInput);
+  // });
+
+  function handleChange(event: React.FormEvent) {
+    const input = event.target as HTMLInputElement;
+    setSearchQuery(input.value);
+  }
+
+  async function getDataFromApi() {
+	const url = `${BASE_URL}&query=${this.state.searchQuery}`;
     const res = await fetch(this.state.searchQuery ? url : POPULAR_URL);
     return await res.json();
   }
 
-  async handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const data = await this.getDataFromApi();
-    console.log(data);
-    this.props.pressSubmit();
-    this.props.setDataFromApi(data.results);
+    const data = await getDataFromApi();
+    props.pressSubmit();
+    props.setDataFromApi(data.results);
   }
 
-  componentDidUpdate() {
-    const userInput = this.state.searchQuery;
-    localStorage.setItem('userInput', userInput);
-  }
+  // componentDidUpdate() {
+  //   const userInput = this.state.userInput;
+  //   window.localStorage.setItem('userInput', userInput);
+  // }
 
-  async componentDidMount() {
-    let userInput = localStorage.getItem('userInput');
-    if (!userInput) {
-      const data = await this.getDataFromApi();
-      this.props.setDataFromApi(data.results);
-      userInput = this.state.searchQuery;
+  async function componentDidMount() {
+    let dataStorage = window.localStorage.getItem('userInput');
+    if (!dataStorage) {
+      const data = await getDataFromApi();
+      props.setDataFromApi(data.results);
+      dataStorage = userInput;
     }
 
-    localStorage.setItem('userInput', userInput);
-    await this.setState({ searchQuery: userInput });
-    const data = await this.getDataFromApi();
-    this.props.setDataFromApi(data.results);
+    window.localStorage.setItem('userInput', dataStorage);
+    await setUserInput(dataStorage);
+    const data = await getDataFromApi();
+    props.setDataFromApi(data.results);
   }
 
-  render() {
-    return (
-      <form className="Search" onSubmit={this.handleSubmit}>
-        <input
-          className="Search-input"
-          type="text"
-          placeholder="Search"
-          value={this.state.searchQuery}
-          onChange={this.handleChange}
-        />
-        <button className="Search-btn" type="submit">
-          Search
-        </button>
-      </form>
-    );
-  }
+  return (
+    <form className="Search" onSubmit={handleSubmit}>
+      <input
+        className="Search-input"
+        type="text"
+        placeholder="Search"
+        value={searchQuery}
+        onChange={handleChange}
+      />
+      <button className="Search-btn" type="submit">
+        Search
+      </button>
+    </form>
+  );
 }
 
 export default Search;

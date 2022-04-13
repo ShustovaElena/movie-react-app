@@ -1,80 +1,66 @@
-import * as React from 'react';
-import { ICard, ICards, IUserSelect } from '../../types';
+import React, { useState } from 'react';
+import { ICard, ICards } from '../../types';
 import Card from '../Card/Card';
 import ModulWindow from '../ModulWindow/ModalWindow';
 
-class Cards extends React.Component<ICards, IUserSelect> {
-  constructor(props: ICards) {
-    super(props);
-    this.onClick = this.onClick.bind(this);
-    this.onClickModul = this.onClickModul.bind(this);
-    this.onClickOverlay = this.onClickOverlay.bind(this);
-    this.state = {
-      userSelect: {
-        id: 0,
-        title: '',
-        poster_path: '',
-        overview: '',
-        popularity: 0,
-        release_date: '',
-        vote_average: 0,
-        vote_count: 0,
-      },
-      isClosedModul: false,
-    };
-  }
+function Cards(props: ICards) {
+  const initialStateVal: ICard = {
+    id: 0,
+    title: '',
+    poster_path: '',
+    overview: '',
+    popularity: 0,
+    release_date: '',
+    vote_average: 0,
+    vote_count: 0,
+  };
 
-  async onClick(event: React.MouseEvent) {
+  const [userSelect, setUserSelect] = useState(initialStateVal);
+  const [isClosedModul, setIsClosedModul] = useState(false);
+
+  async function onClick(event: React.MouseEvent) {
     const card = (event.target as HTMLDivElement).parentElement;
     const id = Number(card?.firstChild?.textContent?.split(':').pop());
-    const userSelect = this.props.data.find((item) => item.id === id);
-    await this.setState({
-      userSelect: {
-        id: userSelect?.id,
-        title: userSelect?.title,
-        poster_path: userSelect?.poster_path,
-        overview: userSelect?.overview,
-        popularity: userSelect?.popularity,
-        release_date: userSelect?.release_date,
-        vote_average: userSelect?.vote_average,
-        vote_count: userSelect?.vote_count,
-      },
-      isClosedModul: true,
+    const userSelect = props.data.find((item) => item.id === id);
+    await setUserSelect({
+      id: userSelect?.id,
+      title: userSelect?.title,
+      poster_path: userSelect?.poster_path,
+      overview: userSelect?.overview,
+      popularity: userSelect?.popularity,
+      release_date: userSelect?.release_date,
+      vote_average: userSelect?.vote_average,
+      vote_count: userSelect?.vote_count,
     });
+    setIsClosedModul(true);
   }
 
-  onClickModul(e: React.FormEvent) {
-    this.setState({ isClosedModul: false });
+  function onClickModul(e: React.FormEvent) {
     e.stopPropagation();
+    setIsClosedModul(false);
   }
 
-  onClickOverlay(e: React.FormEvent) {
-    this.setState({ isClosedModul: false });
+  function onClickOverlay(e: React.FormEvent) {
     e.preventDefault();
+    setIsClosedModul(false);
   }
 
-  render() {
-    return (
-      <>
-        <div className="Cards" onClick={this.onClick}>
-          {this.props.data.map((item: ICard) => (
-            <Card {...item} key={item.id} />
-          ))}
-        </div>
-        <div>
-          {this.state.isClosedModul ? (
-            <ModulWindow
-              onClick={this.onClickModul}
-              onClickOverlay={this.onClickOverlay}
-              data={this.state.userSelect}
-            />
-          ) : (
-            ''
-          )}
-        </div>
-      </>
-    );
-  }
+  return (
+    <>
+      <div className="Cards" onClick={onClick}>
+        {props.data.map((item: ICard) => (
+          <Card {...item} key={item.id} />
+        ))}
+      </div>
+      <div>
+        {isClosedModul ? (
+          <ModulWindow onClick={onClickModul} onClickOverlay={onClickOverlay} data={userSelect} />
+        ) : (
+          ''
+        )}
+      </div>
+    </>
+  );
 }
 
 export default Cards;

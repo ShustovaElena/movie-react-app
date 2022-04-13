@@ -1,42 +1,31 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Cards from '../../components/Cards/Cards';
 import Search from '../../components/Search/Search';
 import Loader from '../../components/Loader/Loader';
-import { ICard, IHome } from '../../types';
+import { ICard } from '../../types';
 
-class Home extends React.Component<Record<string, unknown>, IHome> {
-  constructor(props: Record<string, unknown>) {
-    super(props);
-    this.state = { data: [], isPressSearch: false };
-    this.setDataFromApi = this.setDataFromApi.bind(this);
-    this.pressSubmit = this.pressSubmit.bind(this);
-  }
+function Home() {
+  const [data, setData] = useState([]);
+  const [isPressSearch, setIsPressSearch] = useState(false);
 
-  setDataFromApi(searchData: ICard[]) {
-    setTimeout(() => {
-      this.setState({ data: searchData, isPressSearch: false });
-      console.log('setDataFromApi', this.state.isPressSearch);
+  function setDataFromApi(searchData: ICard[]) {
+      setTimeout(() => {
+	    setData(searchData as never);
+	    setIsPressSearch(false);
     }, 300);
   }
 
-  pressSubmit() {
-    this.setState({ isPressSearch: true });
-    console.log('pressSubmit', this.state.isPressSearch);
+  function pressSubmit() {
+    setIsPressSearch(true);
   }
 
-  render() {
-    return (
-      <main>
-        <h2 className="header-part">Сделай свой выбор!</h2>
-        <Search
-          userInput={''}
-          setDataFromApi={this.setDataFromApi}
-          pressSubmit={this.pressSubmit}
-        />
-        {this.state.isPressSearch ? <Loader /> : <Cards data={this.state.data} />}
-      </main>
-    );
-  }
+  return (
+    <main>
+      <h2 className="header-part">Сделай свой выбор!</h2>
+      <Search userInput={''} setDataFromApi={setDataFromApi} pressSubmit={pressSubmit} />
+      {isPressSearch ? <Loader removeLoader={removeLoader} /> : <Cards data={data} />}
+    </main>
+  );
 }
 
 export default Home;

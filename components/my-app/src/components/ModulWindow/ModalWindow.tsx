@@ -48,8 +48,8 @@ class ModalWindow extends React.Component<IModalWinProps> {
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default ModalWindow;
