@@ -1,22 +1,16 @@
 import * as React from 'react';
 import { IName } from '../../types';
 
-export default class Name extends React.Component<IName> {
-  constructor(props: IName) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <label className="form-item label-name">
-        ФИО:
-        <input
-          className={this.props.className}
-          type="text"
-          ref={this.props.refName}
-          placeholder="Введите ФИО"
-        />
-      </label>
-    );
-  }
+export default function Name(props: IName) {
+  return (
+    <label className="form-item label-name">
+      ФИО:
+      <input
+        className={props.className}
+        type="text"
+        placeholder="Введите ФИО"
+        {...props.register}
+      />
+    </label>
+  );
 }

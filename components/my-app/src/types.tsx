@@ -12,13 +12,15 @@ export type ICard = {
 };
 
 export type IAge = {
-  refAge: React.RefObject<HTMLInputElement>;
+  // refAge: React.RefObject<HTMLInputElement>;
   className: string;
+  register: object;
 };
 
 export type IFile = {
-  refFile: React.RefObject<HTMLInputElement>;
+  // refFile: React.RefObject<HTMLInputElement>;
   className: string;
+  register: object;
 };
 
 export type IFormCard = {
@@ -31,16 +33,24 @@ export type IFormCard = {
 };
 
 export type IName = {
-  refName: React.RefObject<HTMLInputElement>;
+  // refName: React.RefObject<HTMLInputElement>;
   className: string;
+  register: object;
 };
 
 export type ISelect = {
-  refCountry: React.RefObject<HTMLSelectElement>;
+  // refCountry: React.RefObject<HTMLSelectElement>;
+  register: object;
 };
 
 export type IStock = {
-  refStock: React.RefObject<HTMLInputElement>;
+  // refStock: React.RefObject<HTMLInputElement>;
+  register: object;
+};
+
+export type IUserInfo = {
+  // refStock: React.RefObject<HTMLInputElement>;
+  register: object;
 };
 
 export type IUserData = {
