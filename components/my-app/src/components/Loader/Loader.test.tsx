@@ -1,5 +1,5 @@
 import { render, unmountComponentAtNode } from 'react-dom';
-import Loader from './Loader';
+import { Loader } from './Loader';
 
 let container: HTMLDivElement;
 beforeEach(() => {

@@ -15,12 +15,14 @@ export type IAge = {
   // refAge: React.RefObject<HTMLInputElement>;
   className: string;
   register: object;
+  style: object;
 };
 
 export type IFile = {
   // refFile: React.RefObject<HTMLInputElement>;
   className: string;
   register: object;
+  style: object;
 };
 
 export type IFormCard = {
@@ -36,6 +38,7 @@ export type IName = {
   // refName: React.RefObject<HTMLInputElement>;
   className: string;
   register: object;
+  style: object;
 };
 
 export type ISelect = {
@@ -53,13 +56,22 @@ export type IUserInfo = {
   register: object;
 };
 
+type FileType = {
+  lastModified: number;
+  lastModifiedDate: Date;
+  name: string;
+  size: number;
+  type: string;
+  webkitRelativePath: string;
+};
+
 export type IUserData = {
   name: string;
   age: string;
   country: string;
   userInfo: string;
   stock: string;
-  file: string;
+  file: FileType[];
 };
 
 export type IStateForm = {
@@ -81,7 +93,6 @@ export type IError = {
 };
 
 export type IValidationError = {
-  isValid: boolean;
   nameError: string;
 };
 

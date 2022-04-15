@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Cards from '../../components/Cards/Cards';
 import Search from '../../components/Search/Search';
-import Loader from '../../components/Loader/Loader';
+import { Loader } from '../../components/Loader/Loader';
 import { ICard } from '../../types';
 
 function Home() {
@@ -9,9 +9,9 @@ function Home() {
   const [isPressSearch, setIsPressSearch] = useState(false);
 
   function setDataFromApi(searchData: ICard[]) {
-      setTimeout(() => {
-	    setData(searchData as never);
-	    setIsPressSearch(false);
+    setTimeout(() => {
+      setData(searchData as never);
+      setIsPressSearch(false);
     }, 300);
   }
 
@@ -23,7 +23,7 @@ function Home() {
     <main>
       <h2 className="header-part">Сделай свой выбор!</h2>
       <Search userInput={''} setDataFromApi={setDataFromApi} pressSubmit={pressSubmit} />
-      {isPressSearch ? <Loader removeLoader={removeLoader} /> : <Cards data={data} />}
+      {isPressSearch ? <Loader /> : <Cards data={data} />}
     </main>
   );
 }

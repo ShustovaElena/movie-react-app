@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Name from '../../components/Name/Name';
-import Date from '../../components/Date/Date';
+import Age from '../../components/Date/Date';
 import Select from '../../components/Select/Select';
 import Checkbox from '../../components/Checkbox/Checkbox';
 import Switcher from '../../components/Switcher/Switcher';
 import FileLoader from '../../components/FileLoader/FileLoader';
 import FormCard from '../../components/FormCard/FormCard';
 import ValidationError from '../../components/ValidationError/ValidationError';
-import { IStateForm, IUserData } from '../../types';
+import { IStateForm, IUserData, IFormCard } from '../../types';
 import {
   CURRENT_YEAR,
   RIGHT_ANSWER,
-  WRONG_ANSWER,
+  WRONG_ANSWER_COLOR,
   VALID_AGE,
   MAX_SIZE_FILE,
   EXTENSIONS,
@@ -27,7 +27,7 @@ export default function Profile() {
     country: '',
     userInfo: 'Нет',
     stock: 'Нет',
-    file: '',
+    file: {},
   };
 
   const errorInitial = {
@@ -40,15 +40,20 @@ export default function Profile() {
   const colorDate = RIGHT_ANSWER;
   const colorFile = RIGHT_ANSWER;
 
-  const { register, handleSubmit } = useForm<IUserData>();
-  // const [isDisabled, setIsDisabled] = useState(true);
-  // const [isUserData, setIsUserData] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<IUserData>();
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [isUserData, setIsUserData] = useState(false);
   // const [isValidName, setIsValidName] = useState(true);
   // const [isValidAge, setIsValidAge] = useState(true);
-  // const [isValidFile, setIsValidFile] = useState(true);
-  // const [isShow, setIsShow] = useState(false);
-  // const [userFormData, setUserFormData] = useState(userFormDataInitial);
-  // const [userCards, setUserCardsa] = useState([]);
+  const [isValidFile, setIsValidFile] = useState(true);
+  const [isShow, setIsShow] = useState(false);
+  const [userFormData, setUserFormData] = useState(userFormDataInitial);
+  const [userCards, setUserCards] = useState<IFormCard[]>([]);
   // const [errors, setErrors] = useState(errorInitial);
 
   // private nameField: React.RefObject<HTMLInputElement>;
@@ -101,12 +106,12 @@ export default function Profile() {
   //   this.onChange = this.onChange.bind(this);
   // }
 
-  // function onChange(e: React.FormEvent) {
-  //   const target = e.target as HTMLFormElement;
-  //   if (target) {
-  //     setIsDisabled(false);
-  //   }
-  // }
+  function onChange(e: React.FormEvent) {
+    const target = e.target as HTMLFormElement;
+    if (target) {
+      setIsDisabled(false);
+    }
+  }
 
   // function handleValidChange() {
   //   if (
@@ -130,49 +135,76 @@ export default function Profile() {
   //     this.setState({ isValidAge: true, isDisabled: false });
   //     this.colorDate = RIGHT_ANSWER;
   //   }
-  //   const url = this.fileField.current!.files![0];
-  //   if (EXTENSIONS.some((elem: string) => url.name.endsWith(elem)) && url.size <= MAX_SIZE_FILE) {
-  //     this.setState({ isValidFile: true, isDisabled: false });
-  //     this.colorFile = RIGHT_ANSWER;
-  //   } else {
-  //     this.setState({ isValidFile: false, isDisabled: true });
-  //     this.colorFile = WRONG_ANSWER;
-  //   }
+  // const url = this.fileField.current!.files![0];
+  // if (EXTENSIONS.some((elem: string) => url.name.endsWith(elem)) && url.size <= MAX_SIZE_FILE) {
+  //   this.setState({ isValidFile: true, isDisabled: false });
+  //   this.colorFile = RIGHT_ANSWER;
+  // } else {
+  //   this.setState({ isValidFile: false, isDisabled: true });
+  //   this.colorFile = WRONG_ANSWER;
   // }
+  // }
+
+  function clearInput() {
+    if (errors.name) {
+      {
+        reset({
+          name: '',
+        });
+      }
+    }
+  }
 
   function onSubmit(data: IUserData) {
     console.log(data);
+    console.log(URL.createObjectURL(data.file[0] as never));
+    if (
+      EXTENSIONS.some((elem: string) => data.file[0].name.endsWith(elem)) &&
+      data.file[0].size <= MAX_SIZE_FILE
+    ) {
+      setIsValidFile(true);
+    } else {
+      setIsValidFile(false);
+    }
+
     // e.preventDefault();
     // await this.handleValidChange();
-    // const USER_DATA: IUserData = {
-    //   name: this.nameField.current?.value as string,
-    //   age: this.ageField?.current?.value as string,
-    //   country: this.countryField?.current?.value as string,
-    //   userInfo: (this.userInfoField?.current?.checked as boolean) ? 'Да' : 'Нет',
-    //   stock: (this.stockField?.current?.checked as boolean) ? 'Да' : 'Нет',
-    //   file: URL.createObjectURL(this.fileField.current!.files![0]),
-    // };
+    const USER_DATA: IFormCard = {
+      name: data.name,
+      age: data.age,
+      country: data.country,
+      userInfo: data.userInfo ? 'Да' : 'Нет',
+      stock: data.stock ? 'Да' : 'Нет',
+      file: URL.createObjectURL(data.file[0] as never),
+    };
 
     // if (this.state.isValidName && this.state.isValidAge && this.state.isValidFile) {
     //   this.setState({
-    //     isShow: true,
-    //     isUserData: true,
-    //     isDisabled: false,
-    //     userFormData: USER_DATA,
+    setIsShow(true);
+    setIsUserData(true);
+    setIsDisabled(false);
+    setUserFormData(USER_DATA);
     //   });
 
-    //   const currentUserData = this.state.userCards;
-    //   currentUserData.push(USER_DATA);
-    //   this.setState({ userCards: currentUserData });
+    const currentUserData = userCards;
+    currentUserData.push(USER_DATA);
+    setUserCards(currentUserData);
 
-    //   this.formField.current?.reset();
+    // this.formField.current?.reset();
+    reset({
+      name: '',
+      age: '',
+      country: '',
+      userInfo: '',
+      stock: '',
+      file: [],
+    });
 
-    //   {
-    //     setTimeout(() => {
-    //       this.setState({ isShow: false });
-    //     }, 1500);
-    //   }
-    // }
+    {
+      setTimeout(() => {
+        setIsShow(false);
+      }, 1500);
+    }
   }
 
   return (
@@ -181,35 +213,59 @@ export default function Profile() {
         <form
           className="Form"
           onSubmit={handleSubmit(onSubmit)}
-          // onChange={onChange}
+          onChange={onChange}
           // ref={this.formField}
         >
           <h2 className="header-part">Создайте свою учетную запись!</h2>
-          <Name className={colorName} register={register('name')} />
+          <Name
+            className={colorName}
+            register={register('name', {
+              required: true,
+              minLength: 6,
+            })}
+            style={{ backgroundColor: errors.name && WRONG_ANSWER_COLOR }}
+          />
+          {errors.name && <ValidationError nameError={errorInitial.name} />}
           {/* <ValidationError nameError={this.state.errors.name} isValid={this.state.isValidName} /> */}
-          <Date className={colorDate} register={register('age')} />
+          <Age
+            className={colorDate}
+            register={register('age', {
+              required: true,
+              max: '2004',
+            })}
+            style={{ backgroundColor: errors.age && WRONG_ANSWER_COLOR }}
+          />
+          {errors.age && <ValidationError nameError={errorInitial.date} />}
           {/* <ValidationError nameError={this.state.errors.date} isValid={this.state.isValidAge} /> */}
           <Select register={register('country')} />
           <Checkbox register={register('userInfo')} />
           <Switcher register={register('stock')} />
-          <FileLoader className={colorFile} register={register('file')} />
+          <FileLoader
+            className={colorFile}
+            register={register('file', {
+              required: true,
+            })}
+            style={{ backgroundColor: errors.file && WRONG_ANSWER_COLOR }}
+          />
+          {errors.file && <ValidationError nameError={errorInitial.file} />}
+          {isValidFile === false && <ValidationError nameError={errorInitial.file} />}
           {/* <ValidationError nameError={this.state.errors.file} isValid={this.state.isValidFile} /> */}
 
           <input
             className="submit"
             type="submit"
             value="Отправить"
-            // disabled={this.state.isDisabled}
+            disabled={isDisabled}
             alt="submit"
           />
         </form>
       </div>
-      {/* <div className="form-cards">
-        {this.state.isUserData
-          ? this.state.userCards.map((item: IUserData, index) => <FormCard {...item} key={index} />)
+      <div className="form-cards">
+        {isUserData
+          ? userCards.map((item: IFormCard, index: number) => <FormCard {...item} key={index} />)
           : ''}
       </div>
-      {this.state.isShow ? <span className="modul-window">Данные успешно сохранены!</span> : ''} */}
+      {isShow ? <span className="modul-window">Данные успешно сохранены!</span> : ''}
     </>
   );
 }

@@ -3,9 +3,8 @@ import { IStorageProps } from '../../types';
 import { BASE_URL, POPULAR_URL } from '../../constants';
 
 function Search(props: IStorageProps) {
-  const [searchQuery, setSearchQuery] = useState(window.localStorage.getItem('userInput') || '');
+  const [searchQuery, setSearchQuery] = useState(localStorage.getItem('userInput') || '');
 
-  handleChange = (event: React.FormEvent) => {
   useEffect(() => {
     async function innerFn() {
       await componentDidMount();
@@ -15,7 +14,7 @@ function Search(props: IStorageProps) {
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem('userInput', userInput);
+    localStorage.setItem('userInput', searchQuery);
   });
 
   function handleChange(event: React.FormEvent) {
@@ -24,8 +23,8 @@ function Search(props: IStorageProps) {
   }
 
   async function getDataFromApi() {
-	const url = `${BASE_URL}&query=${this.state.searchQuery}`;
-    const res = await fetch(this.state.searchQuery ? url : POPULAR_URL);
+    const url = `${BASE_URL}&query=${searchQuery}`;
+    const res = await fetch(searchQuery ? url : POPULAR_URL);
     return await res.json();
   }
 
@@ -46,11 +45,11 @@ function Search(props: IStorageProps) {
     if (!dataStorage) {
       const data = await getDataFromApi();
       props.setDataFromApi(data.results);
-      dataStorage = userInput;
+      dataStorage = searchQuery;
     }
 
     window.localStorage.setItem('userInput', dataStorage as string);
-    await setUserInput(dataStorage);
+    await setSearchQuery(dataStorage);
     const data = await getDataFromApi();
     props.setDataFromApi(data.results);
   }

@@ -8,12 +8,12 @@ function Card(props: ICard) {
   return (
     <div className="Card">
       <p className="Card-id">id:{id}</p>
-        <CardImage
-          className="Card-img"
-          poster_path={poster_path}
-          IMG_URL={IMG_URL}
-          alt="Image cartoon"
-        />
+      <CardImage
+        className="Card-img"
+        poster_path={poster_path}
+        IMG_URL={IMG_URL}
+        alt="Image cartoon"
+      />
       <h2 className="Card-name">{title}</h2>
     </div>
   );

@@ -10,6 +10,7 @@ export default function Name(props: IName) {
         type="text"
         placeholder="Введите ФИО"
         {...props.register}
+        style={props.style}
       />
     </label>
   );
