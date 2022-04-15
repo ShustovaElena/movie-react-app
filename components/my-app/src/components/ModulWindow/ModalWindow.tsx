@@ -1,13 +1,10 @@
 import * as React from 'react';
-import { IModulWinProps } from '../../types';
+import { IModalWinProps } from '../../types';
 import { IMG_URL } from '../../constants';
-import './ModulWindow.css';
+import CardImage from '../CardImage/CardImage';
+import './ModalWindow.css';
 
-class ModulWindow extends React.Component<IModulWinProps> {
-  constructor(props: IModulWinProps) {
-    super(props);
-  }
-
+class ModalWindow extends React.Component<IModalWinProps> {
   onClicWin(e: React.FormEvent) {
     e.stopPropagation();
   }
@@ -15,16 +12,19 @@ class ModulWindow extends React.Component<IModulWinProps> {
   render() {
     const { poster_path, title, overview, popularity, release_date, vote_average, vote_count } =
       this.props.data;
+    const { onClickOverlay, onClick } = this.props;
+
     return (
-      <div className="overlay" onClick={this.props.onClickOverlay}>
+      <div className="overlay" onClick={onClickOverlay}>
         <div className="user-modul-window" onClick={this.onClicWin}>
-          <button className="close-window" onClick={this.props.onClick}></button>
+          <button className="close-window" onClick={onClick}></button>
           <p className="item-title">{title}</p>
 
           <div className="modul-content">
-            <img
+            <CardImage
               className="item-img"
-              src={poster_path ? `${IMG_URL}${poster_path}` : 'img/noneImg.png'}
+              poster_path={poster_path}
+              IMG_URL={IMG_URL}
               alt="Image"
             />
             <div className="modul-content-description">
@@ -52,4 +52,4 @@ class ModulWindow extends React.Component<IModulWinProps> {
   }
 }
 
-export default ModulWindow;
+export default ModalWindow;

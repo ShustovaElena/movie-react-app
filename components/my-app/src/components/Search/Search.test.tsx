@@ -7,7 +7,9 @@ import userEvent from '@testing-library/user-event';
 test('renders search placeholder', () => {
   const setDataFromApi = jest.fn();
   const pressSubmit = jest.fn();
+
   render(<Search userInput={''} setDataFromApi={setDataFromApi} pressSubmit={pressSubmit} />);
+
   const element = screen.queryByPlaceholderText(/Search/i);
   expect(element).toBeInTheDocument();
 });
@@ -18,8 +20,11 @@ test('should fake data in storage', () => {
   const fakeData = 'fake-value';
   const setDataFromApi = jest.fn();
   const pressSubmit = jest.fn();
+
   render(<Search userInput={''} setDataFromApi={setDataFromApi} pressSubmit={pressSubmit} />);
+
   userEvent.type(screen.queryByPlaceholderText(/Search/i) as Element, fakeData);
+
   expect(window.localStorage.getItem('userInput')).toEqual(fakeData);
 });
 

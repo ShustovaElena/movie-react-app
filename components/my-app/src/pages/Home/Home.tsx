@@ -10,19 +10,18 @@ class Home extends React.Component<Record<string, unknown>, IHome> {
     this.state = { data: [], isPressSearch: false };
     this.setDataFromApi = this.setDataFromApi.bind(this);
     this.pressSubmit = this.pressSubmit.bind(this);
-    this.removeLoader = this.removeLoader.bind(this);
   }
 
   setDataFromApi(searchData: ICard[]) {
-    this.setState({ data: searchData, isPressSearch: false });
+    setTimeout(() => {
+      this.setState({ data: searchData, isPressSearch: false });
+      console.log('setDataFromApi', this.state.isPressSearch);
+    }, 300);
   }
 
   pressSubmit() {
     this.setState({ isPressSearch: true });
-  }
-
-  removeLoader() {
-    this.setState({ isPressSearch: false });
+    console.log('pressSubmit', this.state.isPressSearch);
   }
 
   render() {
@@ -34,11 +33,7 @@ class Home extends React.Component<Record<string, unknown>, IHome> {
           setDataFromApi={this.setDataFromApi}
           pressSubmit={this.pressSubmit}
         />
-        {this.state.isPressSearch ? (
-          <Loader removeLoader={this.removeLoader} />
-        ) : (
-          <Cards data={this.state.data} />
-        )}
+        {this.state.isPressSearch ? <Loader /> : <Cards data={this.state.data} />}
       </main>
     );
   }

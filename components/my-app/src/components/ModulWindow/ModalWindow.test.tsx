@@ -1,6 +1,6 @@
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
-import ModulWindow from './ModulWindow';
+import ModalWindow from './ModalWindow';
 import { screen } from '@testing-library/react';
 
 const fakedata = {
@@ -31,7 +31,7 @@ it('renders ModulWindow with testing data', () => {
 
   act(() => {
     render(
-      <ModulWindow data={fakedata} onClick={onClick} onClickOverlay={onClickOverlay} />,
+      <ModalWindow data={fakedata} onClick={onClick} onClickOverlay={onClickOverlay} />,
       container
     );
   });

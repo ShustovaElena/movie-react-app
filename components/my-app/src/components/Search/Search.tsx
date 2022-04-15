@@ -6,45 +6,43 @@ class Search extends React.Component<IStorageProps, IStorageState> {
   constructor(props: IStorageProps) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = { userInput: '' };
+    this.state = { searchQuery: '' };
   }
 
   handleChange = (event: React.FormEvent) => {
     const input = event.target as HTMLInputElement;
-    this.setState({ userInput: input.value });
+    this.setState({ searchQuery: input.value });
   };
 
   async getDataFromApi() {
-    let url = `${BASE_URL}&query=${this.state.userInput}`;
-    if (this.state.userInput === '') {
-      url = POPULAR_URL;
-    }
-    const res = await fetch(url);
+    const url = `${BASE_URL}&query=${this.state.searchQuery}`;
+    const res = await fetch(this.state.searchQuery ? url : POPULAR_URL);
     return await res.json();
   }
 
   async handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const data = await this.getDataFromApi();
-    this.props.setDataFromApi(data.results);
+    console.log(data);
     this.props.pressSubmit();
+    this.props.setDataFromApi(data.results);
   }
 
   componentDidUpdate() {
-    const userInput = this.state.userInput;
-    window.localStorage.setItem('userInput', userInput);
+    const userInput = this.state.searchQuery;
+    localStorage.setItem('userInput', userInput);
   }
 
   async componentDidMount() {
-    let userInput = window.localStorage.getItem('userInput');
+    let userInput = localStorage.getItem('userInput');
     if (!userInput) {
       const data = await this.getDataFromApi();
       this.props.setDataFromApi(data.results);
-      userInput = this.state.userInput;
+      userInput = this.state.searchQuery;
     }
 
-    window.localStorage.setItem('userInput', userInput);
-    await this.setState({ userInput: userInput });
+    localStorage.setItem('userInput', userInput);
+    await this.setState({ searchQuery: userInput });
     const data = await this.getDataFromApi();
     this.props.setDataFromApi(data.results);
   }
@@ -56,7 +54,7 @@ class Search extends React.Component<IStorageProps, IStorageState> {
           className="Search-input"
           type="text"
           placeholder="Search"
-          value={this.state.userInput}
+          value={this.state.searchQuery}
           onChange={this.handleChange}
         />
         <button className="Search-btn" type="submit">

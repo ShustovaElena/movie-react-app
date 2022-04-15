@@ -16,8 +16,7 @@ jest.useFakeTimers();
 jest.spyOn(global, 'setTimeout');
 
 test('waits 3 second before ending loader', () => {
-  const removeLoader = jest.fn();
-  render(<Loader removeLoader={removeLoader} />, container);
+  render(<Loader />, container);
 
   expect(setTimeout).toHaveBeenCalledTimes(1);
   expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 3000);

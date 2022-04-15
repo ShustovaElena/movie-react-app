@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ICard, ICards, IUserSelect } from '../../types';
 import Card from '../Card/Card';
-import ModulWindow from '../ModulWindow/ModulWindow';
+import ModulWindow from '../ModulWindow/ModalWindow';
 
 class Cards extends React.Component<ICards, IUserSelect> {
   constructor(props: ICards) {

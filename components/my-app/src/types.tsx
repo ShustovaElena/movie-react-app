@@ -82,7 +82,7 @@ export type IStorageProps = {
 };
 
 export type IStorageState = {
-  userInput: string;
+  searchQuery: string;
 };
 
 export type ICards = {
@@ -94,7 +94,7 @@ export type IUserSelect = {
   isClosedModul: boolean;
 };
 
-export type IModulWinProps = {
+export type IModalWinProps = {
   data: ICard;
   onClick: (e: React.FormEvent) => void;
   onClickOverlay: (e: React.FormEvent) => void;
@@ -105,6 +105,9 @@ export type IHome = {
   isPressSearch: boolean;
 };
 
-export type ILoader = {
-  removeLoader: () => void;
+export type ICardImage = {
+  className: string;
+  poster_path: string | undefined;
+  IMG_URL: string;
+  alt: string;
 };
