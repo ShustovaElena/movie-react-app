@@ -4,7 +4,7 @@ import Search from '../../components/Search/Search';
 import { Loader } from '../../components/Loader/Loader';
 import { ICard } from '../../types';
 
-function Home() {
+export function Home() {
   const [data, setData] = useState([]);
   const [isPressSearch, setIsPressSearch] = useState(false);
 

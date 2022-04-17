@@ -24,7 +24,7 @@ test('checked card', async () => {
 
   const submit = screen.getByAltText('submit') as HTMLInputElement;
   userEvent.click(submit);
-  await waitFor(() => {
+  waitFor(() => {
     expect(screen.getByText('Данные успешно сохранены!')).toBeInTheDocument();
 
     expect(screen.getByAltText(/User photo/i)).toBeInTheDocument();

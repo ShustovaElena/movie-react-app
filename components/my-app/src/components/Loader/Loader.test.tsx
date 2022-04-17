@@ -1,4 +1,6 @@
 import { render, unmountComponentAtNode } from 'react-dom';
+import { screen } from '@testing-library/react';
+import Home from '../../pages/Home/Home';
 import { Loader } from './Loader';
 
 let container: HTMLDivElement;
@@ -15,9 +17,14 @@ afterEach(() => {
 jest.useFakeTimers();
 jest.spyOn(global, 'setTimeout');
 
-test('waits 3 second before ending loader', () => {
-  render(<Loader />, container);
+test('waits call setTimeout', () => {
+  render(<Home />, container);
 
   expect(setTimeout).toHaveBeenCalledTimes(1);
-  expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 3000);
+});
+
+test('check loader', () => {
+  render(<Loader />, container);
+
+  expect(screen.getByTestId('loader')).toBeInTheDocument;
 });
