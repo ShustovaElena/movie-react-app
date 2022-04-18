@@ -37,28 +37,16 @@ export default function Profile() {
     register,
     handleSubmit,
     reset,
-    resetField,
     formState: { errors, isDirty, isValid, isSubmitted },
     setValue,
   } = useForm<IUserData>();
-  // const [isDisabled, setIsDisabled] = useState(true);
   const [isUserData, setIsUserData] = useState(false);
-  // const [isValidName, setIsValidName] = useState(false);
-  // const [isValidAge, setIsValidAge] = useState(true);
   const [isValidFile, setIsValidFile] = useState(true);
   const [isShow, setIsShow] = useState(false);
   const [userFormData, setUserFormData] = useState(userFormDataInitial);
   const [userCards, setUserCards] = useState<IFormCard[]>([]);
 
-  function onClick() {
-    // resetField('name');
-    // console.log(!isDirty);
-    // console.log(!isValid);
-  }
-
   function onSubmit(data: IUserData) {
-    console.log(data);
-    console.log(URL.createObjectURL(data.file[0] as never));
     if (
       EXTENSIONS.some((elem: string) => data.file[0].name.endsWith(elem)) &&
       data.file[0].size <= MAX_SIZE_FILE
@@ -68,7 +56,6 @@ export default function Profile() {
       setIsValidFile(false);
     }
 
-    // e.preventDefault();
     const USER_DATA: IFormCard = {
       name: data.name,
       age: data.age,
@@ -81,15 +68,11 @@ export default function Profile() {
     if (!errors.name && !errors.age && !errors.file) {
       setIsShow(true);
       setIsUserData(true);
-      // setIsDisabled(false);
       setUserFormData(USER_DATA);
     } else {
       setIsShow(false);
       setIsUserData(false);
-      // setIsDisabled(true);
     }
-
-    // console.log(isDisabled);
 
     const currentUserData = userCards;
     currentUserData.push(USER_DATA);
@@ -114,7 +97,7 @@ export default function Profile() {
   return (
     <>
       <div className="profile">
-        <form className="Form" onSubmit={handleSubmit(onSubmit)} onClick={onClick}>
+        <form className="Form" onSubmit={handleSubmit(onSubmit)}>
           <h2 className="header-part">Создайте свою учетную запись!</h2>
           <Name
             className={colorName}
