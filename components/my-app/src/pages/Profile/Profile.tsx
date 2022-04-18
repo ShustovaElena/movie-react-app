@@ -129,7 +129,7 @@ export default function Profile() {
             })}
             style={{ backgroundColor: errors.file && WRONG_ANSWER_COLOR }}
           />
-          {errors.file && <ValidationError nameError={errorInitial.file} />}
+          {!isValidFile && <ValidationError nameError={errorInitial.file} />}
           {errors.file && setValue('file', [], { shouldValidate: false })}
 
           <input
