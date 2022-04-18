@@ -1,4 +1,5 @@
 import React from 'react';
+import { FieldError } from 'react-hook-form';
 
 export type ICard = {
   id: number | undefined;
@@ -23,6 +24,16 @@ export type IFile = {
   className: string;
   register: object;
   style: object;
+  errors: {
+    lastModified?: FieldError | undefined;
+    lastModifiedDate?: FieldError | undefined;
+    name?: FieldError | undefined;
+    size?: FieldError | undefined;
+    type?: FieldError | undefined;
+    webkitRelativePath?: FieldError | undefined;
+  }[];
+  // setValue: void;
+  data: FileType;
 };
 
 export type IFormCard = {
@@ -56,7 +67,7 @@ export type IUserInfo = {
   register: object;
 };
 
-type FileType = {
+export type FileType = {
   lastModified: number;
   lastModifiedDate: Date;
   name: string;

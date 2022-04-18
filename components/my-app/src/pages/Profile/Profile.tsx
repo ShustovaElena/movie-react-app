@@ -8,31 +8,19 @@ import Switcher from '../../components/Switcher/Switcher';
 import FileLoader from '../../components/FileLoader/FileLoader';
 import FormCard from '../../components/FormCard/FormCard';
 import ValidationError from '../../components/ValidationError/ValidationError';
-import { IUserData, IFormCard } from '../../types';
-import { RIGHT_ANSWER, WRONG_ANSWER_COLOR, MAX_SIZE_FILE, EXTENSIONS } from '../../constants';
+import { IUserData, IFormCard, FileType } from '../../types';
+import {
+  RIGHT_ANSWER,
+  WRONG_ANSWER_COLOR,
+  MAX_SIZE_FILE,
+  EXTENSIONS,
+  USER_FORM_DATA_INITIAL,
+  ERRORS_INITIAL,
+} from '../../constants';
 
 import './Profile.css';
 
 export default function Profile() {
-  const userFormDataInitial = {
-    name: '',
-    age: '',
-    country: '',
-    userInfo: 'Нет',
-    stock: 'Нет',
-    file: {},
-  };
-
-  const errorInitial = {
-    name: 'Введите ФИО длиннее 6 символов',
-    date: 'Вам еще нет 18 лет!',
-    file: 'Добавьте файл .jpg, .jpeg, .png и менее 5mb',
-  };
-
-  const colorName = RIGHT_ANSWER;
-  const colorDate = RIGHT_ANSWER;
-  const colorFile = RIGHT_ANSWER;
-
   const {
     register,
     handleSubmit,
@@ -42,19 +30,18 @@ export default function Profile() {
   } = useForm<IUserData>();
   const [isUserData, setIsUserData] = useState(false);
   const [isValidFile, setIsValidFile] = useState(true);
-  const [isShow, setIsShow] = useState(false);
-  const [userFormData, setUserFormData] = useState(userFormDataInitial);
+  const [isShowPopUp, setIsShowPopUp] = useState(false);
   const [userCards, setUserCards] = useState<IFormCard[]>([]);
 
   function onSubmit(data: IUserData) {
-    if (
-      EXTENSIONS.some((elem: string) => data.file[0].name.endsWith(elem)) &&
-      data.file[0].size <= MAX_SIZE_FILE
-    ) {
-      setIsValidFile(true);
-    } else {
-      setIsValidFile(false);
-    }
+    // if (
+    //   EXTENSIONS.some((elem: string) => data.file[0].name.endsWith(elem)) &&
+    //   data.file[0].size <= MAX_SIZE_FILE
+    // ) {
+    //   setIsValidFile(true);
+    // } else {
+    //   setIsValidFile(false);
+    // }
 
     const USER_DATA: IFormCard = {
       name: data.name,
@@ -66,17 +53,15 @@ export default function Profile() {
     };
 
     if (!errors.name && !errors.age && !errors.file) {
-      setIsShow(true);
+      setIsShowPopUp(true);
       setIsUserData(true);
-      setUserFormData(USER_DATA);
     } else {
-      setIsShow(false);
+      setIsShowPopUp(false);
       setIsUserData(false);
     }
 
-    const currentUserData = userCards;
-    currentUserData.push(USER_DATA);
-    setUserCards(currentUserData);
+    userCards.push(USER_DATA);
+    setUserCards(userCards);
 
     reset({
       name: '',
@@ -89,7 +74,7 @@ export default function Profile() {
 
     {
       setTimeout(() => {
-        setIsShow(false);
+        setIsShowPopUp(false);
       }, 1500);
     }
   }
@@ -100,37 +85,40 @@ export default function Profile() {
         <form className="Form" onSubmit={handleSubmit(onSubmit)}>
           <h2 className="header-part">Создайте свою учетную запись!</h2>
           <Name
-            className={colorName}
+            className={RIGHT_ANSWER}
             register={register('name', {
               required: true,
               minLength: 6,
             })}
             style={{ backgroundColor: errors.name && WRONG_ANSWER_COLOR }}
           />
-          {errors.name && <ValidationError nameError={errorInitial.name} />}
+          {errors.name && <ValidationError nameError={ERRORS_INITIAL.name} />}
           {errors.name && setValue('name', '', { shouldValidate: false })}
           <Age
-            className={colorDate}
+            className={RIGHT_ANSWER}
             register={register('age', {
               required: true,
               max: '2004',
             })}
             style={{ backgroundColor: errors.age && WRONG_ANSWER_COLOR }}
           />
-          {errors.age && <ValidationError nameError={errorInitial.date} />}
+          {errors.age && <ValidationError nameError={ERRORS_INITIAL.date} />}
           {errors.age && setValue('age', '', { shouldValidate: false })}
           <Select register={register('country')} />
           <Checkbox register={register('userInfo')} />
           <Switcher register={register('stock')} />
           <FileLoader
-            className={colorFile}
+            className={RIGHT_ANSWER}
+            errors={errors.file as never}
+            data={userCards[userCards.length - 1].file[0] as unknown as FileType}
+            // setValue={setValue('file', [], { shouldValidate: false })}
             register={register('file', {
               required: true,
             })}
             style={{ backgroundColor: errors.file && WRONG_ANSWER_COLOR }}
           />
-          {!isValidFile && <ValidationError nameError={errorInitial.file} />}
-          {errors.file && setValue('file', [], { shouldValidate: false })}
+          {/* {!isValidFile && <ValidationError nameError={ERRORS_INITIAL.file} />}
+          {errors.file && setValue('file', [], { shouldValidate: false })} */}
 
           <input
             className="submit"
@@ -142,11 +130,10 @@ export default function Profile() {
         </form>
       </div>
       <div className="form-cards">
-        {isUserData
-          ? userCards.map((item: IFormCard, index: number) => <FormCard {...item} key={index} />)
-          : ''}
+        {isUserData &&
+          userCards.map((item: IFormCard, index: number) => <FormCard {...item} key={index} />)}
       </div>
-      {isShow ? <span className="modul-window">Данные успешно сохранены!</span> : ''}
+      {isShowPopUp ? <span className="modul-window">Данные успешно сохранены!</span> : ''}
     </>
   );
 }
