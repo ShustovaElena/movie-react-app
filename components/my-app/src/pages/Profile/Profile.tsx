@@ -27,6 +27,8 @@ export default function Profile() {
     reset,
     formState: { errors, isDirty, isValid, isSubmitted },
     setValue,
+    getValues,
+    setError,
   } = useForm<IUserData>();
   const [isUserData, setIsUserData] = useState(false);
   const [isValidFile, setIsValidFile] = useState(true);
@@ -109,16 +111,27 @@ export default function Profile() {
           <Switcher register={register('stock')} />
           <FileLoader
             className={RIGHT_ANSWER}
-            errors={errors.file as never}
-            data={userCards[userCards.length - 1].file[0] as unknown as FileType}
+            // errors={errors.file as never}
+            // data={userCards[userCards.length - 1].file[0] as unknown as FileType}
             // setValue={setValue('file', [], { shouldValidate: false })}
             register={register('file', {
               required: true,
+              validate: () => {
+                const file = getValues().file[0];
+                const isError = !(
+                  EXTENSIONS.some((elem: string) => {
+                    file.name.endsWith(elem);
+                  }) && file.size <= MAX_SIZE_FILE
+                );
+                setIsValidFile(isError);
+                // if (isError) setError('file', { type: 'validate' });
+                return isError;
+              },
             })}
             style={{ backgroundColor: errors.file && WRONG_ANSWER_COLOR }}
           />
-          {/* {!isValidFile && <ValidationError nameError={ERRORS_INITIAL.file} />}
-          {errors.file && setValue('file', [], { shouldValidate: false })} */}
+          {errors.file && <ValidationError nameError={ERRORS_INITIAL.file} />}
+          {errors.file && setValue('file', [], { shouldValidate: false })}
 
           <input
             className="submit"
