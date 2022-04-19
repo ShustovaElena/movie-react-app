@@ -13,27 +13,26 @@ export type ICard = {
 };
 
 export type IAge = {
-  // refAge: React.RefObject<HTMLInputElement>;
   className: string;
   register: object;
   style: object;
+  error: string | undefined;
 };
 
 export type IFile = {
-  // refFile: React.RefObject<HTMLInputElement>;
   className: string;
   register: object;
   style: object;
-  // errors: {
-  //   lastModified?: FieldError | undefined;
-  //   lastModifiedDate?: FieldError | undefined;
-  //   name?: FieldError | undefined;
-  //   size?: FieldError | undefined;
-  //   type?: FieldError | undefined;
-  //   webkitRelativePath?: FieldError | undefined;
-  // }[];
-  // setValue: void;
-  // data: FileType;
+  error:
+    | {
+        lastModified?: FieldError | undefined;
+        lastModifiedDate?: FieldError | undefined;
+        name?: FieldError | undefined;
+        size?: FieldError | undefined;
+        type?: FieldError | undefined;
+        webkitRelativePath?: FieldError | undefined;
+      }[]
+    | undefined;
 };
 
 export type IFormCard = {
@@ -46,24 +45,21 @@ export type IFormCard = {
 };
 
 export type IName = {
-  // refName: React.RefObject<HTMLInputElement>;
   className: string;
   register: object;
   style: object;
+  error: string | undefined;
 };
 
 export type ISelect = {
-  // refCountry: React.RefObject<HTMLSelectElement>;
   register: object;
 };
 
 export type IStock = {
-  // refStock: React.RefObject<HTMLInputElement>;
   register: object;
 };
 
 export type IUserInfo = {
-  // refStock: React.RefObject<HTMLInputElement>;
   register: object;
 };
 
@@ -104,7 +100,7 @@ export type IError = {
 };
 
 export type IValidationError = {
-  nameError: string;
+  textError: string | undefined;
 };
 
 export type IStorageProps = {

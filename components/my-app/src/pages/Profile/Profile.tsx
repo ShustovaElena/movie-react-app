@@ -7,16 +7,8 @@ import Checkbox from '../../components/Checkbox/Checkbox';
 import Switcher from '../../components/Switcher/Switcher';
 import FileLoader from '../../components/FileLoader/FileLoader';
 import FormCard from '../../components/FormCard/FormCard';
-import ValidationError from '../../components/ValidationError/ValidationError';
 import { IUserData, IFormCard, FileType } from '../../types';
-import {
-  RIGHT_ANSWER,
-  WRONG_ANSWER_COLOR,
-  MAX_SIZE_FILE,
-  EXTENSIONS,
-  USER_FORM_DATA_INITIAL,
-  ERRORS_INITIAL,
-} from '../../constants';
+import { RIGHT_ANSWER, WRONG_ANSWER_COLOR, MAX_SIZE_FILE, EXTENSIONS } from '../../constants';
 
 import './Profile.css';
 
@@ -25,26 +17,24 @@ export default function Profile() {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isDirty, isValid, isSubmitted },
-    setValue,
-    getValues,
-    setError,
+    formState: { errors, isDirty },
   } = useForm<IUserData>();
   const [isUserData, setIsUserData] = useState(false);
-  const [isValidFile, setIsValidFile] = useState(true);
   const [isShowPopUp, setIsShowPopUp] = useState(false);
   const [userCards, setUserCards] = useState<IFormCard[]>([]);
 
-  function onSubmit(data: IUserData) {
-    // if (
-    //   EXTENSIONS.some((elem: string) => data.file[0].name.endsWith(elem)) &&
-    //   data.file[0].size <= MAX_SIZE_FILE
-    // ) {
-    //   setIsValidFile(true);
-    // } else {
-    //   setIsValidFile(false);
-    // }
+  function validationFile(file: FileType[]) {
+    if (
+      EXTENSIONS.some((elem: string) => file[0].name.endsWith(elem)) &&
+      file[0].size <= MAX_SIZE_FILE
+    ) {
+      return true;
+    } else {
+      return 'Добавьте файл .jpg, .jpeg, .png и менее 5mb';
+    }
+  }
 
+  function onSubmit(data: IUserData) {
     const USER_DATA: IFormCard = {
       name: data.name,
       age: data.age,
@@ -53,6 +43,8 @@ export default function Profile() {
       stock: data.stock ? 'Да' : 'Нет',
       file: URL.createObjectURL(data.file[0] as never),
     };
+
+    console.log(USER_DATA.file);
 
     if (!errors.name && !errors.age && !errors.file) {
       setIsShowPopUp(true);
@@ -65,14 +57,7 @@ export default function Profile() {
     userCards.push(USER_DATA);
     setUserCards(userCards);
 
-    reset({
-      name: '',
-      age: '',
-      country: '',
-      userInfo: '',
-      stock: '',
-      file: [],
-    });
+    reset();
 
     {
       setTimeout(() => {
@@ -90,54 +75,41 @@ export default function Profile() {
             className={RIGHT_ANSWER}
             register={register('name', {
               required: true,
-              minLength: 6,
+              minLength: { value: 6, message: 'Введите ФИО длиннее 6 символов' },
             })}
             style={{ backgroundColor: errors.name && WRONG_ANSWER_COLOR }}
+            error={errors.name?.message}
           />
-          {errors.name && <ValidationError nameError={ERRORS_INITIAL.name} />}
-          {errors.name && setValue('name', '', { shouldValidate: false })}
+          {/* {errors.name && setValue('name', '', { shouldValidate: false })} */}
           <Age
             className={RIGHT_ANSWER}
             register={register('age', {
               required: true,
-              max: '2004',
+              max: { value: '2004', message: 'Вам еще нет 18 лет!' },
             })}
             style={{ backgroundColor: errors.age && WRONG_ANSWER_COLOR }}
+            error={errors.age?.message}
           />
-          {errors.age && <ValidationError nameError={ERRORS_INITIAL.date} />}
-          {errors.age && setValue('age', '', { shouldValidate: false })}
+          {/* {errors.age && setValue('age', '', { shouldValidate: false })} */}
           <Select register={register('country')} />
           <Checkbox register={register('userInfo')} />
           <Switcher register={register('stock')} />
           <FileLoader
             className={RIGHT_ANSWER}
-            // errors={errors.file as never}
-            // data={userCards[userCards.length - 1].file[0] as unknown as FileType}
-            // setValue={setValue('file', [], { shouldValidate: false })}
             register={register('file', {
               required: true,
-              validate: () => {
-                const file = getValues().file[0];
-                const isError = !(
-                  EXTENSIONS.some((elem: string) => {
-                    file.name.endsWith(elem);
-                  }) && file.size <= MAX_SIZE_FILE
-                );
-                setIsValidFile(isError);
-                // if (isError) setError('file', { type: 'validate' });
-                return isError;
-              },
+              validate: (file) => validationFile(file),
             })}
             style={{ backgroundColor: errors.file && WRONG_ANSWER_COLOR }}
+            error={errors.file}
           />
-          {errors.file && <ValidationError nameError={ERRORS_INITIAL.file} />}
-          {errors.file && setValue('file', [], { shouldValidate: false })}
+          {/* {errors.file && setValue('file', [], { shouldValidate: false })} */}
 
           <input
             className="submit"
             type="submit"
             value="Отправить"
-            disabled={!isDirty || (isSubmitted && !isValid)}
+            disabled={!isDirty}
             alt="submit"
           />
         </form>
