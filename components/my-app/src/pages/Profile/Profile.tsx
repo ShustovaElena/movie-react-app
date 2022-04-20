@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
+import { AppContext } from '../../contexts';
 import Name from '../../components/Name/Name';
 import Age from '../../components/Date/Date';
 import Select from '../../components/Select/Select';
@@ -13,15 +14,16 @@ import { RIGHT_ANSWER, WRONG_ANSWER_COLOR, MAX_SIZE_FILE, EXTENSIONS } from '../
 import './Profile.css';
 
 export default function Profile() {
+  const { state, dispatch } = useContext(AppContext);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isDirty },
   } = useForm<IUserData>();
-  const [isUserData, setIsUserData] = useState(false);
+  // const [isUserData, setIsUserData] = useState(false);
   const [isShowPopUp, setIsShowPopUp] = useState(false);
-  const [userCards, setUserCards] = useState<IFormCard[]>([]);
+  // const [userCards, setUserCards] = useState<IFormCard[]>([]);
 
   function validationFile(file: FileType[]) {
     if (
@@ -44,18 +46,19 @@ export default function Profile() {
       file: URL.createObjectURL(data.file[0] as never),
     };
 
-    console.log(USER_DATA.file);
-
     if (!errors.name && !errors.age && !errors.file) {
       setIsShowPopUp(true);
-      setIsUserData(true);
+      // setIsUserData(true);
+      dispatch({ type: 'SET_IS_USERDATA', payload: true });
     } else {
       setIsShowPopUp(false);
-      setIsUserData(false);
+      // setIsUserData(false);
+      dispatch({ type: 'SET_IS_USERDATA', payload: false });
     }
 
-    userCards.push(USER_DATA);
-    setUserCards(userCards);
+    state.userCards.push(USER_DATA as never);
+    dispatch({ type: 'SET_CARDS', payload: state.userCards });
+    // setUserCards(userCards);
 
     reset();
 
@@ -115,8 +118,10 @@ export default function Profile() {
         </form>
       </div>
       <div className="form-cards">
-        {isUserData &&
-          userCards.map((item: IFormCard, index: number) => <FormCard {...item} key={index} />)}
+        {state.isUserData &&
+          state.userCards.map((item: IFormCard, index: number) => (
+            <FormCard {...item} key={index} />
+          ))}
       </div>
       {isShowPopUp ? <span className="modul-window">Данные успешно сохранены!</span> : ''}
     </>
