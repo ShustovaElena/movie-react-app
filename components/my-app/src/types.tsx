@@ -106,6 +106,7 @@ export type IValidationError = {
 export type IStorageProps = {
   userInput: string;
   setDataFromApi: (searchData: ICard[]) => void;
+  getDataFromApi: () => Promise<IDataApi>;
   pressSubmit: () => void;
 };
 
@@ -138,4 +139,16 @@ export type ICardImage = {
   poster_path: string | undefined;
   IMG_URL: string;
   alt: string;
+};
+
+export type IDataApi = {
+  page: number;
+  results: ICard[];
+  total_pages: number;
+  total_results: number;
+};
+
+export type ISort = {
+  setDataFromApi: (searchData: ICard[]) => void;
+  getDataFromApi: () => Promise<IDataApi>;
 };

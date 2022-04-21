@@ -1,6 +1,5 @@
 import React, { Dispatch, useReducer } from 'react';
 import { reducer, initialState, IGlobalState, Action } from './reducer';
-import { IFormCard } from './types';
 
 export type GlobalContent = {
   state: IGlobalState;
