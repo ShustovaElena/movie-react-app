@@ -167,18 +167,22 @@ p {
 }
 
 .control-elements {
+  margin: 20px;
   display: flex;
   justify-content: space-between;
 }
 
 .pagination {
+  margin: 20px;
+  height: 50px;
   display: flex;
-  gap: 5px;
+  justify-content: center;
+  gap: 10px;
 }
 
 .pagination-button {
-  width: 50px;
-  height: 100%;
+  width: 100px;
+  height: 40px;
   cursor: pointer;
   opacity: 1;
   color: #ffffff;
@@ -188,9 +192,14 @@ p {
 
 .page-number {
   width: 100px;
-  height: 100%;
+  height: 40px;
   opacity: 0.3;
   color: #ffffff;
   background-color: #8642be;
   font-size: 2rem;
+}
+
+.slash {
+  color: #8642be;
+  font-size: 2.5rem;
 }

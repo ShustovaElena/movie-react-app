@@ -1,31 +1,31 @@
 import React, { ChangeEvent, useContext } from 'react';
-import { POPULAR_URL, SORTING_URL } from '../../constants';
+import { DISCOVER_URL, POPULAR_URL } from '../../constants';
 import { AppContext } from '../../contexts';
 import { ISort } from '../../types';
 
 export function Sorting(props: ISort) {
-  const { dispatch } = useContext(AppContext);
+  const { state, dispatch } = useContext(AppContext);
 
   async function onChange(e: ChangeEvent) {
     const target = (e.target as HTMLSelectElement).value;
     let sortURL;
 
     if (target === 'По популярности (по возрастанию)') {
-      sortURL = `${SORTING_URL}popularity.asc`;
+      sortURL = `popularity_asc`;
     } else if (target === 'По популярности (по убыванию)') {
-      sortURL = `${SORTING_URL}popularity.desc`;
+      sortURL = `popularity_desc`;
     } else if (target === 'По рейтингу (по возрастанию)') {
-      sortURL = `${SORTING_URL}vote_average.asc`;
+      sortURL = `vote_average_asc`;
     } else if (target === 'По рейтингу (по убыванию)') {
-      sortURL = `${SORTING_URL}vote_average.desc`;
+      sortURL = `vote_average_desc`;
     } else {
-      sortURL = POPULAR_URL;
+      sortURL = '';
     }
     dispatch({ type: 'SET_SORT_PARAM', payload: sortURL });
-
     const data = await props.getDataFromApi();
-    console.log(data);
+    dispatch({ type: 'SET_DATA_API', payload: data });
     props.setDataFromApi(data.results);
+    props.pressSubmit();
   }
 
   return (

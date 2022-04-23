@@ -151,4 +151,11 @@ export type IDataApi = {
 export type ISort = {
   setDataFromApi: (searchData: ICard[]) => void;
   getDataFromApi: () => Promise<IDataApi>;
+  pressSubmit: () => void;
+};
+
+export type IPagination = {
+  setDataFromApi: (searchData: ICard[]) => void;
+  getDataFromApi: () => Promise<IDataApi>;
+  pressSubmit: () => void;
 };

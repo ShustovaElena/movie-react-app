@@ -50,6 +50,7 @@
 }
 
 input[type="text"],
+input[type="number"],
 input[type="date"],
 select {
     padding: 10px;
@@ -60,9 +61,14 @@ select {
 }
 
 input[type="text"]:focus,
+input[type="number"]:focus,
 input[type="date"]:focus,
 select:focus {
     background-color: #e5d6f1;
+}
+
+input[type="number"]:focus {
+    color: #8642be;
 }
 
 .error {
