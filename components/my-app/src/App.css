@@ -37,7 +37,7 @@
 
 .App-link:hover {
   color: #1e292c;
-  font-size: calc(10px + 2.2vmin);
+  /* font-size: calc(10px + 2.2vmin); */
 }
 
 .Search {

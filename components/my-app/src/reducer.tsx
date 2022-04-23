@@ -1,5 +1,4 @@
-import { POPULAR_URL } from './constants';
-import { IDataApi, IFormCard } from './types';
+import { ICard, IDataApi, IFormCard } from './types';
 
 export interface IGlobalState {
   searchQuery: string;
@@ -9,6 +8,7 @@ export interface IGlobalState {
   dataApi: IDataApi;
   page: number;
   pageCount: number;
+  userSelect: ICard;
 }
 
 export interface Action {
@@ -19,7 +19,8 @@ export interface Action {
     | 'SET_SORT_PARAM'
     | 'SET_DATA_API'
     | 'SET_PAGE'
-    | 'SET_PAGE_PARAM';
+    | 'SET_PAGE_PARAM'
+    | 'SET_USER_SELECT';
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   payload: any;
 }
@@ -39,12 +40,25 @@ export const reducer: React.Reducer<IGlobalState, Action> = (state, action) => {
     case 'SET_PAGE':
       return { ...state, dataApi: state.dataApi, page: action.payload };
     case 'SET_PAGE_PARAM':
-      console.log(action.payload);
       return { ...state, pageCount: action.payload };
+    case 'SET_USER_SELECT':
+      console.log(action.payload);
+      return { ...state, userSelect: action.payload };
 
     default:
       return state;
   }
+};
+
+const initialStateVal: ICard = {
+  id: 0,
+  title: '',
+  poster_path: '',
+  overview: '',
+  popularity: 0,
+  release_date: '',
+  vote_average: 0,
+  vote_count: 0,
 };
 
 export const initialState: IGlobalState = {
@@ -60,4 +74,5 @@ export const initialState: IGlobalState = {
   },
   page: 1,
   pageCount: 20,
+  userSelect: initialStateVal,
 };

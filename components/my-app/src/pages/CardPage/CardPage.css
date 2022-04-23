@@ -1,0 +1,108 @@
+.user-modul-window {
+    height: 100vh;
+    padding: 10px;
+    background-color: #fdfdfd;
+    font-family: 'Times New Roman', Times, serif;
+    letter-spacing: 4px;
+    color: #000000;
+}
+
+.item-img {
+    max-width: 300px;
+    height: 400px;
+}
+
+.close-window {
+    position: absolute;
+    top: 10%;
+    left: 0;
+    padding: 0;
+    border: none;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    margin: 20px;
+    background: url(../../../public/img/back-arrow.png) 100% 100% / 100% 100% no-repeat;
+    background-color: #ffffff;
+    width: 55px;
+    height: 55px;
+    outline: none;
+}
+
+.modul-content {
+    display: flex;
+    justify-content: space-around;
+    margin: 30px;
+    text-align: justify;
+}
+
+.modul-content p {
+    margin: 45px 30px 0 30px;
+}
+
+.item-title {
+    margin: 45px auto 0px auto;
+    width: 70%;
+    font-size: 3rem;
+    color: rgb(109, 6, 100);
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.bold {
+    color: rgb(109, 6, 100);
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.item-rating {
+    display: flex;
+    justify-content: center;
+}
+
+.item-average {
+    width: 55px;
+    height: 55px;
+    padding: 12px 0 0 9px;
+    background-color: rgba(109, 6, 100, 0.4);
+    border-radius: 50%;
+    border: 5px solid rgb(109, 6, 100);
+    font-weight: 700;
+}
+
+.item-count {
+    width: 75px;
+    background: url(../../../public/img/like.png) 30% 70% / 50% 50% no-repeat;
+    font-size: 0.8rem;
+    color: rgb(165, 163, 163);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+}
+
+.bread-crumbs {
+    margin-left: 15px;
+    text-align: left;
+    color: rgb(109, 6, 100);
+}
+
+@media (max-width: 1280px) {
+    .modul-content {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+        margin: 10px;
+        text-align: justify;
+    }
+
+    .item-img {
+        width: 200px;
+        min-height: 300px;
+        margin: 0 auto;
+    }
+
+    .close-window {
+        left: 80%;
+    }
+}

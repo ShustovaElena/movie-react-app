@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Cards from '../../components/Cards/Cards';
 import Search from '../../components/Search/Search';
 import { Loader } from '../../components/Loader/Loader';
@@ -13,8 +14,12 @@ export function Home() {
   const { state, dispatch } = useContext(AppContext);
   // const [data, setData] = useState([]);
   const [isPressSearch, setIsPressSearch] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    // if (!state.userSelect.id) navigate('/');
+    // // location.replace('/');
+    // console.log(state.userSelect.id);
     const data = getDataFromApi();
     data.then((data) => {
       dispatch({ type: 'SET_DATA_API', payload: data });
