@@ -8,6 +8,7 @@ export interface IGlobalState {
   sortParam: string;
   dataApi: IDataApi;
   page: number;
+  pageCount: number;
 }
 
 export interface Action {
@@ -17,7 +18,8 @@ export interface Action {
     | 'SET_IS_USERDATA'
     | 'SET_SORT_PARAM'
     | 'SET_DATA_API'
-    | 'SET_PAGE';
+    | 'SET_PAGE'
+    | 'SET_PAGE_PARAM';
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   payload: any;
 }
@@ -31,14 +33,14 @@ export const reducer: React.Reducer<IGlobalState, Action> = (state, action) => {
     case 'SET_IS_USERDATA':
       return { ...state, isUserData: action.payload };
     case 'SET_SORT_PARAM':
-      // console.log('SET_SORT_PARAM', action.payload);
       return { ...state, sortParam: action.payload };
     case 'SET_DATA_API':
-      // console.log('dataApi', action.payload);
       return { ...state, dataApi: action.payload };
     case 'SET_PAGE':
+      return { ...state, dataApi: state.dataApi, page: action.payload };
+    case 'SET_PAGE_PARAM':
       console.log(action.payload);
-      return { ...state, dataApi: action.payload };
+      return { ...state, pageCount: action.payload };
 
     default:
       return state;
@@ -57,4 +59,5 @@ export const initialState: IGlobalState = {
     total_results: 1,
   },
   page: 1,
+  pageCount: 20,
 };

@@ -1,10 +1,8 @@
 import React, { ChangeEvent, useContext } from 'react';
-import { DISCOVER_URL, POPULAR_URL } from '../../constants';
 import { AppContext } from '../../contexts';
-import { ISort } from '../../types';
 
-export function Sorting(props: ISort) {
-  const { state, dispatch } = useContext(AppContext);
+export function Sorting() {
+  const { dispatch } = useContext(AppContext);
 
   async function onChange(e: ChangeEvent) {
     const target = (e.target as HTMLSelectElement).value;
@@ -22,10 +20,6 @@ export function Sorting(props: ISort) {
       sortURL = '';
     }
     dispatch({ type: 'SET_SORT_PARAM', payload: sortURL });
-    const data = await props.getDataFromApi();
-    dispatch({ type: 'SET_DATA_API', payload: data });
-    props.setDataFromApi(data.results);
-    props.pressSubmit();
   }
 
   return (

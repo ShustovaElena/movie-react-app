@@ -1,31 +1,25 @@
-import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
+import React, { ChangeEvent, useContext } from 'react';
 import { AppContext } from '../../contexts';
-import { IPagination } from '../../types';
 
-export function Pagination(props: IPagination) {
+export function Pagination() {
   const { state, dispatch } = useContext(AppContext);
 
   function PrevClick() {
-    let prevPage = state.page - 1;
+    let prevPage = +state.page - 1;
+    if (prevPage <= 1) prevPage = 1;
     dispatch({ type: 'SET_PAGE', payload: prevPage });
-    if (prevPage < 1) prevPage = 1;
   }
 
   function NextClick() {
-    let nextPage = state.page + 1;
-    dispatch({ type: 'SET_PAGE', payload: nextPage });
+    let nextPage = +state.page + 1;
     if (nextPage > 500) nextPage = 500;
+    dispatch({ type: 'SET_PAGE', payload: nextPage });
   }
 
   async function onChange(e: ChangeEvent) {
     const target = (e.target as HTMLInputElement).value;
     console.log(target);
     dispatch({ type: 'SET_PAGE', payload: target });
-    const data = await props.getDataFromApi();
-    console.log(data);
-    dispatch({ type: 'SET_DATA_API', payload: data });
-    props.setDataFromApi(data.results);
-    props.pressSubmit();
   }
 
   return (

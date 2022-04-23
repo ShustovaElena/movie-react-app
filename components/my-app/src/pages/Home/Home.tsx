@@ -15,27 +15,22 @@ export function Home() {
   const [isPressSearch, setIsPressSearch] = useState(false);
 
   useEffect(() => {
-    async function innerFn() {
-      await getDataFromApi();
-      // dispatch({ type: 'SET_DATA_API', payload: data });
-      // setDataFromApi(data.results);
-    }
-
-    innerFn();
-  }, []);
+    const data = getDataFromApi();
+    data.then((data) => {
+      dispatch({ type: 'SET_DATA_API', payload: data });
+      setDataFromApi(data.results);
+    });
+  }, [state.searchQuery, state.sortParam, state.page, state.pageCount, dispatch]);
 
   async function getDataFromApi() {
-    // console.log(state.searchQuery);
     const url = `${BASE_URL}&query=${state.searchQuery}&page=${state.page}`;
-    // console.log(url);
-    // console.log('state.sortParam', state.sortParam);
     const sortUrl = state.sortParam
       ? `${DISCOVER_URL}&page=${state.page}&sort_by=${state.sortParam}`
       : `${DISCOVER_URL}&page=${state.page}`;
     // console.log('sortUrl', sortUrl);
     const res = await fetch(state.searchQuery ? url : sortUrl);
     const data = await res.json();
-    dispatch({ type: 'SET_DATA_API', payload: data });
+    // dispatch({ type: 'SET_DATA_API', payload: data });
     return data;
   }
 
@@ -51,6 +46,10 @@ export function Home() {
     setIsPressSearch(true);
   }
 
+  function cutData() {
+    return state.dataApi.results.slice(0, state.pageCount);
+  }
+
   return (
     <main>
       <h2 className="header-part">Сделай свой выбор!</h2>
@@ -61,19 +60,11 @@ export function Home() {
         pressSubmit={pressSubmit}
       />
       <div className="control-elements">
-        <Sorting
-          getDataFromApi={getDataFromApi}
-          setDataFromApi={setDataFromApi}
-          pressSubmit={pressSubmit}
-        />
+        <Sorting />
         <PageCount />
       </div>
-      {isPressSearch ? <Loader /> : <Cards data={state.dataApi.results} />}
-      <Pagination
-        getDataFromApi={getDataFromApi}
-        setDataFromApi={setDataFromApi}
-        pressSubmit={pressSubmit}
-      />
+      {isPressSearch ? <Loader /> : <Cards data={cutData()} />}
+      <Pagination />
     </main>
   );
 }
