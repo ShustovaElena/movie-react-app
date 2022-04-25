@@ -18,14 +18,13 @@ export function Pagination() {
 
   async function onChange(e: ChangeEvent) {
     const target = (e.target as HTMLInputElement).value;
-    console.log(target);
     dispatch({ type: 'SET_PAGE', payload: target });
   }
 
   return (
     <React.Fragment>
       <div className="pagination">
-        <button className="pagination-button" onClick={PrevClick}>
+        <button className="pagination-button" onClick={PrevClick} data-testid="prev">
           Prev
         </button>
         <input
@@ -36,8 +35,14 @@ export function Pagination() {
           onChange={onChange}
         />
         <span className="slash">/</span>
-        <input type="text" className="page-number" value={state.dataApi.total_pages} disabled />
-        <button className="pagination-button" onClick={NextClick}>
+        <input
+          type="text"
+          className="page-number"
+          value={state.dataApi.total_pages}
+          disabled
+          data-testid="paginInput"
+        />
+        <button className="pagination-button" onClick={NextClick} data-testid="next">
           Next
         </button>
       </div>

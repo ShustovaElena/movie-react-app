@@ -1,11 +1,10 @@
-import React, { useState, useContext } from 'react';
-import CardPage from '../../pages/CardPage/CardPage';
+import React, { useContext } from 'react';
 import { ICard, ICards } from '../../types';
 import Card from '../Card/Card';
 import { AppContext } from '../../contexts';
 
 function Cards(props: ICards) {
-  const { state, dispatch } = useContext(AppContext);
+  const { dispatch } = useContext(AppContext);
 
   async function onClick(event: React.MouseEvent) {
     const card = (event.target as HTMLDivElement).parentElement;

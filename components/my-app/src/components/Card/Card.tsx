@@ -7,7 +7,7 @@ import { IMG_URL } from '../../constants';
 function Card(props: ICard) {
   const { id, poster_path, title } = props;
   return (
-    <div className="Card">
+    <div className="Card" data-testid="card">
       <Link className="App-link" to="film">
         <p className="Card-id">id:{id}</p>
         <CardImage

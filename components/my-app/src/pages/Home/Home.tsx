@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
 import Cards from '../../components/Cards/Cards';
 import Search from '../../components/Search/Search';
 import { Loader } from '../../components/Loader/Loader';
@@ -12,14 +11,9 @@ import { BASE_URL, DISCOVER_URL } from '../../constants';
 
 export function Home() {
   const { state, dispatch } = useContext(AppContext);
-  // const [data, setData] = useState([]);
   const [isPressSearch, setIsPressSearch] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    // if (!state.userSelect.id) navigate('/');
-    // // location.replace('/');
-    // console.log(state.userSelect.id);
     const data = getDataFromApi();
     data.then((data) => {
       dispatch({ type: 'SET_DATA_API', payload: data });
@@ -32,17 +26,13 @@ export function Home() {
     const sortUrl = state.sortParam
       ? `${DISCOVER_URL}&page=${state.page}&sort_by=${state.sortParam}`
       : `${DISCOVER_URL}&page=${state.page}`;
-    // console.log('sortUrl', sortUrl);
     const res = await fetch(state.searchQuery ? url : sortUrl);
     const data = await res.json();
-    // dispatch({ type: 'SET_DATA_API', payload: data });
     return data;
   }
 
   function setDataFromApi(searchData: ICard[]) {
     setTimeout(() => {
-      // setData(searchData as never);
-      // dispatch({ type: 'SET_DATA_API', payload: searchData });
       setIsPressSearch(false);
     }, 300);
   }

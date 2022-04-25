@@ -2,6 +2,7 @@ import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import Cards from './Cards';
 import { screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 
 const fakedata = [
   {
@@ -79,7 +80,12 @@ afterEach(() => {
 
 it('renders cards with testing data', () => {
   act(() => {
-    render(<Cards data={fakedata} />, container);
+    render(
+      <BrowserRouter>
+        <Cards data={fakedata} />
+      </BrowserRouter>,
+      container
+    );
   });
 
   const cardsConteiner = screen.queryAllByText('Название');

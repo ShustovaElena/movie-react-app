@@ -18,4 +18,26 @@ export const handlers = [
 
     return res(ctx.status(200), ctx.json(fakeSearch));
   }),
+  rest.get('http://api.themoviedb.org/3/discover/movie', (req, res, ctx) => {
+    req.url.searchParams.set('api_key', 'e0733155e2fc91d0964e4f92765a2f2d');
+    req.url.searchParams.set('language', 'en-US');
+    req.url.searchParams.set('page', '1');
+    req.url.searchParams.set('sort_by', 'vote_average_asc');
+
+    return res(ctx.status(200), ctx.json(fakeData));
+  }),
+  rest.get('http://api.themoviedb.org/3/discover/movie', (req, res, ctx) => {
+    req.url.searchParams.set('api_key', 'e0733155e2fc91d0964e4f92765a2f2d');
+    req.url.searchParams.set('language', 'en-US');
+    req.url.searchParams.set('page', '2');
+
+    return res(ctx.status(200), ctx.json(fakeData));
+  }),
+  rest.get('http://api.themoviedb.org/3/discover/movie', (req, res, ctx) => {
+    req.url.searchParams.set('api_key', 'e0733155e2fc91d0964e4f92765a2f2d');
+    req.url.searchParams.set('language', 'en-US');
+    req.url.searchParams.set('page', '33');
+
+    return res(ctx.status(200), ctx.json(fakeData));
+  }),
 ];

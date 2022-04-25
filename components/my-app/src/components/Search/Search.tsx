@@ -1,11 +1,9 @@
 import React, { useEffect, useContext } from 'react';
 import { IStorageProps } from '../../types';
-import { BASE_URL } from '../../constants';
 import { AppContext } from '../../contexts';
 
 function Search(props: IStorageProps) {
   const { state, dispatch } = useContext(AppContext);
-  // const [searchQuery, setSearchQuery] = useState(localStorage.getItem('userInput') || '');
 
   useEffect(() => {
     async function innerFn() {
@@ -21,7 +19,6 @@ function Search(props: IStorageProps) {
 
   function handleChange(event: React.FormEvent) {
     const input = event.target as HTMLInputElement;
-    // setSearchQuery(input.value);
     dispatch({ type: 'SET_SEARCH', payload: input.value });
   }
 
@@ -33,18 +30,22 @@ function Search(props: IStorageProps) {
   }
 
   async function componentDidMount() {
-    let dataStorage = window.localStorage.getItem('userInput');
-    if (!dataStorage) {
+    try {
+      let dataStorage = window.localStorage.getItem('userInput');
+      if (!dataStorage) {
+        const data = await props.getDataFromApi();
+        props.setDataFromApi(data.results);
+        dataStorage = state.searchQuery;
+      }
+
+      window.localStorage.setItem('userInput', dataStorage as string);
+      dispatch({ type: 'SET_SEARCH', payload: dataStorage });
       const data = await props.getDataFromApi();
       props.setDataFromApi(data.results);
-      dataStorage = state.searchQuery;
+    } catch {
+      const dataStorage = state.searchQuery;
+      window.localStorage.setItem('userInput', dataStorage as string);
     }
-
-    window.localStorage.setItem('userInput', dataStorage as string);
-    // await setSearchQuery(dataStorage);
-    dispatch({ type: 'SET_SEARCH', payload: dataStorage });
-    const data = await props.getDataFromApi();
-    props.setDataFromApi(data.results);
   }
 
   return (
@@ -56,7 +57,7 @@ function Search(props: IStorageProps) {
         value={state.searchQuery as string}
         onChange={handleChange}
       />
-      <button className="Search-btn" type="submit">
+      <button className="Search-btn" type="submit" data-testid="submit">
         Search
       </button>
     </form>

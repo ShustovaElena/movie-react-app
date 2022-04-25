@@ -23,7 +23,7 @@ export function Sorting() {
   }
 
   return (
-    <select className="sorting" onChange={onChange}>
+    <select className="sorting" onChange={onChange} data-testid="sorting">
       <option value={'По популярности (по возрастанию)'}>По популярности (по возрастанию)</option>
       <option value={'По популярности (по убыванию)'}>По популярности (по убыванию)</option>
       <option value={'По рейтингу (по возрастанию)'}>По рейтингу (по возрастанию)</option>

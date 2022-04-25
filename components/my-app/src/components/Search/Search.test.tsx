@@ -22,27 +22,27 @@ test('renders search placeholder', () => {
   expect(element).toBeInTheDocument();
 });
 
-// jest.mock('localStorage');
+// // jest.mock('localStorage');
 
-test('should fake data in storage', () => {
-  const fakeData = 'fake-value';
-  const setDataFromApi = jest.fn();
-  const getDataFromApi = jest.fn();
-  const pressSubmit = jest.fn();
+// test('should fake data in storage', () => {
+//   const fakeData = 'fake-value';
+//   const setDataFromApi = jest.fn();
+//   const getDataFromApi = jest.fn();
+//   const pressSubmit = jest.fn();
 
-  render(
-    <Search
-      userInput={''}
-      setDataFromApi={setDataFromApi}
-      pressSubmit={pressSubmit}
-      getDataFromApi={getDataFromApi}
-    />
-  );
+//   render(
+//     <Search
+//       userInput={''}
+//       setDataFromApi={setDataFromApi}
+//       pressSubmit={pressSubmit}
+//       getDataFromApi={getDataFromApi}
+//     />
+//   );
 
-  userEvent.type(screen.queryByPlaceholderText(/Search/i) as Element, fakeData);
+//   userEvent.type(screen.queryByPlaceholderText(/Search/i) as Element, fakeData);
 
-  expect(window.localStorage.getItem('userInput')).toEqual(fakeData);
-});
+//   expect(window.localStorage.getItem('userInput')).toEqual(fakeData);
+// });
 
 describe('Mock API', () => {
   test('check search with mock api', async () => {
@@ -52,7 +52,7 @@ describe('Mock API', () => {
       </BrowserRouter>
     );
     userEvent.type(screen.queryByPlaceholderText(/Search/i) as Element, 'Интерстеллар');
-    const submit = screen.getByRole('button') as HTMLButtonElement;
+    const submit = screen.getByTestId('submit') as HTMLButtonElement;
     userEvent.click(submit);
     waitFor(async () => {
       expect(await screen.getByTestId('loader')).toBeInTheDocument();

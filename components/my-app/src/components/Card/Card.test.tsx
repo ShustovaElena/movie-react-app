@@ -2,6 +2,7 @@ import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import Card from './Card';
 import { screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 
 let container: HTMLDivElement;
 beforeEach(() => {
@@ -17,16 +18,18 @@ afterEach(() => {
 it('renders card with testing data', () => {
   act(() => {
     render(
-      <Card
-        id={12321}
-        poster_path="img/noneImg.png"
-        title="Название"
-        overview="Здесь будет описание"
-        popularity={232.22}
-        release_date=""
-        vote_average={7.9}
-        vote_count={5556}
-      />,
+      <BrowserRouter>
+        <Card
+          id={12321}
+          poster_path="img/noneImg.png"
+          title="Название"
+          overview="Здесь будет описание"
+          popularity={232.22}
+          release_date=""
+          vote_average={7.9}
+          vote_count={5556}
+        />
+      </BrowserRouter>,
       container
     );
   });

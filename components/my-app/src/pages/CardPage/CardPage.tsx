@@ -7,7 +7,7 @@ import './CardPage.css';
 import { AppContext } from '../../contexts';
 
 function CardPage(props: ICard) {
-  const { state, dispatch } = useContext(AppContext);
+  const { state } = useContext(AppContext);
   const { poster_path, title, overview, popularity, release_date, vote_average, vote_count } =
     props;
   const navigate = useNavigate();
