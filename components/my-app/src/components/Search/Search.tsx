@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import { IStorageProps } from '../../types';
 import { AppContext } from '../../contexts';
 
-function Search({ setDataFromApi, pressSubmit }: IStorageProps) {
+function Search({ setDataFromApi, getDataFromApi, pressSubmit }: IStorageProps) {
   const { state, dispatch } = useContext(AppContext);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ function Search({ setDataFromApi, pressSubmit }: IStorageProps) {
       if (!dataStorage) {
         dataStorage = state.searchQuery;
       }
-      
+
       dispatch({ type: 'SET_SEARCH', payload: dataStorage });
       const data = await getDataFromApi();
       setDataFromApi(data.results);

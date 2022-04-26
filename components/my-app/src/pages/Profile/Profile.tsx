@@ -102,13 +102,14 @@ export default function Profile() {
           />
         </form>
       </div>
-      {userCards && 
-      <div className="form-cards">
-        {state.isUserData &&
-          state.userCards.map((item: IFormCard, index: number) => (
-            <FormCard {...item} key={index} />
-          ))}
-      </div>}
+      {state.userCards && (
+        <div className="form-cards">
+          {state.isUserData &&
+            state.userCards.map((item: IFormCard, index: number) => (
+              <FormCard {...item} key={index} />
+            ))}
+        </div>
+      )}
       {isShowPopUp && <span className="modul-window">Данные успешно сохранены!</span>}
     </>
   );
