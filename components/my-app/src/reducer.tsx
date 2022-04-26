@@ -42,7 +42,6 @@ export const reducer: React.Reducer<IGlobalState, Action> = (state, action) => {
     case 'SET_PAGE_PARAM':
       return { ...state, pageCount: action.payload };
     case 'SET_USER_SELECT':
-      console.log(action.payload);
       return { ...state, userSelect: action.payload };
 
     default:

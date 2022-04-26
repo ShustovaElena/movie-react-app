@@ -1,28 +1,27 @@
 import React, { useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ICard } from '../../types';
 import { IMG_URL } from '../../constants';
 import CardImage from '../../components/CardImage/CardImage';
 import './CardPage.css';
 import { AppContext } from '../../contexts';
 
-function CardPage(props: ICard) {
+function CardPage() {
   const { state } = useContext(AppContext);
-  const { poster_path, title, overview, popularity, release_date, vote_average, vote_count } =
-    props;
+  const { id, poster_path, title, overview, popularity, release_date, vote_average, vote_count } =
+    state.userSelect;
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!state.userSelect.id) navigate('/');
+    if (!id) navigate('/');
   });
 
   return (
-    <React.Fragment>
+    <>
       <div className="bread-crumbs">
         <span>/</span>
         <Link to="/">Home</Link>
         <span>/</span>
-        <Link to="/">{state.userSelect.title}</Link>
+        <Link to="/">{title}</Link>
       </div>
       <div className="user-modul-window">
         <Link className="App-link" to="/">
@@ -52,7 +51,7 @@ function CardPage(props: ICard) {
           </div>
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 

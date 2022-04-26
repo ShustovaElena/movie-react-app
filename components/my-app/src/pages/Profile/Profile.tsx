@@ -22,9 +22,7 @@ export default function Profile() {
     reset,
     formState: { errors, isDirty },
   } = useForm<IUserData>();
-  // const [isUserData, setIsUserData] = useState(false);
   const [isShowPopUp, setIsShowPopUp] = useState(false);
-  // const [userCards, setUserCards] = useState<IFormCard[]>([]);
 
   function onSubmit(data: IUserData) {
     const USER_DATA: IFormCard = {
@@ -38,17 +36,14 @@ export default function Profile() {
 
     if (!errors.name && !errors.age && !errors.file) {
       setIsShowPopUp(true);
-      // setIsUserData(true);
       dispatch({ type: 'SET_IS_USERDATA', payload: true });
     } else {
       setIsShowPopUp(false);
-      // setIsUserData(false);
       dispatch({ type: 'SET_IS_USERDATA', payload: false });
     }
 
-    state.userCards.push(USER_DATA as never);
-    dispatch({ type: 'SET_CARDS', payload: state.userCards });
-    // setUserCards(userCards);
+    // state.userCards.push(USER_DATA as never);
+    dispatch({ type: 'SET_CARDS', payload: (cards: IFormCard[]) => [...cards, USER_DATA] });
 
     reset();
 

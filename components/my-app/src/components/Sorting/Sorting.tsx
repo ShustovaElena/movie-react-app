@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useContext } from 'react';
+import { SORT_PARAMETRS } from '../../constants';
 import { AppContext } from '../../contexts';
 
 export function Sorting() {
@@ -8,26 +9,33 @@ export function Sorting() {
     const target = (e.target as HTMLSelectElement).value;
     let sortURL;
 
-    if (target === 'По популярности (по возрастанию)') {
-      sortURL = `popularity_asc`;
-    } else if (target === 'По популярности (по убыванию)') {
-      sortURL = `popularity_desc`;
-    } else if (target === 'По рейтингу (по возрастанию)') {
-      sortURL = `vote_average_asc`;
-    } else if (target === 'По рейтингу (по убыванию)') {
-      sortURL = `vote_average_desc`;
-    } else {
-      sortURL = '';
+    switch (target) {
+      case 'По популярности (по возрастанию)':
+        sortURL = `popularity_asc`;
+        break;
+      case 'По популярности (по убыванию)':
+        sortURL = `popularity_desc`;
+        break;
+      case 'По рейтингу (по возрастанию)':
+        sortURL = `vote_average_asc`;
+        break;
+      case 'По рейтингу (по убыванию)':
+        sortURL = `vote_average_desc`;
+        break;
+      default:
+        sortURL = '';
     }
+
     dispatch({ type: 'SET_SORT_PARAM', payload: sortURL });
   }
 
   return (
     <select className="sorting" onChange={onChange} data-testid="sorting">
-      <option value={'По популярности (по возрастанию)'}>По популярности (по возрастанию)</option>
-      <option value={'По популярности (по убыванию)'}>По популярности (по убыванию)</option>
-      <option value={'По рейтингу (по возрастанию)'}>По рейтингу (по возрастанию)</option>
-      <option value={'По рейтингу (по убыванию)'}>По рейтингу (по убыванию)</option>
+      {SORT_PARAMETRS.map((item: string, i: number) => (
+        <option key={i} value={item}>
+          {item}
+        </option>
+      ))}
     </select>
   );
 }

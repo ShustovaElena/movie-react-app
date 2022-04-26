@@ -14,13 +14,11 @@ function Cards({ data }: ICards) {
   }
 
   return (
-    <>
-      <div className="Cards" onClick={onClick}>
-        {data.map((item: ICard) => (
-          <Card {...item} key={item.id} />
-        ))}
-      </div>
-    </>
+    <div className="Cards" onClick={onClick}>
+      {data.map((item: ICard) => (
+        <Card {...item} key={item.id} />
+      ))}
+    </div>
   );
 }
 

@@ -4,6 +4,7 @@ import { AppContext } from '../../contexts';
 
 function Search({ setDataFromApi, getDataFromApi, pressSubmit }: IStorageProps) {
   const { state, dispatch } = useContext(AppContext);
+  const { searchQuery } = state;
 
   useEffect(() => {
     async function innerFn() {
@@ -14,8 +15,8 @@ function Search({ setDataFromApi, getDataFromApi, pressSubmit }: IStorageProps) 
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('userInput', state.searchQuery);
-  }, [state.searchQuery]);
+    localStorage.setItem('userInput', searchQuery);
+  }, [searchQuery]);
 
   function handleChange(event: React.FormEvent) {
     const input = event.target as HTMLInputElement;
@@ -33,14 +34,14 @@ function Search({ setDataFromApi, getDataFromApi, pressSubmit }: IStorageProps) 
     try {
       let dataStorage = window.localStorage.getItem('userInput');
       if (!dataStorage) {
-        dataStorage = state.searchQuery;
+        dataStorage = searchQuery;
       }
 
       dispatch({ type: 'SET_SEARCH', payload: dataStorage });
       const data = await getDataFromApi();
       setDataFromApi(data.results);
     } catch {
-      const dataStorage = state.searchQuery;
+      const dataStorage = searchQuery;
       window.localStorage.setItem('userInput', dataStorage as string);
     }
   }
@@ -51,7 +52,7 @@ function Search({ setDataFromApi, getDataFromApi, pressSubmit }: IStorageProps) 
         className="Search-input"
         type="text"
         placeholder="Search"
-        value={state.searchQuery as string}
+        value={searchQuery as string}
         onChange={handleChange}
       />
       <button className="Search-btn" type="submit" data-testid="submit">

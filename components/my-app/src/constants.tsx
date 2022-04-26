@@ -39,3 +39,10 @@ export const initialStateVal = {
 };
 
 export const FIRST_ELEMENT = 0;
+export const COUNT_ELEMENTS = [20, 15, 10, 5];
+export const SORT_PARAMETRS = [
+  'По популярности (по возрастанию)',
+  'По популярности (по убыванию)',
+  'По рейтингу (по возрастанию)',
+  'По рейтингу (по убыванию)',
+];

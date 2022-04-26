@@ -12,6 +12,7 @@ import { BASE_URL, DISCOVER_URL } from '../../constants';
 export function Home() {
   const { state, dispatch } = useContext(AppContext);
   const [isPressSearch, setIsPressSearch] = useState(false);
+  const { searchQuery, sortParam, page, pageCount, dataApi } = state;
 
   useEffect(() => {
     const data = getDataFromApi();
@@ -19,14 +20,14 @@ export function Home() {
       dispatch({ type: 'SET_DATA_API', payload: data });
       setDataFromApi(data.results);
     });
-  }, [state.searchQuery, state.sortParam, state.page, state.pageCount, dispatch]);
+  }, [searchQuery, sortParam, page, pageCount, dispatch]);
 
   async function getDataFromApi() {
-    const url = `${BASE_URL}&query=${state.searchQuery}&page=${state.page}`;
-    const sortUrl = state.sortParam
-      ? `${DISCOVER_URL}&page=${state.page}&sort_by=${state.sortParam}`
-      : `${DISCOVER_URL}&page=${state.page}`;
-    const res = await fetch(state.searchQuery ? url : sortUrl);
+    const url = `${BASE_URL}&query=${searchQuery}&page=${page}`;
+    const sortUrl = sortParam
+      ? `${DISCOVER_URL}&page=${page}&sort_by=${sortParam}`
+      : `${DISCOVER_URL}&page=${page}`;
+    const res = await fetch(searchQuery ? url : sortUrl);
     const data = await res.json();
     return data;
   }
@@ -42,7 +43,7 @@ export function Home() {
   }
 
   function cutData() {
-    return state.dataApi.results.slice(0, state.pageCount);
+    return dataApi.results.slice(0, pageCount);
   }
 
   return (
