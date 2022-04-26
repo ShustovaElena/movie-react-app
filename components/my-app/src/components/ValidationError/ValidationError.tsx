@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IValidationError } from '../../types';
 
-export default function ValidationError(props: IValidationError) {
-  return <>{<span className="error">{props.textError}</span>}</>;
+export default function ValidationError({ textError }: IValidationError) {
+  return <>{<span className="error">{textError}</span>}</>;
 }

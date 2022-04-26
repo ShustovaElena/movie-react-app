@@ -2,9 +2,7 @@ import * as React from 'react';
 import { IAge } from '../../types';
 import ValidationError from '../ValidationError/ValidationError';
 
-export default function Age(props: IAge) {
-  const { className, register, style, error } = props;
-
+export default function Age({ className, register, style, error }: IAge) {
   return (
     <>
       <label className="form-item">

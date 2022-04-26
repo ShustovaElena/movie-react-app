@@ -2,12 +2,12 @@ import React, { useEffect, useContext } from 'react';
 import { IStorageProps } from '../../types';
 import { AppContext } from '../../contexts';
 
-function Search(props: IStorageProps) {
+function Search({ setDataFromApi, pressSubmit }: IStorageProps) {
   const { state, dispatch } = useContext(AppContext);
 
   useEffect(() => {
     async function innerFn() {
-      await componentDidMount();
+      await changeData();
     }
 
     innerFn();
@@ -15,7 +15,7 @@ function Search(props: IStorageProps) {
 
   useEffect(() => {
     localStorage.setItem('userInput', state.searchQuery);
-  });
+  }, [state.searchQuery]);
 
   function handleChange(event: React.FormEvent) {
     const input = event.target as HTMLInputElement;
@@ -24,24 +24,21 @@ function Search(props: IStorageProps) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const data = await props.getDataFromApi();
-    props.pressSubmit();
-    props.setDataFromApi(data.results);
+    const data = await getDataFromApi();
+    pressSubmit();
+    setDataFromApi(data.results);
   }
 
-  async function componentDidMount() {
+  async function changeData() {
     try {
       let dataStorage = window.localStorage.getItem('userInput');
       if (!dataStorage) {
-        const data = await props.getDataFromApi();
-        props.setDataFromApi(data.results);
         dataStorage = state.searchQuery;
       }
-
-      window.localStorage.setItem('userInput', dataStorage as string);
+      
       dispatch({ type: 'SET_SEARCH', payload: dataStorage });
-      const data = await props.getDataFromApi();
-      props.setDataFromApi(data.results);
+      const data = await getDataFromApi();
+      setDataFromApi(data.results);
     } catch {
       const dataStorage = state.searchQuery;
       window.localStorage.setItem('userInput', dataStorage as string);

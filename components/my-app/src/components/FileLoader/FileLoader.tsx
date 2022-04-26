@@ -1,9 +1,7 @@
 import { IFile } from '../../types';
 import ValidationError from '../ValidationError/ValidationError';
 
-function FileLoader(props: IFile) {
-  const { className, register, style, error } = props;
-
+function FileLoader({ className, register, style, error }: IFile) {
   return (
     <>
       <label className="form-item file-loader">

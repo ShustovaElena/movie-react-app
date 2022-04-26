@@ -4,8 +4,7 @@ import { ICard } from '../../types';
 import CardImage from '../CardImage/CardImage';
 import { IMG_URL } from '../../constants';
 
-function Card(props: ICard) {
-  const { id, poster_path, title } = props;
+function Card({ id, poster_path, title }: ICard) {
   return (
     <div className="Card" data-testid="card">
       <Link className="App-link" to="film">
