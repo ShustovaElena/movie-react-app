@@ -5,12 +5,12 @@ import { Loader } from '../../components/Loader/Loader';
 import { ICard } from '../../types';
 
 export function Home() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<ICard[]>([]);
   const [isPressSearch, setIsPressSearch] = useState(false);
 
   function setDataFromApi(searchData: ICard[]) {
     setTimeout(() => {
-      setData(searchData as never);
+      setData(searchData);
       setIsPressSearch(false);
     }, 300);
   }

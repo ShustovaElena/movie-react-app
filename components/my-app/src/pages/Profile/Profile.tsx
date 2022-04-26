@@ -7,10 +7,11 @@ import Checkbox from '../../components/Checkbox/Checkbox';
 import Switcher from '../../components/Switcher/Switcher';
 import FileLoader from '../../components/FileLoader/FileLoader';
 import FormCard from '../../components/FormCard/FormCard';
-import { IUserData, IFormCard, FileType } from '../../types';
-import { RIGHT_ANSWER, WRONG_ANSWER_COLOR, MAX_SIZE_FILE, EXTENSIONS } from '../../constants';
+import { IUserData, IFormCard } from '../../types';
+import { FIRST_ELEMENT, RIGHT_ANSWER, WRONG_ANSWER_COLOR } from '../../constants';
 
 import './Profile.css';
+import { validationFile } from './ValidationFile';
 
 export default function Profile() {
   const {
@@ -23,17 +24,6 @@ export default function Profile() {
   const [isShowPopUp, setIsShowPopUp] = useState(false);
   const [userCards, setUserCards] = useState<IFormCard[]>([]);
 
-  function validationFile(file: FileType[]) {
-    if (
-      EXTENSIONS.some((elem: string) => file[0].name.endsWith(elem)) &&
-      file[0].size <= MAX_SIZE_FILE
-    ) {
-      return true;
-    } else {
-      return 'Добавьте файл .jpg, .jpeg, .png и менее 5mb';
-    }
-  }
-
   function onSubmit(data: IUserData) {
     const USER_DATA: IFormCard = {
       name: data.name,
@@ -41,10 +31,8 @@ export default function Profile() {
       country: data.country,
       userInfo: data.userInfo ? 'Да' : 'Нет',
       stock: data.stock ? 'Да' : 'Нет',
-      file: URL.createObjectURL(data.file[0] as never),
+      file: URL.createObjectURL(data.file[FIRST_ELEMENT] as never),
     };
-
-    console.log(USER_DATA.file);
 
     if (!errors.name && !errors.age && !errors.file) {
       setIsShowPopUp(true);
@@ -54,16 +42,13 @@ export default function Profile() {
       setIsUserData(false);
     }
 
-    userCards.push(USER_DATA);
-    setUserCards(userCards);
+    setUserCards((cards) => [...cards, USER_DATA]);
 
     reset();
 
-    {
-      setTimeout(() => {
-        setIsShowPopUp(false);
-      }, 1500);
-    }
+    setTimeout(() => {
+      setIsShowPopUp(false);
+    }, 1500);
   }
 
   return (
@@ -80,7 +65,6 @@ export default function Profile() {
             style={{ backgroundColor: errors.name && WRONG_ANSWER_COLOR }}
             error={errors.name?.message}
           />
-          {/* {errors.name && setValue('name', '', { shouldValidate: false })} */}
           <Age
             className={RIGHT_ANSWER}
             register={register('age', {
@@ -90,7 +74,6 @@ export default function Profile() {
             style={{ backgroundColor: errors.age && WRONG_ANSWER_COLOR }}
             error={errors.age?.message}
           />
-          {/* {errors.age && setValue('age', '', { shouldValidate: false })} */}
           <Select register={register('country')} />
           <Checkbox register={register('userInfo')} />
           <Switcher register={register('stock')} />
@@ -103,7 +86,6 @@ export default function Profile() {
             style={{ backgroundColor: errors.file && WRONG_ANSWER_COLOR }}
             error={errors.file}
           />
-          {/* {errors.file && setValue('file', [], { shouldValidate: false })} */}
 
           <input
             className="submit"
@@ -114,11 +96,13 @@ export default function Profile() {
           />
         </form>
       </div>
-      <div className="form-cards">
-        {isUserData &&
-          userCards.map((item: IFormCard, index: number) => <FormCard {...item} key={index} />)}
-      </div>
-      {isShowPopUp ? <span className="modul-window">Данные успешно сохранены!</span> : ''}
+      {userCards && (
+        <div className="form-cards">
+          {isUserData &&
+            userCards.map((item: IFormCard, index: number) => <FormCard {...item} key={index} />)}
+        </div>
+      )}
+      {isShowPopUp && <span className="modul-window">Данные успешно сохранены!</span>}
     </>
   );
 }

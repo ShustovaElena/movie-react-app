@@ -23,3 +23,16 @@ export const ERRORS_INITIAL = {
   date: 'Вам еще нет 18 лет!',
   file: 'Добавьте файл .jpg, .jpeg, .png и менее 5mb',
 };
+
+export const initialStateVal = {
+  id: 0,
+  title: '',
+  poster_path: '',
+  overview: '',
+  popularity: 0,
+  release_date: '',
+  vote_average: 0,
+  vote_count: 0,
+};
+
+export const FIRST_ELEMENT = 0;

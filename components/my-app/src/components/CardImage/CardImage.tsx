@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { ICardImage } from '../../types';
 
-function CardImage(props: ICardImage) {
-  const { className, poster_path, IMG_URL, alt } = props;
+function CardImage({ className, poster_path, IMG_URL, alt }: ICardImage) {
   return (
     <img
       className={className}

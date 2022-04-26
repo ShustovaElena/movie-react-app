@@ -3,8 +3,7 @@ import { IFormCard } from '../../types';
 
 import './FormCard.css';
 
-export default function FormCard(props: IFormCard) {
-  const { name, age, country, userInfo, stock, file } = props;
+export default function FormCard({ name, age, country, userInfo, stock, file }: IFormCard) {
   return (
     <div className="form-card">
       <p className="card-header">Ваш профиль</p>

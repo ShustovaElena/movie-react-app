@@ -2,8 +2,7 @@ import * as React from 'react';
 import { IName } from '../../types';
 import ValidationError from '../ValidationError/ValidationError';
 
-export default function Name(props: IName) {
-  const { className, register, style, error } = props;
+export default function Name({ className, register, style, error }: IName) {
   return (
     <>
       <label className="form-item label-name">
