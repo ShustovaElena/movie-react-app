@@ -18,7 +18,7 @@ export function Home() {
     const data = getDataFromApi();
     data.then((data) => {
       dispatch({ type: 'SET_DATA_API', payload: data });
-      setDataFromApi(data.results);
+      setDataFromApi();
     });
   }, [searchQuery, sortParam, page, pageCount, dispatch]);
 
@@ -32,7 +32,7 @@ export function Home() {
     return data;
   }
 
-  function setDataFromApi(searchData: ICard[]) {
+  function setDataFromApi() {
     setTimeout(() => {
       setIsPressSearch(false);
     }, 300);
