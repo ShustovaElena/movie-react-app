@@ -147,3 +147,20 @@ export type IDataApi = {
   total_pages: number;
   total_results: number;
 };
+
+export type IGlobalState = {
+  searchQuery: string;
+  userCards: IFormCard[];
+  isUserData: boolean;
+  sortParam: string;
+  dataApi: IDataApi;
+  page: number;
+  pageCount: number;
+  userSelect: ICard;
+};
+
+export type Action = {
+  type: 'setSearch';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  payload: any;
+};

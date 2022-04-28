@@ -6,18 +6,26 @@ import { ICard } from '../../types';
 import { Sorting } from '../../components/Sorting/Sorting';
 import { Pagination } from '../../components/Pagination/Pagination';
 import { PageCount } from '../../components/PageCount/PageCount';
-import { AppContext } from '../../contexts';
+// import { AppContext } from '../../contexts';
 import { BASE_URL, DISCOVER_URL } from '../../constants';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, store } from '../../store';
+import { setDataApi } from '../../reducer';
 
 export function Home() {
-  const { state, dispatch } = useContext(AppContext);
+  // const { state, dispatch } = useContext(AppContext);
   const [isPressSearch, setIsPressSearch] = useState(false);
-  const { searchQuery, sortParam, page, pageCount, dataApi } = state;
+  // const { searchQuery, sortParam, page, pageCount, dataApi } = state;
+  const { searchQuery, sortParam, page, pageCount, dataApi } = useSelector(
+    (state: RootState) => state.root
+  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const data = getDataFromApi();
     data.then((data) => {
-      dispatch({ type: 'SET_DATA_API', payload: data });
+      // dispatch({ type: 'SET_DATA_API', payload: data });
+      store.dispatch(setDataApi(data));
       setDataFromApi();
     });
   }, [searchQuery, sortParam, page, pageCount, dispatch]);

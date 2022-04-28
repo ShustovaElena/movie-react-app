@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { AppContext } from '../../contexts';
+// import { AppContext } from '../../contexts';
 import Name from '../../components/Name/Name';
 import Age from '../../components/Date/Date';
 import Select from '../../components/Select/Select';
@@ -10,12 +10,19 @@ import FileLoader from '../../components/FileLoader/FileLoader';
 import FormCard from '../../components/FormCard/FormCard';
 import { IUserData, IFormCard } from '../../types';
 import { FIRST_ELEMENT, RIGHT_ANSWER, WRONG_ANSWER_COLOR } from '../../constants';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, store } from '../../store';
 
 import './Profile.css';
 import { validationFile } from './ValidationFile';
+import { setCards, setIsUserData } from '../../reducer';
 
 export default function Profile() {
-  const { state, dispatch } = useContext(AppContext);
+  // const { state, dispatch } = useContext(AppContext);
+  const { searchQuery, sortParam, page, pageCount, dataApi, userCards, isUserData } = useSelector(
+    (state: RootState) => state.root
+  );
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -36,14 +43,17 @@ export default function Profile() {
 
     if (!errors.name && !errors.age && !errors.file) {
       setIsShowPopUp(true);
-      dispatch({ type: 'SET_IS_USERDATA', payload: true });
+      store.dispatch(setIsUserData(true));
+      // dispatch({ type: 'SET_IS_USERDATA', payload: true });
     } else {
       setIsShowPopUp(false);
-      dispatch({ type: 'SET_IS_USERDATA', payload: false });
+      store.dispatch(setIsUserData(false));
+      // dispatch({ type: 'SET_IS_USERDATA', payload: false });
     }
 
     // state.userCards.push(USER_DATA as never);
-    dispatch({ type: 'SET_CARDS', payload: (cards: IFormCard[]) => [...cards, USER_DATA] });
+    // dispatch({ type: 'SET_CARDS', payload: (cards: IFormCard[]) => [...cards, USER_DATA] });
+    store.dispatch(setCards(USER_DATA));
 
     reset();
 
@@ -97,12 +107,10 @@ export default function Profile() {
           />
         </form>
       </div>
-      {state.userCards && (
+      {userCards && (
         <div className="form-cards">
-          {state.isUserData &&
-            state.userCards.map((item: IFormCard, index: number) => (
-              <FormCard {...item} key={index} />
-            ))}
+          {isUserData &&
+            userCards.map((item: IFormCard, index: number) => <FormCard {...item} key={index} />)}
         </div>
       )}
       {isShowPopUp && <span className="modul-window">Данные успешно сохранены!</span>}

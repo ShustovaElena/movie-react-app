@@ -1,25 +1,36 @@
 import React, { ChangeEvent, useContext } from 'react';
-import { AppContext } from '../../contexts';
+import { useSelector, useDispatch } from 'react-redux';
+import { setPage } from '../../reducer';
+import { RootState, store } from '../../store';
+// import { AppContext } from '../../contexts';
 
 export function Pagination() {
-  const { state, dispatch } = useContext(AppContext);
-  const { page, dataApi } = state;
+  // const { state, dispatch } = useContext(AppContext);
+  // const { page, dataApi } = state;
+
+  const { searchQuery, sortParam, page, pageCount, dataApi, userCards, isUserData } = useSelector(
+    (state: RootState) => state.root
+  );
+  const dispatch = useDispatch();
 
   function PrevClick() {
     let prevPage = page - 1;
     if (prevPage <= 1) prevPage = 1;
-    dispatch({ type: 'SET_PAGE', payload: prevPage });
+    // dispatch({ type: 'SET_PAGE', payload: prevPage });
+    store.dispatch(setPage(prevPage));
   }
 
   function NextClick() {
     let nextPage = page + 1;
     if (nextPage > 500) nextPage = 500;
-    dispatch({ type: 'SET_PAGE', payload: nextPage });
+    store.dispatch(setPage(nextPage));
+    // dispatch({ type: 'SET_PAGE', payload: nextPage });
   }
 
   async function onChange(e: ChangeEvent) {
     const target = (e.target as HTMLInputElement).value;
-    dispatch({ type: 'SET_PAGE', payload: target });
+    store.dispatch(setPage(target));
+    // dispatch({ type: 'SET_PAGE', payload: target });
   }
 
   return (

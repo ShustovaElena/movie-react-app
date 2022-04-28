@@ -1,9 +1,13 @@
 import React, { ChangeEvent, useContext } from 'react';
 import { SORT_PARAMETRS } from '../../constants';
-import { AppContext } from '../../contexts';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, store } from '../../store';
+import { setSortParam } from '../../reducer';
+// import { AppContext } from '../../contexts';
 
 export function Sorting() {
-  const { dispatch } = useContext(AppContext);
+  // const { dispatch } = useContext(AppContext);
+  const dispatch = useDispatch();
 
   async function onChange(e: ChangeEvent) {
     const target = (e.target as HTMLSelectElement).value;
@@ -26,7 +30,8 @@ export function Sorting() {
         sortURL = '';
     }
 
-    dispatch({ type: 'SET_SORT_PARAM', payload: sortURL });
+    // dispatch({ type: 'SET_SORT_PARAM', payload: sortURL });
+    store.dispatch(setSortParam(sortURL));
   }
 
   return (

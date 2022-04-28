@@ -1,10 +1,15 @@
 import React, { useEffect, useContext } from 'react';
 import { IStorageProps } from '../../types';
-import { AppContext } from '../../contexts';
+// import { AppContext } from '../../contexts';
+import { RootState, store } from '../../store';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSearch } from '../../reducer';
 
 function Search({ setDataFromApi, getDataFromApi, pressSubmit }: IStorageProps) {
-  const { state, dispatch } = useContext(AppContext);
-  const { searchQuery } = state;
+  // const { state, dispatch } = useContext(AppContext);
+  // const { searchQuery } = state;
+  const { searchQuery } = useSelector((state: RootState) => state.root);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function innerFn() {
@@ -20,7 +25,8 @@ function Search({ setDataFromApi, getDataFromApi, pressSubmit }: IStorageProps) 
 
   function handleChange(event: React.FormEvent) {
     const input = event.target as HTMLInputElement;
-    dispatch({ type: 'SET_SEARCH', payload: input.value });
+    store.dispatch(setSearch(input.value));
+    // dispatch({ type: 'SET_SEARCH', payload: input.value });
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -37,12 +43,13 @@ function Search({ setDataFromApi, getDataFromApi, pressSubmit }: IStorageProps) 
         dataStorage = searchQuery;
       }
 
-      dispatch({ type: 'SET_SEARCH', payload: dataStorage });
+      // dispatch({ type: 'SET_SEARCH', payload: dataStorage });
+      store.dispatch(setSearch(dataStorage));
       const data = await getDataFromApi();
       setDataFromApi(data.results);
     } catch {
       const dataStorage = searchQuery;
-      window.localStorage.setItem('userInput', dataStorage as string);
+      window.localStorage.setItem('userInput', dataStorage);
     }
   }
 
