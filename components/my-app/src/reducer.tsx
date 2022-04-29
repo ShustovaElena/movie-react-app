@@ -1,30 +1,21 @@
-import { initialStateVal } from './constants';
-import { IGlobalState, Action, IFormCard, IDataApi, ICard } from './types';
-import { createReducer, createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { initialStateVal, BASE_URL, DISCOVER_URL } from './constants';
+import { Action, IDataApi, IGlobalState } from './types';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
+import { AppDispatch, RootState } from './store';
 
-// export const reducer: React.Reducer<IGlobalState, Action> = (state, action) => {
-//   switch (action.type) {
-//     // case 'SET_SEARCH':
-//     //   return { ...state, searchQuery: action.payload };
-//     case 'SET_CARDS':
-//       return { ...state, userCards: action.payload };
-//     case 'SET_IS_USERDATA':
-//       return { ...state, isUserData: action.payload };
-//     case 'SET_SORT_PARAM':
-//       return { ...state, sortParam: action.payload };
-//     case 'SET_DATA_API':
-//       return { ...state, dataApi: action.payload };
-//     case 'SET_PAGE':
-//       return { ...state, dataApi: state.dataApi, page: action.payload };
-//     case 'SET_PAGE_PARAM':
-//       return { ...state, pageCount: action.payload };
-//     case 'SET_USER_SELECT':
-//       return { ...state, userSelect: action.payload };
-
-//     default:
-//       return state;
-//   }
-// };
+export const fetchData = createAsyncThunk(
+  'home/fetchData',
+  async (params: { searchQuery: string; page: number; sortParam: string }) => {
+    const url = `${BASE_URL}&query=${params.searchQuery}&page=${params.page}`;
+    const sortUrl = params.sortParam
+      ? `${DISCOVER_URL}&page=${params.page}&sort_by=${params.sortParam}`
+      : `${DISCOVER_URL}&page=${params.page}`;
+    const res = await fetch(params.searchQuery ? url : sortUrl);
+    const data = await res.json();
+    return data;
+  }
+);
 
 export const initialState: IGlobalState = {
   searchQuery: localStorage.getItem('userInput') || '',
@@ -42,23 +33,6 @@ export const initialState: IGlobalState = {
   userSelect: initialStateVal,
 };
 
-// export interface SearchState {
-//   value: string;
-// }
-
-// const initialState: SearchState = {
-//   value: localStorage.getItem('userInput') || '',
-// };
-
-// const setSearch = createAction<string>('setSearch');
-// const setCards = createAction<IFormCard[]>('setCards');
-// const setIsUserData = createAction<boolean>('setIsUserData');
-// const setSortParam = createAction<string>('setIsUserData');
-// const setDataApi = createAction<IDataApi>('setIsUserData');
-// const setPage = createAction<number>('setIsUserData');
-// const setPageCount = createAction<number>('setIsUserData');
-// const setUserSelect = createAction<ICard>('setIsUserData');
-
 export const homeSlice = createSlice({
   name: 'home',
   initialState,
@@ -75,9 +49,9 @@ export const homeSlice = createSlice({
     setSortParam: (state, action) => {
       state.sortParam = action.payload;
     },
-    setDataApi: (state, action) => {
-      state.dataApi = action.payload;
-    },
+    // setDataApi: (state, action) => {
+    //   state.dataApi = action.payload;
+    // },
     setPage: (state, action) => {
       state.page = action.payload;
     },
@@ -87,6 +61,11 @@ export const homeSlice = createSlice({
     setUserSelect: (state, action) => {
       state.userSelect = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchData.fulfilled, (state, action) => {
+      state.dataApi = action.payload;
+    });
   },
   // extraReducers: (builder) => {
   //   builder
@@ -123,7 +102,7 @@ export const homeSlice = createSlice({
 export const {
   setSearch,
   setCards,
-  setDataApi,
+  // setDataApi,
   setIsUserData,
   setPage,
   setPageCount,

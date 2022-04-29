@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 // import { AppContext } from '../../contexts';
 import Name from '../../components/Name/Name';
@@ -10,7 +10,7 @@ import FileLoader from '../../components/FileLoader/FileLoader';
 import FormCard from '../../components/FormCard/FormCard';
 import { IUserData, IFormCard } from '../../types';
 import { FIRST_ELEMENT, RIGHT_ANSWER, WRONG_ANSWER_COLOR } from '../../constants';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState, store } from '../../store';
 
 import './Profile.css';
@@ -19,10 +19,7 @@ import { setCards, setIsUserData } from '../../reducer';
 
 export default function Profile() {
   // const { state, dispatch } = useContext(AppContext);
-  const { searchQuery, sortParam, page, pageCount, dataApi, userCards, isUserData } = useSelector(
-    (state: RootState) => state.root
-  );
-  const dispatch = useDispatch();
+  const { userCards, isUserData } = useSelector((state: RootState) => state.root);
   const {
     register,
     handleSubmit,

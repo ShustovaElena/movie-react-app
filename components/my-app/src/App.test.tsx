@@ -1,10 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
 import '@testing-library/jest-dom';
 
 import App from './App';
+import { store } from './store';
 
 const renderWithRouter = (ui: JSX.Element, { route = '/' } = {}) => {
   window.history.pushState({}, 'Test page', route);
@@ -14,9 +16,11 @@ const renderWithRouter = (ui: JSX.Element, { route = '/' } = {}) => {
 
 test('full app rendering/navigating', () => {
   render(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
   );
 
   expect(screen.getByText(/Сделай свой выбор/i)).toBeInTheDocument();

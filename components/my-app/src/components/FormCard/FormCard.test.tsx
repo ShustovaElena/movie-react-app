@@ -1,9 +1,15 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
 import Profile from '../../pages/Profile/Profile';
+import { store } from '../../store';
 
 test('checked card', async () => {
-  render(<Profile />);
+  render(
+    <Provider store={store}>
+      <Profile />
+    </Provider>
+  );
   userEvent.type(screen.getByLabelText('ФИО:'), 'Иванов Иван');
   userEvent.type(screen.getByLabelText('Дата рождения:'), '1999-05-01');
   userEvent.type(screen.getByLabelText('Ваша страна проживания:'), 'Russia');

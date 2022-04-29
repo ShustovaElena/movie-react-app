@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Cards from '../../components/Cards/Cards';
 import Search from '../../components/Search/Search';
 import { Loader } from '../../components/Loader/Loader';
-import { ICard } from '../../types';
 import { Sorting } from '../../components/Sorting/Sorting';
 import { Pagination } from '../../components/Pagination/Pagination';
 import { PageCount } from '../../components/PageCount/PageCount';
@@ -10,7 +9,9 @@ import { PageCount } from '../../components/PageCount/PageCount';
 import { BASE_URL, DISCOVER_URL } from '../../constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, store } from '../../store';
-import { setDataApi } from '../../reducer';
+import { fetchData } from '../../reducer';
+import { AnyAction } from 'redux';
+import { AsyncThunkAction } from '@reduxjs/toolkit';
 
 export function Home() {
   // const { state, dispatch } = useContext(AppContext);
@@ -19,16 +20,17 @@ export function Home() {
   const { searchQuery, sortParam, page, pageCount, dataApi } = useSelector(
     (state: RootState) => state.root
   );
-  const dispatch = useDispatch();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const dispatch = useDispatch<any>();
 
   useEffect(() => {
-    const data = getDataFromApi();
-    data.then((data) => {
-      // dispatch({ type: 'SET_DATA_API', payload: data });
-      store.dispatch(setDataApi(data));
-      setDataFromApi();
-    });
-  }, [searchQuery, sortParam, page, pageCount, dispatch]);
+    dispatch(fetchData({ searchQuery, page, sortParam }));
+    // const data = getDataFromApi();
+    // data.then((data) => {
+    //   // dispatch({ type: 'SET_DATA_API', payload: data });
+    //   store.dispatch(setDataApi(data));
+    setDataFromApi();
+  }, [searchQuery, sortParam, page, pageCount]);
 
   async function getDataFromApi() {
     const url = `${BASE_URL}&query=${searchQuery}&page=${page}`;

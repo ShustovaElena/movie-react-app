@@ -3,6 +3,8 @@ import { act } from 'react-dom/test-utils';
 import Cards from './Cards';
 import { screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from '../../store';
 
 const fakedata = [
   {
@@ -81,9 +83,11 @@ afterEach(() => {
 it('renders cards with testing data', () => {
   act(() => {
     render(
-      <BrowserRouter>
-        <Cards data={fakedata} />
-      </BrowserRouter>,
+      <Provider store={store}>
+        <BrowserRouter>
+          <Cards data={fakedata} />
+        </BrowserRouter>
+      </Provider>,
       container
     );
   });

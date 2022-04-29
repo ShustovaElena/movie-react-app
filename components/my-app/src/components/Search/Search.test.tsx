@@ -3,6 +3,8 @@ import Search from './Search';
 import App from '../../App';
 import { BrowserRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
+import { store } from '../../store';
 
 test('renders search placeholder', () => {
   const setDataFromApi = jest.fn();
@@ -10,12 +12,14 @@ test('renders search placeholder', () => {
   const pressSubmit = jest.fn();
 
   render(
-    <Search
-      userInput={''}
-      setDataFromApi={setDataFromApi}
-      pressSubmit={pressSubmit}
-      getDataFromApi={getDataFromApi}
-    />
+    <Provider store={store}>
+      <Search
+        userInput={''}
+        setDataFromApi={setDataFromApi}
+        pressSubmit={pressSubmit}
+        getDataFromApi={getDataFromApi}
+      />
+    </Provider>
   );
 
   const element = screen.queryByPlaceholderText(/Search/i);
@@ -47,9 +51,11 @@ test('renders search placeholder', () => {
 describe('Mock API', () => {
   test('check search with mock api', async () => {
     render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
     );
     userEvent.type(screen.queryByPlaceholderText(/Search/i) as Element, 'Интерстеллар');
     const submit = screen.getByTestId('submit') as HTMLButtonElement;

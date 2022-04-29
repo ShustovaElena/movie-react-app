@@ -1,9 +1,15 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
+import { store } from '../../store';
 import Profile from './Profile';
 
 test('checked form', async () => {
-  render(<Profile />);
+  render(
+    <Provider store={store}>
+      <Profile />
+    </Provider>
+  );
   userEvent.type(screen.getByLabelText('ФИО:'), 'hello');
   await waitFor(() => {
     expect(screen.getByLabelText('ФИО:')).toHaveValue('hello');
@@ -42,7 +48,11 @@ test('checked form', async () => {
 });
 
 test('reset form', async () => {
-  render(<Profile />);
+  render(
+    <Provider store={store}>
+      <Profile />
+    </Provider>
+  );
   userEvent.type(screen.getByLabelText('ФИО:'), 'Иванов Иван');
   userEvent.type(screen.getByLabelText('Дата рождения:'), '1999-05-01');
   userEvent.type(screen.getByLabelText('Ваша страна проживания:'), 'Russia');
@@ -74,7 +84,11 @@ test('reset form', async () => {
 });
 
 test('check form with invalid data', async () => {
-  render(<Profile />);
+  render(
+    <Provider store={store}>
+      <Profile />
+    </Provider>
+  );
   userEvent.type(screen.getByLabelText('ФИО:'), 'И');
   userEvent.type(screen.getByLabelText('Дата рождения:'), '2020-05-01');
   userEvent.type(screen.getByLabelText('Ваша страна проживания:'), 'Russia');

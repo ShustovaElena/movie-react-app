@@ -2,6 +2,8 @@ import { render, unmountComponentAtNode } from 'react-dom';
 import { screen } from '@testing-library/react';
 import Home from '../../pages/Home/Home';
 import { Loader } from './Loader';
+import { Provider } from 'react-redux';
+import { store } from '../../store';
 
 let container: HTMLDivElement;
 beforeEach(() => {
@@ -18,7 +20,12 @@ jest.useFakeTimers();
 jest.spyOn(global, 'setTimeout');
 
 test('waits call setTimeout', () => {
-  render(<Home />, container);
+  render(
+    <Provider store={store}>
+      <Home />
+    </Provider>,
+    container
+  );
 
   expect(setTimeout).toHaveBeenCalledTimes(1);
 });

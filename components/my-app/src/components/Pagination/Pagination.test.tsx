@@ -2,13 +2,17 @@ import { render, screen, waitFor } from '@testing-library/react';
 import App from '../../App';
 import { BrowserRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
+import { store } from '../../store';
 
 describe('Mock API', () => {
   test('check pagination with mock api', async () => {
     render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
     );
     const next = screen.getByTestId('next') as HTMLButtonElement;
     userEvent.click(next);
