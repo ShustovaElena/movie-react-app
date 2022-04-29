@@ -1,0 +1,6 @@
+.not-found {
+    margin: 0 auto;
+    width: 60vw;
+    height: calc(100vh - 50px);
+    background: url(../../../public/img/404.jpg) 150% 0%/ 100% 100% no-repeat;
+}
