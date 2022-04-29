@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-// import { AppContext } from '../../contexts';
 import Name from '../../components/Name/Name';
 import Age from '../../components/Date/Date';
 import Select from '../../components/Select/Select';
@@ -18,7 +17,6 @@ import { validationFile } from './ValidationFile';
 import { setCards, setIsUserData } from '../../reducer';
 
 export default function Profile() {
-  // const { state, dispatch } = useContext(AppContext);
   const { userCards, isUserData } = useSelector((state: RootState) => state.root);
   const {
     register,
@@ -41,15 +39,11 @@ export default function Profile() {
     if (!errors.name && !errors.age && !errors.file) {
       setIsShowPopUp(true);
       store.dispatch(setIsUserData(true));
-      // dispatch({ type: 'SET_IS_USERDATA', payload: true });
     } else {
       setIsShowPopUp(false);
       store.dispatch(setIsUserData(false));
-      // dispatch({ type: 'SET_IS_USERDATA', payload: false });
     }
 
-    // state.userCards.push(USER_DATA as never);
-    // dispatch({ type: 'SET_CARDS', payload: (cards: IFormCard[]) => [...cards, USER_DATA] });
     store.dispatch(setCards(USER_DATA));
 
     reset();

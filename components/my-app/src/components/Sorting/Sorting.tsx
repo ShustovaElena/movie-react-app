@@ -1,14 +1,9 @@
-import React, { ChangeEvent, useContext } from 'react';
+import React, { ChangeEvent } from 'react';
 import { SORT_PARAMETRS } from '../../constants';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState, store } from '../../store';
+import { store } from '../../store';
 import { setSortParam } from '../../reducer';
-// import { AppContext } from '../../contexts';
 
 export function Sorting() {
-  // const { dispatch } = useContext(AppContext);
-  const dispatch = useDispatch();
-
   async function onChange(e: ChangeEvent) {
     const target = (e.target as HTMLSelectElement).value;
     let sortURL;
@@ -30,7 +25,6 @@ export function Sorting() {
         sortURL = '';
     }
 
-    // dispatch({ type: 'SET_SORT_PARAM', payload: sortURL });
     store.dispatch(setSortParam(sortURL));
   }
 

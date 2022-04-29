@@ -1,18 +1,12 @@
-import React, { ChangeEvent, useContext } from 'react';
+import React, { ChangeEvent } from 'react';
 import { COUNT_ELEMENTS } from '../../constants';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState, store } from '../../store';
+import { store } from '../../store';
 import { setPageCount } from '../../reducer';
-// import { AppContext } from '../../contexts';
 
 export function PageCount() {
-  // const { dispatch } = useContext(AppContext);
-  const dispatch = useDispatch();
-
   function onChange(e: ChangeEvent) {
     const target = +(e.target as HTMLSelectElement).value as number;
     store.dispatch(setPageCount(target));
-    // dispatch({ type: 'SET_PAGE_PARAM', payload: +target });
   }
 
   return (

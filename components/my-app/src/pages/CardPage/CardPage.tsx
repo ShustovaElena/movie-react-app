@@ -1,19 +1,14 @@
-import React, { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IMG_URL } from '../../constants';
 import CardImage from '../../components/CardImage/CardImage';
 import './CardPage.css';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
-// import { AppContext } from '../../contexts';
 
 function CardPage() {
-  // const { state } = useContext(AppContext);
-  // const { id, poster_path, title, overview, popularity, release_date, vote_average, vote_count } =
-  //   state.userSelect;
   const { id, poster_path, title, overview, popularity, release_date, vote_average, vote_count } =
     useSelector((state: RootState) => state.root.userSelect);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {

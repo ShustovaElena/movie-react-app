@@ -5,18 +5,13 @@ import { Loader } from '../../components/Loader/Loader';
 import { Sorting } from '../../components/Sorting/Sorting';
 import { Pagination } from '../../components/Pagination/Pagination';
 import { PageCount } from '../../components/PageCount/PageCount';
-// import { AppContext } from '../../contexts';
 import { BASE_URL, DISCOVER_URL } from '../../constants';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState, store } from '../../store';
+import { RootState } from '../../store';
 import { fetchData } from '../../reducer';
-import { AnyAction } from 'redux';
-import { AsyncThunkAction } from '@reduxjs/toolkit';
 
 export function Home() {
-  // const { state, dispatch } = useContext(AppContext);
   const [isPressSearch, setIsPressSearch] = useState(false);
-  // const { searchQuery, sortParam, page, pageCount, dataApi } = state;
   const { searchQuery, sortParam, page, pageCount, dataApi } = useSelector(
     (state: RootState) => state.root
   );
@@ -25,10 +20,6 @@ export function Home() {
 
   useEffect(() => {
     dispatch(fetchData({ searchQuery, page, sortParam }));
-    // const data = getDataFromApi();
-    // data.then((data) => {
-    //   // dispatch({ type: 'SET_DATA_API', payload: data });
-    //   store.dispatch(setDataApi(data));
     setDataFromApi();
   }, [searchQuery, sortParam, page, pageCount]);
 
