@@ -1,8 +1,6 @@
 import { initialStateVal, BASE_URL, DISCOVER_URL } from './constants';
-import { Action, IDataApi, IGlobalState } from './types';
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { useSelector } from 'react-redux';
-import { AppDispatch, RootState } from './store';
+import { IGlobalState } from './types';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchData = createAsyncThunk(
   'home/fetchData',
@@ -49,9 +47,6 @@ export const homeSlice = createSlice({
     setSortParam: (state, action) => {
       state.sortParam = action.payload;
     },
-    // setDataApi: (state, action) => {
-    //   state.dataApi = action.payload;
-    // },
     setPage: (state, action) => {
       state.page = action.payload;
     },
@@ -67,42 +62,11 @@ export const homeSlice = createSlice({
       state.dataApi = action.payload;
     });
   },
-  // extraReducers: (builder) => {
-  //   builder
-  //     .addCase(setSearch, (state, action) => {
-  //       state.searchQuery = action.payload;
-  //     })
-  //     .addCase(setCards, (state, action) => {
-  //       state.userCards = action.payload;
-  //     })
-  //     .addCase(setIsUserData, (state, action) => {
-  //       state.isUserData = action.payload;
-  //     })
-  //     .addCase(setSortParam, (state, action) => {
-  //       state.sortParam = action.payload;
-  //     })
-  //     .addCase(setDataApi, (state, action) => {
-  //       state.dataApi = action.payload;
-  //     })
-  //     .addCase(setPage, (state, action) => {
-  //       state.page = action.payload;
-  //     })
-  //     .addCase(setPageCount, (state, action) => {
-  //       state.pageCount = action.payload;
-  //     })
-  //     .addCase(setUserSelect, (state, action) => {
-  //       state.userSelect = action.payload;
-  //     })
-  //     .addDefaultCase((state) => {
-  //       return state;
-  //     });
-  // },
 });
 
 export const {
   setSearch,
   setCards,
-  // setDataApi,
   setIsUserData,
   setPage,
   setPageCount,
